@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   
-  "homepage": "http://nitaray.github.io/qncielts",
+  "homepage": "https://nitaray.github.io/ielts-practice-web/",
 
   "dependencies": {
     "@apollo/client": "^3.3.16",
