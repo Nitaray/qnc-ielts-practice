@@ -1,0 +1,1 @@
+Container components are components that manage the state.

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.css';
-import App from './components/App';
+import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 // 1
@@ -24,10 +24,18 @@ const client = new ApolloClient({
 });
 
 // 4
+// ReactDOM.render(
+//   <ApolloProvider client={client}>
+//     <App />
+//   </ApolloProvider>,
+//   document.getElementById('root')
+// );
+
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
-  document.getElementById('root')
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+    ,
+    document.getElementById('root')
 );
 serviceWorker.unregister();
