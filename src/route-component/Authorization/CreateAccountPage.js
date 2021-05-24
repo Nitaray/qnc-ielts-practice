@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { Link as RouteLink } from 'react-router-dom';
+import { Link as RouteLink, useHistory } from 'react-router-dom';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import SignUp from "../../container-components/Authorization/SignUp";
 import Avatar from "@material-ui/core/Avatar";
-import { Text } from "../../presentational-components/Text";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { Text, TextWithLink } from "../../presentational-components/Text";
 import Grid from "@material-ui/core/Grid";
-
-import { PasswordInput, SelectInput, TextInput } from "../../presentational-components/Input";
+import { PasswordInput, TextInput } from "../../presentational-components/Input";
 import { ActionButton } from "../../presentational-components/Button";
-import { signUp } from "../../service-component/API/authorization";
+import { signIn, signUp } from "../../service-component/API/authorization";
 
+// REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED
 const useStyles = makeStyles((theme) => ({
 	paper: {
 		marginTop: theme.spacing(8),
@@ -28,29 +29,31 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(3),
 	},
 }));
+// END REMOVE
 
 export default function CreateAccountPage() {
-	// some hook
+	// REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED
 	const classes = useStyles();
+	const history = useHistory();
 	const [signUpInfo, setSignUpInfo] = useState({
 		name: '',
 		email: '',
 		password: '',
 		confirmPassword: '',
 	});
-	const [signUpStatus, setSignUpStatus] = useState(false);
 
-	// function
 	const handleSignUpChange = (prop) => (event) => setSignUpInfo({ ...signUpInfo, [prop]: event.target.value });
 	const handleSignUpClick = () => {
-		signUp(signUpInfo);
+		if (signUp(signUpInfo)) history.push('/');
 	}
+	// END REMOVE
 
-	// return JSX
 	return (
 		<React.Fragment>
 			<Container maxWidth = "xs">
 				<CssBaseline/>
+				{/* REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED */}
+				{/* REPLACE WITH <SignUp /> COMPONENT*/}
 				<div className = { classes.paper }>
 					<Avatar className = { classes.avatar }>
 						<LockOutlinedIcon />
@@ -61,12 +64,12 @@ export default function CreateAccountPage() {
 							<Grid item xs = {12} sm = {12}>
 								<TextInput label = "Full Name" name = "name"
 										   value = { signUpInfo['name'] }
-										   onChange = { handleSignUpChange('name')} />
+										   onChange = { handleSignUpChange('name') } />
 							</Grid>
 							<Grid item xs = {12} sm = {12}>
 								<TextInput label = "Email" name = "email"
 										   value = { signUpInfo['email'] }
-										   onChange = { handleSignUpChange('email')} />
+										   onChange = { handleSignUpChange('email') } />
 							</Grid>
 							<Grid item xs = {12} sm = {12}>
 								<PasswordInput label = "Password" name = "password"
@@ -83,8 +86,17 @@ export default function CreateAccountPage() {
 											  onClick = { () => handleSignUpClick() } />
 							</Grid>
 						</Grid>
+						<Grid container>
+							<Grid item xs>
+								<TextWithLink
+									value = "Oh! I already have account."
+									align = "right"
+									to = "/" />
+							</Grid>
+						</Grid>
 					</form>
 				</div>
+				{/* END REMOVE */}
 			</Container>
 		</React.Fragment>
 	)

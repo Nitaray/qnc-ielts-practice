@@ -12,6 +12,71 @@ import { PasswordInput, SelectInput, TextInput } from "../../presentational-comp
 import { ActionButton } from "../../presentational-components/Button";
 import { signUp } from "../../service-component/API/authorization";
 
-export default function SignUp() {
+const useStyles = makeStyles((theme) => ({
+	paper: {
+		marginTop: theme.spacing(8),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+	},
+	avatar: {
+		margin: theme.spacing(1),
+		backgroundColor: theme.palette.secondary.main,
+	},
+	form: {
+		width: '100%',
+		marginTop: theme.spacing(3),
+	},
+}));
 
+export default function SignUp() {
+	const classes = useStyles();
+	const [signUpInfo, setSignUpInfo] = useState({
+		name: '',
+		email: '',
+		password: '',
+		confirmPassword: '',
+	});
+
+	const handleSignUpChange = (prop) => (event) => setSignUpInfo({ ...signUpInfo, [prop]: event.target.value });
+	const handleSignUpClick = () => {
+		signUp(signUpInfo);
+	}
+
+	return (
+		<div className = { classes.paper }>
+			<Avatar className = { classes.avatar }>
+				<LockOutlinedIcon />
+			</Avatar>
+			<Text value = "Create Account" />
+			<form className = { classes.form }>
+				<Grid container>
+					<Grid item xs = {12} sm = {12}>
+						<TextInput label = "Full Name" name = "name"
+								   value = { signUpInfo['name'] }
+								   onChange = { handleSignUpChange('name') } />
+					</Grid>
+					<Grid item xs = {12} sm = {12}>
+						<TextInput label = "Email" name = "email"
+								   value = { signUpInfo['email'] }
+								   onChange = { handleSignUpChange('email') } />
+					</Grid>
+					<Grid item xs = {12} sm = {12}>
+						<PasswordInput label = "Password" name = "password"
+									   value = { signUpInfo['password'] }
+									   onChange = { handleSignUpChange('password') } />
+					</Grid>
+					<Grid item xs = {12} sm = {12}>
+						<PasswordInput label = "Confirm password" name = "confirm-password"
+									   value = { signUpInfo['confirmPassword'] }
+									   onChange = { handleSignUpChange('confirmPassword') } />
+					</Grid>
+					<Grid item xs = {12} sm = {12}>
+						<ActionButton value = "Sign Up"
+									  onClick = { () => handleSignUpClick() } />
+					</Grid>
+				</Grid>
+			</form>
+		</div>
+	)
 }

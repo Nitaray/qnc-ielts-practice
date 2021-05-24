@@ -1,5 +1,6 @@
-import React, {Component, useState} from 'react';
+import React, { useState } from 'react';
 import { Link as RouteLink } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 import { Grid } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
@@ -10,11 +11,12 @@ import Paper from '@material-ui/core/Paper';
 
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
-import { ActionButton } from "../presentational-components/Button";
-import { PasswordInput, TextInput } from "../presentational-components/Input";
-import { TextWithLink } from "../presentational-components/Text";
+import { ActionButton } from "../../presentational-components/Button";
+import { PasswordInput, TextInput } from "../../presentational-components/Input";
+import { TextWithLink } from "../../presentational-components/Text";
 
-import { signIn } from '../service-component/API/authorization';
+import { signIn } from '../../service-component/API/authorization';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
@@ -38,14 +40,15 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: '100%',
         marginTop: theme.spacing(1),
     },
 }));
 
 export default function LandingPage() {
-    // some hooks
+    // REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED
     const classes = useStyles();
+    const history = useHistory();
     const [signInInfo, setSignInInfo] = useState({
         email: "",
         password: "",
@@ -53,16 +56,20 @@ export default function LandingPage() {
 
     const handleSignInChange = (prop) => (event) => setSignInInfo({ ...signInInfo, [prop]: event.target.value });
     const handleSignInClick = () => {
-        signIn(signInInfo);
+        // FAKE DATA - FOR TESTING ONLY
+        if (signIn(signInInfo)) history.push('/home');
+        // END OF FAKE DATA
     }
-    // return jsx
+    // END REMOVE
+
     return (
         <Grid container component = "main" className = { classes.root }>
             <CssBaseline />
             <Grid item xs = {false} sm = {4} md = {8}>
-                {/* introduce about the page here*/}
+                {/* PAGE INTRODUCTION */}
             </Grid>
-
+            {/* REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED */}
+            {/* REPLACE WITH <SignIn /> COMPONENT*/}
             <Grid item xs = {12} sm = {8} md = {4} component = {Paper}>
                 <div className = { classes.paper }>
                     <Avatar className = { classes.avatar }>
@@ -94,6 +101,7 @@ export default function LandingPage() {
                     </form>
                 </div>
             </Grid>
+            {/* END REMOVE */}
         </Grid>
     );
 };

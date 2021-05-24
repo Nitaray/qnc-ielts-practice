@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import LandingPage from "./route-component/LandingPage";
+import LandingPage from "./route-component/Authorization/LandingPage";
 import CreateAccountPage from "./route-component/Authorization/CreateAccountPage";
-
+import HomePage from "./route-component/Home/HomePage";
 
 export default function App() {
     return (
@@ -15,8 +15,8 @@ export default function App() {
                     - Login
                     - Redirect to: /forgot-password and /create-account */}
                 <Route exact path = "/" component = { LandingPage } />
-                <Route exact path = "/homepage" component = { LandingPage } />
-
+                <Route exact path = "/landing" component = { LandingPage } />
+                <Route exact path = "/home" component = { HomePage } />
                 <Route exact path = "/create-account" component = { CreateAccountPage } />
 
                 {/*<Route exact path = "/forgot-password" component = { ForgotPasswordPage } />*/}

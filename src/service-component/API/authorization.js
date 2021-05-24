@@ -9,10 +9,11 @@ signInInfo: {
 return boolean;
 **************************** */
 export function signIn(signInInfo) {
-	if (signInInfo['email'] === 'test@gmail.com' && signInInfo['password'] === 'test') {
-		alert("Sucessful");
+	if (signInInfo['email'] === '123' && signInInfo['password'] === '123') {
+		return true;
 	} else {
-		alert("Please use fake account to grant access:\nEmail: test@gmail.com\nPassword: test\n\nAPI needed for authorization.");
+		alert("Please use fake account to grant access:\nEmail: 123\nPassword: 123\n\nAPI needed for authorization.");
+		return false;
 	}
 }
 
@@ -27,12 +28,13 @@ signUpInfo: {
 return boolean;
 **************************** */
 export function signUp(signUpInfo) {
-	if (signUpInfo['name'] === 'Test'
-		&& signUpInfo['email'] === 'test@gmail.com'
-		&& signUpInfo['password'] === 'test') {
-		alert("Sucessful");
+	if (signUpInfo['name'] === '123'
+		&& signUpInfo['email'] === '123'
+		&& signUpInfo['password'] === '123') {
+		return true;
 	} else {
-		alert("Please use fake account to grant access:\nName: Test\nEmail: test@gmail.com\nPassword: test\n\nAPI needed for authorization.");
+		alert("Please use fake account to grant access:\nName: 123\nEmail: 123\nPassword: 123\n\nAPI needed for authorization.");
+		return false;
 	}
 }
 
