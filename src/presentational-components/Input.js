@@ -19,6 +19,24 @@ export function TextInput({ label, name, value, onChange }) {
 	);
 };
 
+export function PasswordInput({ label, name, value, onChange }) {
+	let handleChange = (event) => onChange(event);
+
+	return (
+		<TextField
+			required fullWidth autoFocus
+			variant = "outlined"
+			margin = "normal"
+			type = "password"
+			id = { name }
+			label = { label }
+			name = { name }
+			value = { value }
+			onChange = { (event) => handleChange(event) }
+		/>
+	);
+};
+
 export function SelectInput({ label, name, choices }) {
 	return (
 		<TextField

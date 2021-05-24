@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { ActionButton } from "../presentational-components/Button";
-import { TextInput } from "../presentational-components/Input";
+import { PasswordInput, TextInput } from "../presentational-components/Input";
 import { TextWithLink } from "../presentational-components/Text";
 
 import { signIn } from '../service-component/API/authorization';
@@ -72,7 +72,7 @@ export default function LandingPage() {
                         <TextInput label = "Email Address" name = "email" value = { signInInfo['email'] }
                                    onChange = { handleSignInChange('email') } />
 
-                        <TextInput label = "Password" name = "password" value = { signInInfo['password'] }
+                        <PasswordInput label = "Password" name = "password" value = { signInInfo['password'] }
                                    onChange = { handleSignInChange('password') } />
 
                         <ActionButton value = "Sign In"
