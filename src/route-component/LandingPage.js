@@ -14,6 +14,7 @@ import { ActionButton } from "../presentational-components/Button";
 import { TextInput } from "../presentational-components/Input";
 import { TextWithLink } from "../presentational-components/Text";
 
+import { signIn } from '../service-component/API/authorization';
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
@@ -45,7 +46,15 @@ const useStyles = makeStyles((theme) => ({
 export default function LandingPage() {
     // some hooks
     const classes = useStyles();
+    const [signInInfo, setSignInInfo] = useState({
+        email: "",
+        password: "",
+    });
 
+    const handleSignInChange = (prop) => (event) => setSignInInfo({ ...signInInfo, [prop]: event.target.value });
+    const handleSignInClick = () => {
+        signIn(signInInfo);
+    }
     // return jsx
     return (
         <Grid container component = "main" className = { classes.root }>
@@ -60,10 +69,14 @@ export default function LandingPage() {
                         <LockOutlinedIcon/>
                     </Avatar>
                     <form className = { classes.form }>
-                        <TextInput label = "Email Address" name = "email" />
-                        <TextInput label = "Password" name = "password" />
+                        <TextInput label = "Email Address" name = "email" value = { signInInfo['email'] }
+                                   onChange = { handleSignInChange('email') } />
 
-                        <ActionButton value = "Sign In" />
+                        <TextInput label = "Password" name = "password" value = { signInInfo['password'] }
+                                   onChange = { handleSignInChange('password') } />
+
+                        <ActionButton value = "Sign In"
+                                      onClick = { () => handleSignInClick() } />
                         <Grid container>
                             <Grid item xs>
                                 <TextWithLink

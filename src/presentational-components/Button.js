@@ -8,8 +8,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export function ActionButton({ value }) {
+export function ActionButton({ value, onClick }) {
 	const classes = useStyles();
+
+	let handleClick = () => onClick();
 
 	return (
 		<Button
@@ -17,7 +19,8 @@ export function ActionButton({ value }) {
 			type = "submit"
 			variant = "contained"
 			color = "primary"
-			className = { classes.button }>
+			className = { classes.button }
+			onClick = { () => handleClick() }>
 			{ value }
 		</Button>
 	);
