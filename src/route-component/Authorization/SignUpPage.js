@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { Link as RouteLink, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import SignUp from "../../container-components/Authorization/SignUp";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { Text, TextWithLink } from "../../presentational-components/Text";
 import Grid from "@material-ui/core/Grid";
+
+import { Text, TextWithLink } from "../../presentational-components/Text";
 import { PasswordInput, TextInput } from "../../presentational-components/Input";
 import { ActionButton } from "../../presentational-components/Button";
-import { signIn, signUp } from "../../service-component/API/authorization";
+
+import { signUp } from "../../service-component/API/authorization";
 
 // REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 // END REMOVE
 
-export default function CreateAccountPage() {
+export default function SignUpPage() {
 	// REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED
 	const classes = useStyles();
 	const history = useHistory();
@@ -89,7 +91,7 @@ export default function CreateAccountPage() {
 						<Grid container>
 							<Grid item xs>
 								<TextWithLink
-									value = "Oh! I already have account."
+									value = "Oh! I already have account"
 									align = "right"
 									to = "/" />
 							</Grid>

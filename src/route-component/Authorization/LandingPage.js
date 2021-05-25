@@ -13,7 +13,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { ActionButton } from "../../presentational-components/Button";
 import { PasswordInput, TextInput } from "../../presentational-components/Input";
-import { TextWithLink } from "../../presentational-components/Text";
+import { Text, TextWithLink } from "../../presentational-components/Text";
 
 import { signIn } from '../../service-component/API/authorization';
 
@@ -75,6 +75,7 @@ export default function LandingPage() {
                     <Avatar className = { classes.avatar }>
                         <LockOutlinedIcon/>
                     </Avatar>
+                    <Text value = "Sign In" />
                     <form className = { classes.form }>
                         <TextInput label = "Email Address" name = "email" value = { signInInfo['email'] }
                                    onChange = { handleSignInChange('email') } />
@@ -89,7 +90,7 @@ export default function LandingPage() {
                                 <TextWithLink
                                     value = "Forgot password!"
                                     align = "left"
-                                    to = "/forget-password" />
+                                    to = "/forgot-password" />
                             </Grid>
                             <Grid item xs>
                                 <TextWithLink

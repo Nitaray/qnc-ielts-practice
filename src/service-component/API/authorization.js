@@ -1,6 +1,6 @@
 
 
-/*	****************************
+/*	****** SIGN IN AUTHORIZATION
 signInInfo: {
 	email: String,
 	password: String,
@@ -17,8 +17,7 @@ export function signIn(signInInfo) {
 	}
 }
 
-
-/*	****************************
+/*	****** SIGN UP AUTHORIZATION
 signUpInfo: {
 	name: String,
 	email: String,
@@ -34,8 +33,17 @@ export function signUp(signUpInfo) {
 		return true;
 	} else {
 		alert("Please use fake account to grant access:\nName: 123\nEmail: 123\nPassword: 123\n\nAPI needed for authorization.");
-		return false;
 	}
+}
+
+/*	****** RECOVER PASSWORD
+forgotPasswordInfo: {
+	email: String,
+}
+
+**************************** */
+export function forgotPassword(forgotPasswordInfo) {
+
 }
 
 
