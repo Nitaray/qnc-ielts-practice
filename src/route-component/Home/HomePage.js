@@ -1,9 +1,12 @@
 import React from "react";
-import { Text } from "../../presentational-components/Text";
-
+import NavigationBar from "../../presentational-components/NavigationBar";
 
 export default function HomePage() {
 	return (
-		<Text value = "Hello" align = "center" />
+		<React.Fragment>
+			<NavigationBar />
+
+		</React.Fragment>
 	);
 };
+
