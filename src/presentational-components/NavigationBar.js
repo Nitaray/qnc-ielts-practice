@@ -4,14 +4,18 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import AppBar from "@material-ui/core/AppBar";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-import { DropdownButton } from "./DropdownButton";
 import { TitleText } from "./Text";
+import { DropdownButton } from "./Button";
 
 const useStyles = makeStyles((theme) => ({
-	toolbar: {
+	toolBar: {
+		backgroundColor: theme.palette.common.white,
+		color: theme.palette.common.black,
 		justifyContent: 'space-between',
 		overflowX: 'auto',
 	},
+	appBar: {
+	}
 }));
 
 export default function NavigationBar() {
@@ -27,8 +31,8 @@ export default function NavigationBar() {
 		},
 	];
 	return (
-		<AppBar elevation = {0}>
-			<Toolbar component = "nav" variant = "dense" className = { classes.toolbar }>
+		<AppBar className = { classes.appBar }>
+			<Toolbar component = "nav" variant = "dense" className = { classes.toolBar }>
 				<TitleText value = "IELTS Training" component = "h1"/>
 				<DropdownButton options = { options }
 								icon = { <AccountCircleIcon /> } />
