@@ -10,14 +10,16 @@ import HomePage from "./route-component/Home/HomePage";
 
 export default function App() {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename = "/ielts-practice-web">
             <Switch>
-                {/* LANDING PAGE
+                {/*
+                LANDING PAGE
                 ----------------
                 Landing Page is the default when enter the website.
                 Has:
                     - Login
-                    - Redirect to: /forgot-password and /create-account */}
+                    - Redirect to: /forgot-password and /create-account
+                */}
                 <Route exact path = "/" component = { LandingPage } />
                 <Route exact path = "/landing" component = { LandingPage } />
                 <Route exact path = "/home" component = { HomePage } />
