@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 export default function HomePage() {
 	const classes = useStyles();
 
+
 	return (
 		<div className = { classes.root }>
 			<NavigationBar />
@@ -56,7 +57,6 @@ export default function HomePage() {
 					</Grid>
 				</Container>
 			</div>
-
 		</div>
 	);
 };
