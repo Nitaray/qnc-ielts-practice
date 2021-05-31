@@ -7,7 +7,7 @@ import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Grid from "@material-ui/core/Grid";
 
-import { Text, TextWithLink } from "../../presentational-components/Text";
+import { Text, TextWithLink, TitleText } from "../../presentational-components/Text";
 import { TextInput } from "../../presentational-components/Input";
 import { ActionButton } from "../../presentational-components/Button";
 
@@ -51,7 +51,7 @@ export default function ForgotPasswordPage() {
 					<Avatar className = { classes.avatar }>
 						<LockOutlinedIcon />
 					</Avatar>
-					<Text value = "Recover your password" />
+					<TitleText value = "Recover password" fontSize = '18px' />
 					<form className = { classes.form }>
 						<Grid container>
 							<Grid item xs = {12} sm = {12}>

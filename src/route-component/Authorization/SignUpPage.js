@@ -8,7 +8,7 @@ import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Grid from "@material-ui/core/Grid";
 
-import { Text, TextWithLink } from "../../presentational-components/Text";
+import { Text, TextWithLink, TitleText } from "../../presentational-components/Text";
 import { PasswordInput, TextInput } from "../../presentational-components/Input";
 import { ActionButton } from "../../presentational-components/Button";
 
@@ -60,7 +60,7 @@ export default function SignUpPage() {
 					<Avatar className = { classes.avatar }>
 						<LockOutlinedIcon />
 					</Avatar>
-					<Text value = "Create Account" />
+					<TitleText value = "Create Account" fontSize = "18px"/>
 					<form className = { classes.form }>
 						<Grid container>
 							<Grid item xs = {12} sm = {12}>
