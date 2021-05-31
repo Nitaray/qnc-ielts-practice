@@ -11,7 +11,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { allTest } from "../../service-component/API/test";
 import { ListeningChip, ReadingChip } from "../../presentational-components/Chip";
 import { DoneIcon } from "../../presentational-components/Icon";
-import { TitleText } from "../../presentational-components/Text";
+import { TextWithLink, TitleText } from "../../presentational-components/Text";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 let columns = [
@@ -96,7 +96,7 @@ export default function TestTable() {
 							</TCell>
 							<TCell align = 'left'
 								   style = {{ width: '60%' }}>
-								{ row.title }
+								<TextWithLink value = { row.title } to = {`/test/${row.id}`}/>
 							</TCell>
 							<TCell align = 'left'>
 								{ (row.type.toLowerCase() === 'listening') ? <ListeningChip /> : <ReadingChip /> }
