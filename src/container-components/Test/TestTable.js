@@ -7,7 +7,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import withStyles from "@material-ui/core/styles/withStyles";
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+
 import { allTest } from "../../service-component/API/test";
 import { ListeningChip, ReadingChip } from "../../presentational-components/Chip";
 import { DoneIcon } from "../../presentational-components/Icon";
@@ -19,6 +19,7 @@ let columns = [
 		id: 'id',
 		label: '#',
 		align: 'right',
+		width: '5%',
 		compareFn: (a, b, direction) => {
 			const res = a.id - b.id;
 			return direction === 'asc' ? res : -res;
@@ -27,6 +28,7 @@ let columns = [
 		id: 'title',
 		label: 'Title',
 		align: 'left',
+		width: '60%',
 		compareFn: (a, b, direction) => {
 			const res = a.title - b.title;
 			return direction === 'asc' ? res : -res;
@@ -35,6 +37,7 @@ let columns = [
 		id: 'type',
 		label: 'Type',
 		align: 'left',
+		width: '5%',
 		compareFn: (a, b, direction) => {
 			const res = a.type > b.type ? 1 : -1;
 			return direction === 'asc' ? res : -res;
@@ -43,6 +46,7 @@ let columns = [
 		id: 'created',
 		label: 'Date Created',
 		align: 'right',
+		width: '5%',
 		compareFn: (a, b, direction) => {
 			const res = a.created > b.created ? 1 : -1;
 			return direction === 'asc' ? res : -res;
@@ -51,13 +55,14 @@ let columns = [
 		id: 'status',
 		label: 'Status',
 		align: 'right',
+		width: '5%',
 		compareFn: (a, b, direction) => {
 			const res = a.status.toUpperCase() > b.status.toUpperCase() ? 1 : -1;
 			return direction === 'asc' ? res : -res;
 		}
 	}
 ];
-let test = allTest();
+
 
 const useStyles = makeStyles((theme) => ({
 	cellWithIcon: {
@@ -69,6 +74,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TestTable() {
 	const classes = useStyles();
+	const test = allTest();
+
 	return (
 		<TableContainer component = { Paper }>
 			<Table size = "small" stickyHeader>

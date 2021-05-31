@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -54,15 +55,16 @@ export function DropdownButton({ options, icon }) {
 	const handleMenuItemClick = (to) => history.push(to);
 
 	return (
-		<div>
+		<div component = { Paper }>
 			<IconButton color = "inherit"
 						aria-haspopup = "true"
 						onClick = { handleClick }>
 				{ icon }
 			</IconButton>
+			<Paper elevation = {0} style={{ margin: '0px', border: "1px solid black" }} />
 			<Menu
 				keepMounted
-				elevation = {0}
+				elevation = {4}
 				getContentAnchorEl = {null}
 				anchorOrigin = {{
 					vertical: 'bottom',
@@ -76,6 +78,7 @@ export function DropdownButton({ options, icon }) {
 				open = { Boolean(anchorEl) }
 				onClose = { handleClose }
 			>
+
 				{ options.map((option) => (
 					<MenuItem onClick = { () => handleMenuItemClick(option.to) }>{ option.value }</MenuItem>
 				)) }
