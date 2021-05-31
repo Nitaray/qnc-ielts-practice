@@ -9,22 +9,41 @@ import HomePage from "./route-component/Home/HomePage";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
+// https://coolors.co/fcba04-ffebeb-590004
 const theme = createMuiTheme({
     palette: {
         primary: {
-            // Purple and green play nicely together.
-            main: '#e53e3e',
+            light: '#ffec4e',
+            main: '#fcba04',
+            dark: '#c48a00',
+            contrastText: '#000000'
         },
         secondary: {
-            // This is green.A700 as hex.
-            main: '#11cb5f',
+            light: '#8c332d',
+            main: '#590004',
+            dark: '#350000',
+            contrastText: '#ffffff'
         },
+        chip: {
+            listening: '#ff7077',
+            reading: '#fede86',
+        },
+        table: {
+            head: '#ffffff',
+            text: '#000000',
+            even: '#ffffff',
+            odd: '#f5f5f5',
+        },
+        action: {
+            hover: '#cccccc',
+        }
+
     },
 });
 
 export default function App() {
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme = {theme}>
             <BrowserRouter basename = "/ielts-practice-web">
                 <Switch>
                     {/*

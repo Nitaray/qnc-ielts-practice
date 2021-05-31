@@ -122,8 +122,8 @@ const TCell = withStyles((theme) => ({
 			borderBottom: "none",
 		},
 		head: {
-			backgroundColor: theme.palette.common.black,
-			color: theme.palette.common.white,
+			backgroundColor: theme.palette.table.head,
+			color: theme.palette.table.text,
 		},
 		body: {
 			fontSize: 14,
@@ -133,7 +133,7 @@ const TCell = withStyles((theme) => ({
 const TRow = withStyles((theme) => ({
 		root: {
 			'&:nth-of-type(odd)': {
-				backgroundColor: theme.palette.action.hover,
+				backgroundColor: theme.palette.table.odd,
 			},
 		},
 	}))(TableRow);

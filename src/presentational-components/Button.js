@@ -61,7 +61,7 @@ export function DropdownButton({ options, icon }) {
 						onClick = { handleClick }>
 				{ icon }
 			</IconButton>
-			<Paper elevation = {0} style={{ margin: '0px', border: "1px solid black" }} />
+			<Paper elevation = {0} style = {{ margin: '0px', border: "1px solid black" }} />
 			<Menu
 				keepMounted
 				elevation = {4}
