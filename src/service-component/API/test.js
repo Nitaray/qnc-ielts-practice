@@ -37,7 +37,7 @@ export function getTestById(id) {
 	return [
 		{
 			section: '1',
-			type: 'true-false-ng',
+			type: 'true-false',
 			passage: 'Prof Zeman tells the BBC: "People who have contacted us say they are really delighted that this has been recognised and has been given a name, because they have been trying to explain to people for years that there is this oddity that they find hard to convey to others." How we imagine is clearly very subjective - one person\'s vivid scene could be another\'s grainy picture. But Prof Zeman is certain that aphantasia is real. People often report being able to dream in pictures, and there have been reported cases of people losing the ability to think in images after a brain injury.',
 			question: {
 				group: '1',

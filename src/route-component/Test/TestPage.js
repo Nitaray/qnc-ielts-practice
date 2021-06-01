@@ -8,7 +8,7 @@ import NavigationBar from "../../presentational-components/NavigationBar";
 import TestTable from "../../container-components/Test/TestTable";
 import { useParams } from "react-router-dom";
 import { getTestById } from "../../service-component/API/test";
-import { ReadingPassage } from "../../presentational-components/Test";
+import { ReadingPassage, TrueFalseAnswer, TrueFalseQuestion } from "../../presentational-components/Test";
 import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
@@ -58,17 +58,32 @@ export default function HomePage() {
 						<Grid item xs = {8}>
 							<Paper className = {classes.paper}>
 								{
-									test.map((part) => (
-										<ReadingPassage section = { part.section } passage = { part.passage } />
-									))
+									test.map((part) => {
+										return (
+											<React.Fragment>
+												<ReadingPassage section = { part.section } passage = { part.passage } />
+												{(part.type === 'true-false') && part.question.list.map((question) => (
+													<TrueFalseQuestion question = { question.number } statement = { question.statement } />
+												))}
+											</React.Fragment>
+										)
+									})
 								}
 							</Paper>
 						</Grid>
 						<Grid item xs = {4}>
 							<Paper className = {classes.paper}>
-								<div>
-									<h3>ID: {id}</h3>
-								</div>
+								{
+									test.map((part) => {
+										return (
+											<React.Fragment>
+												{(part.type === 'true-false') && part.question.list.map((question) => (
+													<TrueFalseAnswer question = { question.number } />
+													))}
+											</React.Fragment>
+										)
+									})
+								}
 							</Paper>
 						</Grid>
 					</Grid>
