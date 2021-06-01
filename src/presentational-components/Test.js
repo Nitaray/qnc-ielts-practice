@@ -34,21 +34,21 @@ export function ReadingPassage({ section, passage }) {
 	);
 };
 
-export function TrueFalseQuestion({ question, statement }) {
+export function MCQuestion({ number, statementText }) {
 	const classes = useStyles();
 
 	return (
 		<Box border = {0} className = { classes.question }>
 			<Typography display = 'inline' style = {{ marginRight: '25px', fontWeight: 'bold'}}>
-				{ question }
+				{ number }
 			</Typography>
 			<Typography display = 'inline'>
-				{ statement }
+				{ statementText }
 			</Typography>
 		</Box>
 	);
 };
-export function TrueFalseAnswer({ question }) {
+export function MCAnswer({ question }) {
 	const theme = useTheme();
 	const answer = ['True', 'False', 'Not Given'];
 
@@ -70,3 +70,16 @@ export function TrueFalseAnswer({ question }) {
 		</TextField>
 	)
 }
+
+export function FITBQuestion({ question, statement }) {
+	return (
+		<div></div>
+	);
+};
+export function FITBAnswer({ question }) {
+	return (
+		<div>
+
+		</div>
+	);
+};

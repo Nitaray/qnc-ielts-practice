@@ -8,7 +8,7 @@ import NavigationBar from "../../presentational-components/NavigationBar";
 import TestTable from "../../container-components/Test/TestTable";
 import { useParams } from "react-router-dom";
 import { getTestById } from "../../service-component/API/test";
-import { ReadingPassage, TrueFalseAnswer, TrueFalseQuestion } from "../../presentational-components/Test";
+import { ReadingPassage, MCAnswer, MCQuestion } from "../../presentational-components/Test";
 import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 export default function HomePage() {
 	const classes = useStyles();
 	let { id } = useParams();
-	const test = getTestById(id);
+	const data = getTestById(id);
 
 	return (
 		<div className = { classes.root }>
@@ -58,31 +58,36 @@ export default function HomePage() {
 						<Grid item xs = {9}>
 							<Paper variant = 'outlined' className = { classes.paper }>
 								{
-									test.map((part) => {
+									(data.test.type.toLowerCase() === 'reading')
+										? data.test.sections.map((section) => {
 										return (
 											<React.Fragment>
-												<ReadingPassage section = { part.section } passage = { part.passage } />
-												{(part.type === 'true-false') && part.question.list.map((question) => (
-													<TrueFalseQuestion question = { question.number } statement = { question.statement } />
-												))}
+												<ReadingPassage section = { section.number } passage = { section.statementText } />
+												{
+													(section.type === 'MC') ?
+														(section.questionList.map((list) => {
+															return (
+																<React.Fragment>
+																	{
+																		list.questions.map((question) => (
+																			<MCQuestion number = { question.number } statementText = { question.statementText } />
+																		))
+																	}
+																</React.Fragment>
+															)
+														}))
+														: (<div></div>)
+												}
 											</React.Fragment>
 										)
-									})
+									}) : <div></div>
 								}
 							</Paper>
 						</Grid>
 						<Grid item xs = {3}>
 							<Paper variant = 'outlined' className = {classes.paper}>
 								{
-									test.map((part) => {
-										return (
-											<React.Fragment>
-												{(part.type === 'true-false') && part.question.list.map((question) => (
-													<TrueFalseAnswer question = { question.number } />
-													))}
-											</React.Fragment>
-										)
-									})
+
 								}
 							</Paper>
 						</Grid>
