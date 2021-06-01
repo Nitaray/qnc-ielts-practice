@@ -33,6 +33,36 @@ export function ReadingPassage({ section, passage }) {
 		</Box>
 	);
 };
+export function ReadingSectionQuestion({ data }) {
+	return (
+		<React.Fragment>{
+			(data.test.type.toLowerCase() === 'reading')
+				? data.test.sections.map((section) => {
+					return (
+						<React.Fragment>
+							<ReadingPassage section = { section.number } passage = { section.statementText } />
+							{
+								(section.type === 'MC') ?
+									(section.questionList.map((list) => {
+										return (
+											<React.Fragment>
+												{
+													list.questions.map((question) => (
+														<MCQuestion number = { question.number } statementText = { question.statementText } />
+													))
+												}
+											</React.Fragment>
+										)
+									}))
+									: (<div></div>)
+							}
+						</React.Fragment>
+					)
+				}) : <div></div>
+		}</React.Fragment>
+	)
+}
+export function ReadingSectionAnswer({data}) {}
 
 export function MCQuestion({ number, statementText }) {
 	const classes = useStyles();

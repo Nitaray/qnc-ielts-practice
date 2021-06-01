@@ -5,11 +5,9 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
 import NavigationBar from "../../presentational-components/NavigationBar";
-import TestTable from "../../container-components/Test/TestTable";
 import { useParams } from "react-router-dom";
 import { getTestById } from "../../service-component/API/test";
-import { ReadingPassage, MCAnswer, MCQuestion } from "../../presentational-components/Test";
-import Box from "@material-ui/core/Box";
+import { ReadingSectionQuestion } from "../../presentational-components/Test";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -57,31 +55,7 @@ export default function HomePage() {
 					<Grid container spacing = {3}>
 						<Grid item xs = {9}>
 							<Paper variant = 'outlined' className = { classes.paper }>
-								{
-									(data.test.type.toLowerCase() === 'reading')
-										? data.test.sections.map((section) => {
-										return (
-											<React.Fragment>
-												<ReadingPassage section = { section.number } passage = { section.statementText } />
-												{
-													(section.type === 'MC') ?
-														(section.questionList.map((list) => {
-															return (
-																<React.Fragment>
-																	{
-																		list.questions.map((question) => (
-																			<MCQuestion number = { question.number } statementText = { question.statementText } />
-																		))
-																	}
-																</React.Fragment>
-															)
-														}))
-														: (<div></div>)
-												}
-											</React.Fragment>
-										)
-									}) : <div></div>
-								}
+								<ReadingSectionQuestion data = { data } />
 							</Paper>
 						</Grid>
 						<Grid item xs = {3}>
