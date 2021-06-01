@@ -45,7 +45,7 @@ const theme = createMuiTheme({
 export default function App() {
     return (
         <ThemeProvider theme = {theme}>
-            <BrowserRouter basename = "/ielts-practice-web">
+            <BrowserRouter basename = "/qnc-ielts-practice">
                 <Switch>
                     {/*
                 LANDING PAGE
