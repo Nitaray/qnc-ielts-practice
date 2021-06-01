@@ -1,21 +1,20 @@
 {
   "files": {
-    "main.css": "/qncielts/static/css/main.91a6b472.chunk.css",
-    "main.js": "/qncielts/static/js/main.95ae9219.chunk.js",
-    "main.js.map": "/qncielts/static/js/main.95ae9219.chunk.js.map",
-    "runtime-main.js": "/qncielts/static/js/runtime-main.f8ba9b25.js",
-    "runtime-main.js.map": "/qncielts/static/js/runtime-main.f8ba9b25.js.map",
-    "static/js/2.16c141a8.chunk.js": "/qncielts/static/js/2.16c141a8.chunk.js",
-    "static/js/2.16c141a8.chunk.js.map": "/qncielts/static/js/2.16c141a8.chunk.js.map",
-    "index.html": "/qncielts/index.html",
-    "static/css/main.91a6b472.chunk.css.map": "/qncielts/static/css/main.91a6b472.chunk.css.map",
-    "static/js/2.16c141a8.chunk.js.LICENSE.txt": "/qncielts/static/js/2.16c141a8.chunk.js.LICENSE.txt",
-    "static/media/logo.6ce24c58.svg": "/qncielts/static/media/logo.6ce24c58.svg"
+    "main.css": "/ielts-practice-web/static/css/main.902617e9.chunk.css",
+    "main.js": "/ielts-practice-web/static/js/main.da8468ad.chunk.js",
+    "main.js.map": "/ielts-practice-web/static/js/main.da8468ad.chunk.js.map",
+    "runtime-main.js": "/ielts-practice-web/static/js/runtime-main.0031c7e9.js",
+    "runtime-main.js.map": "/ielts-practice-web/static/js/runtime-main.0031c7e9.js.map",
+    "static/js/2.ab375cd4.chunk.js": "/ielts-practice-web/static/js/2.ab375cd4.chunk.js",
+    "static/js/2.ab375cd4.chunk.js.map": "/ielts-practice-web/static/js/2.ab375cd4.chunk.js.map",
+    "index.html": "/ielts-practice-web/index.html",
+    "static/css/main.902617e9.chunk.css.map": "/ielts-practice-web/static/css/main.902617e9.chunk.css.map",
+    "static/js/2.ab375cd4.chunk.js.LICENSE.txt": "/ielts-practice-web/static/js/2.ab375cd4.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.f8ba9b25.js",
-    "static/js/2.16c141a8.chunk.js",
-    "static/css/main.91a6b472.chunk.css",
-    "static/js/main.95ae9219.chunk.js"
+    "static/js/runtime-main.0031c7e9.js",
+    "static/js/2.ab375cd4.chunk.js",
+    "static/css/main.902617e9.chunk.css",
+    "static/js/main.da8468ad.chunk.js"
   ]
 }
