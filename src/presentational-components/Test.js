@@ -1,14 +1,10 @@
 import React from "react";
-import Paper from "@material-ui/core/Paper";
 import { Text, TitleText } from "./Text";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import { TextFields } from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
-import SelectInput from "@material-ui/core/Select/SelectInput";
-import Select from "@material-ui/core/Select";
 import useTheme from "@material-ui/core/styles/useTheme";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,7 +48,6 @@ export function TrueFalseQuestion({ question, statement }) {
 		</Box>
 	);
 };
-
 export function TrueFalseAnswer({ question }) {
 	const theme = useTheme();
 	const answer = ['True', 'False', 'Not Given'];
@@ -60,6 +55,7 @@ export function TrueFalseAnswer({ question }) {
 	return (
 		<TextField
 			select
+			size = 'small'
 			variant = 'outlined'
 			id = { question }
 			label = { `Question ${question}`}

@@ -55,8 +55,8 @@ export default function HomePage() {
 				<div className = {classes.appBarSpacer}/>
 				<Container className = {classes.container}>
 					<Grid container spacing = {3}>
-						<Grid item xs = {8}>
-							<Paper className = {classes.paper}>
+						<Grid item xs = {9}>
+							<Paper variant = 'outlined' className = { classes.paper }>
 								{
 									test.map((part) => {
 										return (
@@ -71,8 +71,8 @@ export default function HomePage() {
 								}
 							</Paper>
 						</Grid>
-						<Grid item xs = {4}>
-							<Paper className = {classes.paper}>
+						<Grid item xs = {3}>
+							<Paper variant = 'outlined' className = {classes.paper}>
 								{
 									test.map((part) => {
 										return (

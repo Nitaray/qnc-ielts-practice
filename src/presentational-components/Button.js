@@ -64,7 +64,7 @@ export function DropdownButton({ options, icon }) {
 			<Paper elevation = {0} style = {{ margin: '0px', border: "1px solid black" }} />
 			<Menu
 				keepMounted
-				elevation = {4}
+				elevation = {2}
 				getContentAnchorEl = {null}
 				anchorOrigin = {{
 					vertical: 'bottom',

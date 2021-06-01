@@ -77,8 +77,7 @@ export default function TestTable() {
 	const test = allTest();
 
 	return (
-		<TableContainer component = { Paper }>
-			<Table size = "small" stickyHeader>
+		<Table size = "small" stickyHeader>
 				<TableHead>
 					<TableRow>
 						{ columns.map((column) => (
@@ -112,7 +111,6 @@ export default function TestTable() {
 					))}
 				</TableBody>
 			</Table>
-		</TableContainer>
 	);
 }
 

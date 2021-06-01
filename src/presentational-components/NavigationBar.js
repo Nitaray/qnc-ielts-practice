@@ -31,7 +31,7 @@ export default function NavigationBar() {
 		},
 	];
 	return (
-		<AppBar className = { classes.appBar }>
+		<AppBar elevation = {2} className = { classes.appBar }>
 			<Toolbar component = "nav" variant = "dense" className = { classes.toolBar }>
 				<TitleText value = "IELTS Training" component = "h1"/>
 				<DropdownButton options = { options }

@@ -48,7 +48,9 @@ export default function HomePage() {
 				<Container className = {classes.container}>
 					<Grid container spacing = {3}>
 						<Grid item xs = {8}>
-							<TestTable />
+							<Paper elevation = {0}>
+								<TestTable />
+							</Paper>
 						</Grid>
 						<Grid item xs = {4}>
 							<Paper className = {classes.paper}>
