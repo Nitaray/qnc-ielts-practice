@@ -2,7 +2,7 @@
   "name": "ielts-practice-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://nitaray.github.io/qnc-ielts-practice",
+  "homepage": "./",
   "dependencies": {
     "@apollo/client": "^3.3.16",
     "@material-ui/core": "^4.11.4",
