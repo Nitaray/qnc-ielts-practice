@@ -123,26 +123,26 @@ export function getTestById(id) {
 								'NOT GIVEN if there is no information on this',
 							questions: [
 								{
-									id: '1', number: '1', type: 'MC',
+									id: '1', number: '6', type: 'MC',
 									statementText: 'Aphantasia is a condition, which describes people, for whom it is hard to visualise mental images.',
 									answer: ['True', 'False', 'Not Given'],
 								},
 								{
-									id: '2', number: '2', type: 'MC',
+									id: '2', number: '7', type: 'MC',
 									statementText: 'Aphantasia is a condition, which describes people, for whom it is hard to visualise mental images.',
 									answer: ['True', 'False', 'Not Given'],
 								},{
-									id: '3', number: '3', type: 'MC',
+									id: '3', number: '8', type: 'MC',
 									statementText: 'Aphantasia is a condition, which describes people, for whom it is hard to visualise mental images.',
 									answer: ['True', 'False', 'Not Given'],
 								},
 								{
-									id: '4', number: '4', type: 'MC',
+									id: '4', number: '9', type: 'MC',
 									statementText: 'Aphantasia is a condition, which describes people, for whom it is hard to visualise mental images.',
 									answer: ['True', 'False', 'Not Given'],
 								},
 								{
-									id: '5', number: '5', type: 'MC',
+									id: '5', number: '10', type: 'MC',
 									statementText: 'Aphantasia is a condition, which describes people, for whom it is hard to visualise mental images.',
 									answer: ['True', 'False', 'Not Given'],
 								}

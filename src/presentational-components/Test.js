@@ -15,10 +15,16 @@ const useStyles = makeStyles((theme) => ({
 	title: {
 		marginBottom: theme.spacing(2),
 	},
-	question: {
+	questionGroup: {
 		margin: theme.spacing(2),
+		marginBottom: theme.spacing(4),
 		padding: theme.spacing(1),
-	}
+	},
+	question: {
+		margin: theme.spacing(1),
+		padding: theme.spacing(1),
+	},
+
 }));
 
 export function ReadingPassage({ section, passage }) {
@@ -35,7 +41,8 @@ export function ReadingPassage({ section, passage }) {
 };
 export function ReadingSectionQuestion({ data }) {
 	return (
-		<React.Fragment>{
+		<React.Fragment>
+			{
 			(data.test.type.toLowerCase() === 'reading')
 				? data.test.sections.map((section) => {
 					return (
@@ -43,26 +50,52 @@ export function ReadingSectionQuestion({ data }) {
 							<ReadingPassage section = { section.number } passage = { section.statementText } />
 							{
 								(section.type === 'MC') ?
-									(section.questionList.map((list) => {
-										return (
-											<React.Fragment>
-												{
-													list.questions.map((question) => (
-														<MCQuestion number = { question.number } statementText = { question.statementText } />
-													))
-												}
-											</React.Fragment>
-										)
-									}))
+									<QuestionGroup questionList = { section.questionList } />
 									: (<div></div>)
 							}
 						</React.Fragment>
 					)
 				}) : <div></div>
-		}</React.Fragment>
+			}
+		</React.Fragment>
 	)
 }
-export function ReadingSectionAnswer({data}) {}
+export function ReadingSectionAnswer({ data }) {}
+
+export function QuestionGroup({ questionList }) {
+	const classes = useStyles();
+
+	return (
+		<React.Fragment>
+			{
+				(questionList.map(question => {
+					return (
+						<Box border = {0} className = { classes.questionGroup }>
+							<div className = { classes.title }>
+								<TitleText value = {`Group ${question.number}`} fontSize = { '16px' } />
+							</div>
+							<Text value = { question.introText }/>
+							<Question questions = { question.questions } />
+						</Box>
+					)
+				}))
+			}
+		</React.Fragment>
+	)
+}
+export function Question({ questions }) {
+	return (
+		<React.Fragment>
+			{ questions.map((question) => {
+				return (
+					(question.type === 'MC')
+						? <MCQuestion number = { question.number } statementText = { question.statementText } />
+						: <div></div>
+				)
+			}) }
+		</React.Fragment>
+	)
+}
 
 export function MCQuestion({ number, statementText }) {
 	const classes = useStyles();
