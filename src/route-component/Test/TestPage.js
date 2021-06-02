@@ -7,7 +7,8 @@ import Paper from "@material-ui/core/Paper";
 import NavigationBar from "../../presentational-components/NavigationBar";
 import { useParams } from "react-router-dom";
 import { getTestById } from "../../service-component/API/test";
-import { ReadingSectionQuestion } from "../../presentational-components/Test";
+import { ReadingSectionQuestion } from "../../presentational-components/Question";
+import { ReadingSectionAnswer } from "../../presentational-components/Answer";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function HomePage() {
+export default function TestPage() {
 	const classes = useStyles();
 	let { id } = useParams();
 	const data = getTestById(id);
@@ -60,9 +61,7 @@ export default function HomePage() {
 						</Grid>
 						<Grid item xs = {3}>
 							<Paper variant = 'outlined' className = {classes.paper}>
-								{
-
-								}
+								<ReadingSectionAnswer data = { data } />
 							</Paper>
 						</Grid>
 					</Grid>
