@@ -36,7 +36,7 @@ function createData(id, title, type, created, status) {
 export function getTestById(id) {
 	const TESTBYID_QUERY = `
 	{
-		test {
+		test(id: ${id}) {
 			id
 			type
 			sections {
@@ -395,6 +395,49 @@ export function getTestById(id) {
 			]
 		}
 	};
+
+	return data;
+}
+
+/*	****** QUERY TEST :id
+
+
+**************************** */
+export function getCommentByTestId(id) {
+	const COMMENTBYTESTID_QUERY = `
+	{
+		test(id: ${id}) {
+			comments {
+				id
+				user
+				content
+				created
+			}
+		}
+	}`
+
+	const data = {
+		test: {
+			comments: [
+				{
+					id: '1',
+					user: 'user1',
+					content: 'This test is great!',
+					created: '1622800555'
+				},{
+					id: '2',
+					user: 'user2',
+					content: 'I\'ve got 8.5',
+					created: '1622800000'
+				},{
+					id: '3',
+					user: 'user3',
+					content: 'Hello guys.',
+					created: '1522800000',
+				}
+			]
+		}
+	}
 
 	return data;
 }

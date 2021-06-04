@@ -24,18 +24,10 @@ const client = new ApolloClient({
 });
 
 // 4
-// ReactDOM.render(
-//   <ApolloProvider client={client}>
-//     <App />
-//   </ApolloProvider>,
-//   document.getElementById('root')
-// );
-
 ReactDOM.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-    ,
-    document.getElementById('root')
+  <ApolloProvider client = { client }>
+    <App />
+  </ApolloProvider>,
+  document.getElementById('root')
 );
 serviceWorker.unregister();
