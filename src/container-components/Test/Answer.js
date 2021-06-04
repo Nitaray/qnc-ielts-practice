@@ -104,9 +104,23 @@ export function TFAnswer(props) {
 export function MCAnswer(props) {
 	const theme = useTheme();
 
+	const [answer, setAnswer] = useState({
+		id: props.id,
+		answer: ' '
+	});
+
 	const handleChange = (event) => {
-		props.onAnswer(event, props.id);
+		setAnswer({
+			id: props.id,
+			answer: event.target.value,
+		});
 	}
+
+	// this will update answer at TestPage component every time user change their answer.
+	useEffect(() => {
+		props.onAnswer(answer);
+	}, [answer.answer]);
+
 
 	return (
 		<TextField
@@ -115,7 +129,7 @@ export function MCAnswer(props) {
 			variant = 'outlined'
 			id = { props.number }
 			label = { `Question ${props.number}`}
-			value = { ' ' }
+			value = { answer.answer }
 			style = {{ marginBottom: theme.spacing(4), }}
 			onChange = { (event) => handleChange(event) }
 		>
@@ -130,9 +144,22 @@ export function MCAnswer(props) {
 export function FITBAnswer(props) {
 	const theme = useTheme();
 
+	const [answer, setAnswer] = useState({
+		id: props.id,
+		answer: ' ',
+	});
+
 	const handleChange = (event) => {
-		props.onAnswer(event, props.id);
+		setAnswer({
+			id: props.id,
+			answer: event.target.value,
+		});
 	}
+
+	// this will update answer at TestPage component every time user change their answer.
+	useEffect(() => {
+		props.onAnswer(answer);
+	}, [answer.answer]);
 
 	return (
 		<TextField
@@ -141,7 +168,7 @@ export function FITBAnswer(props) {
 			variant = 'outlined'
 			id = { props.number }
 			label = { `Question ${props.number}`}
-			value = { ' ' }
+			value = { answer.answer }
 			style = {{ marginBottom: theme.spacing(4), }}
 			onChange = { (event) => handleChange(event) }
 		>
