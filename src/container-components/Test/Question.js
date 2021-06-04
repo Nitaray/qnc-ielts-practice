@@ -1,11 +1,14 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
-import { Text, TitleText } from "./Text";
-import { ReadingPassage } from "./Test";
+import { Text, TitleText } from "../../presentational-components/Text";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
+	section: {
+		margin: theme.spacing(2),
+		padding: theme.spacing(2),
+	},
 	title: {
 		marginBottom: theme.spacing(4),
 	},
@@ -20,21 +23,24 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
+export function ReadingPassage({ section, passage }) {
+	const classes = useStyles();
 
-export function ReadingSectionQuestion({ data }) {
+	return (
+		<Box border = {1.5} className = { classes.section }>
+			<div className = { classes.title }>
+				<TitleText value = {`Section ${section}`} fontSize = { '18px' } />
+			</div>
+			<Text value = { passage }/>
+		</Box>
+	);
+};
+
+export function ReadingSectionQuestion({ section }) {
 	return (
 		<React.Fragment>
-			{
-				(data.test.type.toLowerCase() === 'reading')
-					? data.test.sections.map((section) => {
-						return (
-							<React.Fragment>
-								<ReadingPassage section = { section.number } passage = { section.statementText } />
-								<QuestionGroup questionList = { section.questionList } />
-							</React.Fragment>
-						)
-					}) : <div></div>
-			}
+			<ReadingPassage section = { section.number } passage = { section.statementText } />
+			<QuestionGroup questionList = { section.questionList } />
 		</React.Fragment>
 	)
 }

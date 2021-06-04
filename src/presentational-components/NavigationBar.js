@@ -4,7 +4,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import AppBar from "@material-ui/core/AppBar";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-import { TitleText } from "./Text";
+import { TextWithLink, TitleText } from "./Text";
 import { DropdownButton } from "./Button";
 
 const useStyles = makeStyles((theme) => ({

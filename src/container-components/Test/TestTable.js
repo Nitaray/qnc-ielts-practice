@@ -14,56 +14,6 @@ import { DoneIcon } from "../../presentational-components/Icon";
 import { TextWithLink, TitleText } from "../../presentational-components/Text";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
-let columns = [
-	{
-		id: 'id',
-		label: '#',
-		align: 'right',
-		width: '5%',
-		compareFn: (a, b, direction) => {
-			const res = a.id - b.id;
-			return direction === 'asc' ? res : -res;
-		}
-	},{
-		id: 'title',
-		label: 'Title',
-		align: 'left',
-		width: '60%',
-		compareFn: (a, b, direction) => {
-			const res = a.title - b.title;
-			return direction === 'asc' ? res : -res;
-		}
-	}, {
-		id: 'type',
-		label: 'Type',
-		align: 'left',
-		width: '5%',
-		compareFn: (a, b, direction) => {
-			const res = a.type > b.type ? 1 : -1;
-			return direction === 'asc' ? res : -res;
-		}
-	}, {
-		id: 'created',
-		label: 'Date Created',
-		align: 'right',
-		width: '5%',
-		compareFn: (a, b, direction) => {
-			const res = a.created > b.created ? 1 : -1;
-			return direction === 'asc' ? res : -res;
-		}
-	}, {
-		id: 'status',
-		label: 'Status',
-		align: 'right',
-		width: '5%',
-		compareFn: (a, b, direction) => {
-			const res = a.status.toUpperCase() > b.status.toUpperCase() ? 1 : -1;
-			return direction === 'asc' ? res : -res;
-		}
-	}
-];
-
-
 const useStyles = makeStyles((theme) => ({
 	cellWithIcon: {
 		display: 'flex',
@@ -74,6 +24,54 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TestTable() {
 	const classes = useStyles();
+	const columns = [
+		{
+			id: 'id',
+			label: '#',
+			align: 'right',
+			width: '5%',
+			compareFn: (a, b, direction) => {
+				const res = a.id - b.id;
+				return direction === 'asc' ? res : -res;
+			}
+		},{
+			id: 'title',
+			label: 'Title',
+			align: 'left',
+			width: '60%',
+			compareFn: (a, b, direction) => {
+				const res = a.title - b.title;
+				return direction === 'asc' ? res : -res;
+			}
+		}, {
+			id: 'type',
+			label: 'Type',
+			align: 'left',
+			width: '5%',
+			compareFn: (a, b, direction) => {
+				const res = a.type > b.type ? 1 : -1;
+				return direction === 'asc' ? res : -res;
+			}
+		}, {
+			id: 'created',
+			label: 'Date Created',
+			align: 'right',
+			width: '5%',
+			compareFn: (a, b, direction) => {
+				const res = a.created > b.created ? 1 : -1;
+				return direction === 'asc' ? res : -res;
+			}
+		}, {
+			id: 'status',
+			label: 'Status',
+			align: 'right',
+			width: '5%',
+			compareFn: (a, b, direction) => {
+				const res = a.status.toUpperCase() > b.status.toUpperCase() ? 1 : -1;
+				return direction === 'asc' ? res : -res;
+			}
+		}
+	];
 	const test = allTest();
 
 	return (
@@ -95,7 +93,7 @@ export default function TestTable() {
 							</TCell>
 							<TCell align = 'left'
 								   style = {{ width: '60%' }}>
-								<TextWithLink value = { row.title } to = {`/test/${row.id}`}/>
+								<TextWithLink value = { row.title } to = {`/${row.id}`}/>
 							</TCell>
 							<TCell align = 'left'>
 								{ (row.type.toLowerCase() === 'listening') ? <ListeningChip /> : <ReadingChip /> }
@@ -127,7 +125,6 @@ const TCell = withStyles((theme) => ({
 			fontSize: 14,
 		},
 	}))(TableCell);
-
 const TRow = withStyles((theme) => ({
 		root: {
 			'&:nth-of-type(odd)': {

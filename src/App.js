@@ -8,7 +8,7 @@ import ForgotPasswordPage from "./route-component/Authorization/ForgotPasswordPa
 import HomePage from "./route-component/Home/HomePage";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
-import TestPage from "./route-component/Test/TestPage";
+import TestPage from "./route-component/Home/Test/TestPage";
 
 // https://coolors.co/fcba04-ffebeb-590004
 const theme = createMuiTheme({
@@ -59,8 +59,7 @@ export default function App() {
                     <Route exact path = "/landing" component = { LandingPage } />
                     <Route exact path = "/create-account" component = { SignUpPage } />
                     <Route exact path = "/forgot-password" component = { ForgotPasswordPage } />
-                    <Route exact path = "/home" component = { HomePage } />
-                    <Route exact path = "/test/:id" children = { <TestPage /> } />
+                    <Route exact path = "/tests" component = { HomePage } />
                 </Switch>
             </BrowserRouter>
         </ThemeProvider>

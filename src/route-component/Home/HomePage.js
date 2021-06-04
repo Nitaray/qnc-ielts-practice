@@ -6,6 +6,9 @@ import Paper from "@material-ui/core/Paper";
 
 import NavigationBar from "../../presentational-components/NavigationBar";
 import TestTable from "../../container-components/Test/TestTable";
+import AllTestPage from "./Test/AllTestPage";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import TestPage from "./Test/TestPage";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -16,48 +19,22 @@ const useStyles = makeStyles((theme) => ({
 		overflow: 'auto'
 	},
 	appBarSpacer: theme.mixins.toolbar,
-	container: {
-		paddingTop: theme.spacing(4),
-		paddingLeft: theme.spacing(8),
-		paddingBottom: theme.spacing(4),
-		paddingRight: theme.spacing(8)
-	},
-	paper: {
-		padding: theme.spacing(2),
-		display: 'flex',
-		overflow: 'auto',
-		flexDirection: 'column',
-		height: 'auto'
-	},
-	tableHead: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-		fontWeight: 'bold',
-	},
 }));
 
 export default function HomePage() {
 	const classes = useStyles();
-
 
 	return (
 		<div className = { classes.root }>
 			<NavigationBar />
 			<div className = {classes.content}>
 				<div className = {classes.appBarSpacer}/>
-				<Container className = {classes.container}>
-					<Grid container spacing = {3}>
-						<Grid item xs = {8}>
-							<Paper elevation = {0}>
-								<TestTable />
-							</Paper>
-						</Grid>
-						<Grid item xs = {4}>
-							<Paper className = {classes.paper}>
-							</Paper>
-						</Grid>
-					</Grid>
-				</Container>
+				<BrowserRouter basename = "/qnc-ielts-practice/tests">
+					<Switch>
+						<Route exact path = "/" component = { AllTestPage } />
+						<Route path = "/:id" children = { <TestPage /> } />
+					</Switch>
+				</BrowserRouter>
 			</div>
 		</div>
 	);

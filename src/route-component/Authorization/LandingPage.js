@@ -57,7 +57,7 @@ export default function LandingPage() {
     const handleSignInChange = (prop) => (event) => setSignInInfo({ ...signInInfo, [prop]: event.target.value });
     const handleSignInClick = () => {
         // FAKE DATA - FOR TESTING ONLY
-        if (signIn(signInInfo)) history.push('/home');
+        if (signIn(signInInfo)) history.push('/tests/');
         // END OF FAKE DATA
     }
     // END REMOVE
