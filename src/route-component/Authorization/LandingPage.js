@@ -13,9 +13,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { ActionButton } from "../../presentational-components/Button";
 import { PasswordInput, TextInput } from "../../presentational-components/Input";
-import { Text, TextWithLink, TitleText } from "../../presentational-components/Text";
+import { TextWithLink, TitleText } from "../../presentational-components/Text";
 
-import { signIn } from '../../service-component/API/authorization';
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
 
@@ -56,14 +55,17 @@ export default function LandingPage() {
     });
 
     const LOGIN_MUTATION = gql`
-            mutation login($username: String!, $password: String!) {
-                login(username: $username, password: $password) {
+            mutation {
+                login(username: ${signInInfo.username}, password: ${signInInfo.password}) {
                     token
                     user {
                         id
                         username
                         fullname
-                        role
+                        role {
+                            id
+                            name
+                        }
                         rating
                     }
                 }
