@@ -14,7 +14,7 @@ import {
 
 // 2
 const httpLink = createHttpLink({
-  uri: process.env.API_URL || 'http://localhost:4000/graphql',
+  uri: process.env.API_URL || 'http://qnc-ielts-practice.herokuapp.com/graphql',
   credentials: 'include'
 });
 
