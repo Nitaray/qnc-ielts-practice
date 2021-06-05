@@ -21,7 +21,6 @@ export function ActionButton({ value, onClick }) {
 	return (
 		<Button
 			fullWidth
-			type = "submit"
 			variant = "contained"
 			color = "primary"
 			className = { classes.button }

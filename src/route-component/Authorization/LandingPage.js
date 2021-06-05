@@ -16,6 +16,8 @@ import { PasswordInput, TextInput } from "../../presentational-components/Input"
 import { Text, TextWithLink, TitleText } from "../../presentational-components/Text";
 
 import { signIn } from '../../service-component/API/authorization';
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,21 +48,44 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LandingPage() {
-    // REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED
     const classes = useStyles();
     const history = useHistory();
     const [signInInfo, setSignInInfo] = useState({
-        email: "",
+        username: "",
         password: "",
     });
 
-    const handleSignInChange = (prop) => (event) => setSignInInfo({ ...signInInfo, [prop]: event.target.value });
-    const handleSignInClick = () => {
-        // FAKE DATA - FOR TESTING ONLY
-        if (signIn(signInInfo)) history.push('/tests/');
-        // END OF FAKE DATA
+    const LOGIN_MUTATION = gql`
+            mutation login($username: String!, $password: String!) {
+                login(username: $username, password: $password) {
+                    token
+                    user {
+                        id
+                        username
+                        fullname
+                        role
+                        rating
+                    }
+                }
+            }
+        `;
+
+    let [signIn] = useMutation(LOGIN_MUTATION);
+
+    const handleSignInChange = (prop) => (event) => {
+        event.preventDefault();
+        setSignInInfo({ ...signInInfo, [prop]: event.target.value });
     }
-    // END REMOVE
+    const handleSignInClick = () => {
+        signIn({
+            variables: {
+                username: signInInfo.username,
+                password: signInInfo.password,
+            }
+        })
+
+        console.log(signIn);
+    }
 
     return (
         <Grid container component = "main" className = { classes.root }>
@@ -77,8 +102,8 @@ export default function LandingPage() {
                     </Avatar>
                     <TitleText value = "Sign In" fontSize = "18px" />
                     <form className = { classes.form }>
-                        <TextInput label = "Email Address" name = "email" value = { signInInfo['email'] }
-                                   onChange = { handleSignInChange('email') } />
+                        <TextInput label = "Username" name = "username" value = { signInInfo['username'] }
+                                   onChange = { handleSignInChange('username') } />
 
                         <PasswordInput label = "Password" name = "password" value = { signInInfo['password'] }
                                    onChange = { handleSignInChange('password') } />

@@ -1,4 +1,5 @@
-
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/client";
 
 /*	****** SIGN IN AUTHORIZATION
 signInInfo: {
@@ -8,13 +9,28 @@ signInInfo: {
 
 return boolean;
 **************************** */
+
+// const GET_DOG = gql`
+//   query GetDog($dogId: ID!) {
+//     dog(id: $dogId) {
+//       name
+//       breed
+//     }
+//   }
+// `;
+//
+// function Dog({ id }) {
+// 	const { loading, error, data } = useQuery(GET_DOG, {
+// 		variables: {
+// 			dogId: id
+// 		},
+// 	});
+// 	// ...render component...
+// }
+
+
 export function signIn(signInInfo) {
-	if (signInInfo['email'] === '123' && signInInfo['password'] === '123') {
-		return true;
-	} else {
-		alert("Please use fake account to grant access:\nEmail: 123\nPassword: 123\n\nAPI needed for authorization.");
-		return false;
-	}
+
 }
 
 /*	****** SIGN UP AUTHORIZATION
