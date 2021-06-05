@@ -14,7 +14,8 @@ import {
 
 // 2
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000'
+  uri: process.env.API_URL || 'http://localhost:4000',
+  credentials: 'include'
 });
 
 // 3
