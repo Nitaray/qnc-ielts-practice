@@ -2,8 +2,10 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import TestTable from "../../../container-components/Test/TestTable";
 import Container from "@material-ui/core/Container";
-import React from "react";
+import React, { useEffect } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import { AuthorizationContainer } from "../../../container-components/Authorization/AuthorizationContainer";
+import { useAuthorization } from "../../../service-component/Context/authorization";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -28,19 +30,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AllTestPage() {
 	const classes = useStyles();
+	const authorization = useAuthorization();
+
 	return (
-		<Container className = {classes.container}>
-			<Grid container spacing = {3}>
-				<Grid item xs = {8}>
-					<Paper elevation = {0}>
-						<TestTable />
-					</Paper>
+		<AuthorizationContainer>
+			<Container className = {classes.container}>
+				<Grid container spacing = {3}>
+					<Grid item xs = {8}>
+						<Paper elevation = {0}>
+							<TestTable />
+						</Paper>
+					</Grid>
+					<Grid item xs = {4}>
+						<Paper className = {classes.paper}>
+						</Paper>
+					</Grid>
 				</Grid>
-				<Grid item xs = {4}>
-					<Paper className = {classes.paper}>
-					</Paper>
-				</Grid>
-			</Grid>
-		</Container>
+			</Container>
+		</AuthorizationContainer>
 	)
 }

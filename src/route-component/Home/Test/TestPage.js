@@ -1,29 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-
-import { useParams } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { getCommentByTestId, getTestById } from "../../../service-component/API/test";
 import { ActionButton } from "../../../presentational-components/Button";
 import { ReadingTest } from "../../../container-components/Test/Test";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import * as PropTypes from "prop-types";
 import HelpIcon from '@material-ui/icons/Help';
 import CommentIcon from '@material-ui/icons/Comment';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import Card from "@material-ui/core/Card";
 import { CardContent } from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
-import Paper from "@material-ui/core/Paper";
 import CardHeader from "@material-ui/core/CardHeader";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Text } from "../../../presentational-components/Text";
+import { AuthorizationContext } from "../../../service-component/Context/authorization";
+import { AuthorizationContainer } from "../../../container-components/Authorization/AuthorizationContainer";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -32,9 +28,16 @@ const useStyles = makeStyles((theme) => ({
 		paddingBottom: theme.spacing(4),
 		paddingRight: theme.spacing(8)
 	},
+	cardHeader: {
+		paddingBottom: theme.spacing(1),
+	},
+	cardContent: {
+		paddingTop: theme.spacing(0),
+	}
 }));
 
 export default function TestPage() {
+	const { id } = useParams();
 	const [tab, setTab] = React.useState('doTest');
 
 	const handleTabChange = (event, tab) => {
@@ -42,7 +45,7 @@ export default function TestPage() {
 	};
 
 	return (
-		<React.Fragment>
+		<AuthorizationContainer>
 			<Grid container direction = 'row' justify = 'flex-start'>
 				<Grid item xs = {1}>
 					<Tabs value = { tab } orientation = "vertical" onChange = { handleTabChange }>
@@ -52,28 +55,27 @@ export default function TestPage() {
 					</Tabs>
 				</Grid>
 				<Grid item xs = {11}>
-					{ tab === 'doTest' && <DoTest /> }
-					{ tab === 'commentTest' && <CommentTest />}
-					{ tab === 'resultTest' && <ResultTest /> }
+					{ tab === 'doTest' && <DoTest id = { id }/> }
+					{ tab === 'commentTest' && <CommentTest id = { id }/>}
+					{ tab === 'resultTest' && <ResultTest id = { id }/> }
 				</Grid>
 			</Grid>
-		</React.Fragment>
+		</AuthorizationContainer>
 	)
 };
 
-function DoTest() {
+function DoTest(props) {
 	const classes = useStyles();
 	const [answers, setAnswers] = useState([]);
 	const [data, setData] = useState(null);
 
-	let { id } = useParams();
 	useEffect(() => {
-		const data = getTestById(id);
+		const data = getTestById(props.id);
 		setData(data);
 	}, [])
 
 	let handleAnswer = () => (answer) => {
-		let elementIdx = answers.findIndex((element => element.id == answer.id));
+		let elementIdx = answers.findIndex((element => element.id === answer.id));
 		if (elementIdx === -1) {
 			setAnswers([...answers, {
 				id: answer.id,
@@ -109,13 +111,12 @@ function DoTest() {
 		</Container>
 	);
 }
-function CommentTest() {
+function CommentTest(props) {
 	const classes = useStyles();
 	const [data, setData] = useState(null);
-	let { id } = useParams();
 
 	useEffect(() => {
-		const data = getCommentByTestId(id);
+		const data = getCommentByTestId(props.id);
 		setData(data);
 	}, []);
 
@@ -135,8 +136,9 @@ function CommentTest() {
 									}
 									title = { comment.user }
 									subheader ={ comment.created }
+									className = { classes.cardHeader }
 								/>
-								<CardContent>
+								<CardContent className = { classes.cardContent }>
 									<Text value = { comment.content } />
 								</CardContent>
 							</Card>
@@ -147,14 +149,13 @@ function CommentTest() {
 		</Container>
 	)
 }
-function ResultTest() {
+function ResultTest(props) {
 	const classes = useStyles();
 	const [answers, setAnswers] = useState([]);
 	const [data, setData] = useState(null);
 
-	let { id } = useParams();
 	useEffect(() => {
-		const data = getTestById(id);
+		const data = getTestById(props.id);
 		setData(data);
 	}, [])
 

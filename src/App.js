@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import LandingPage from "./route-component/Authorization/LandingPage";
 import SignUpPage from "./route-component/Authorization/SignUpPage";
@@ -9,6 +9,7 @@ import HomePage from "./route-component/Home/HomePage";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import TestPage from "./route-component/Home/Test/TestPage";
+import { AuthorizationContext } from "./service-component/Context/authorization";
 
 // https://coolors.co/fcba04-ffebeb-590004
 const theme = createMuiTheme({
@@ -43,25 +44,32 @@ const theme = createMuiTheme({
 });
 
 export default function App() {
+    const [authorizationData, setAuthorizationData] = useState({
+        status: false,
+        token: null,
+        user: {
+            id: null,
+            username: null,
+            role: {
+                name: null
+            }
+        }
+    });
+
     return (
         <ThemeProvider theme = {theme}>
-            <BrowserRouter basename = "/qnc-ielts-practice">
-                <Switch>
-                    {/*
-                LANDING PAGE
-                ----------------
-                Landing Page is the default when enter the website.
-                Has:
-                    - Login
-                    - Redirect to: /forgot-password and /create-account
-                */}
-                    <Route exact path = "/" component = { LandingPage } />
-                    <Route exact path = "/landing" component = { LandingPage } />
-                    <Route exact path = "/create-account" component = { SignUpPage } />
-                    <Route exact path = "/forgot-password" component = { ForgotPasswordPage } />
-                    <Route exact path = "/tests" component = { HomePage } />
-                </Switch>
-            </BrowserRouter>
+            <AuthorizationContext.Provider value = {[authorizationData, setAuthorizationData]}>
+                <BrowserRouter basename = "/qnc-ielts-practice">
+                    <Switch>
+                        <Route exact path = "/" component = { LandingPage } />
+                        <Route exact path = "/landing" component = { LandingPage } />
+                        <Route exact path = "/create-account" component = { SignUpPage } />
+                        <Route exact path = "/forgot-password" component = { ForgotPasswordPage } />
+                        <Route exact path = "/tests" component = { HomePage } />
+                        <Route exact path = "/tests/:id" children = { <TestPage /> } />
+                    </Switch>
+                </BrowserRouter>
+            </AuthorizationContext.Provider>
         </ThemeProvider>
     );
 };

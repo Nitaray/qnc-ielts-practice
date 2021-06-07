@@ -39,7 +39,7 @@ export default function SignUpPage() {
 	const history = useHistory();
 	const [signUpInfo, setSignUpInfo] = useState({
 		name: '',
-		email: '',
+		username: '',
 		password: '',
 		confirmPassword: '',
 	});
@@ -69,9 +69,9 @@ export default function SignUpPage() {
 										   onChange = { handleSignUpChange('name') } />
 							</Grid>
 							<Grid item xs = {12} sm = {12}>
-								<TextInput label = "Email" name = "email"
-										   value = { signUpInfo['email'] }
-										   onChange = { handleSignUpChange('email') } />
+								<TextInput label = "Username" name = "username"
+										   value = { signUpInfo['username'] }
+										   onChange = { handleSignUpChange('username') } />
 							</Grid>
 							<Grid item xs = {12} sm = {12}>
 								<PasswordInput label = "Password" name = "password"
