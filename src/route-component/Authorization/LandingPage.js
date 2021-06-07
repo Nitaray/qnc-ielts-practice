@@ -9,10 +9,8 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import { ActionButton } from "../../presentational-components/Button";
 import { PasswordInput, TextInput } from "../../presentational-components/Input";
 import { TextWithLink, TitleText } from "../../presentational-components/Text";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
-import { LOGIN_MUTATION } from "../../service-component/API/mutation";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { SIGNIN_MUTATION } from "../../service-component/API/mutation";
 import { ErrorDialog, LoadingDialog, SuccessDialog } from "../../presentational-components/Dialog";
 import { AuthorizationContext } from "../../service-component/Context/authorization";
 
@@ -53,7 +51,7 @@ export default function LandingPage() {
         password: "",
     });
     const [error, setError] = useState(null);
-    const [signIn, { loading }] = useMutation(LOGIN_MUTATION);
+    const [signIn, { loading }] = useMutation(SIGNIN_MUTATION);
 
     const handleSignInChange = (prop) => (event) => {
         event.preventDefault();
@@ -87,15 +85,11 @@ export default function LandingPage() {
         });
     }
 
-    const handleErrorCloseClick = () => {
-        setError(false);
-    }
-
     return (
         <React.Fragment>
             { loading && <LoadingDialog open = { loading } /> }
             { error && <ErrorDialog error = 'Invalid username/password. Please try again!'
-                                    open = { error } onClose = { handleErrorCloseClick } /> }
+                                    open = { error } onClose = { setError(false) } /> }
             <Grid container component = "main" className = { classes.root }>
                 <CssBaseline />
                 <Grid item xs = {false} sm = {4} md = {8}>

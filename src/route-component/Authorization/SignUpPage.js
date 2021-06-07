@@ -13,6 +13,9 @@ import { PasswordInput, TextInput } from "../../presentational-components/Input"
 import { ActionButton } from "../../presentational-components/Button";
 
 import { signUp } from "../../service-component/API/authorization";
+import { useMutation } from "@apollo/client";
+import { SIGNIN_MUTATION, SIGNUP_MUTATION } from "../../service-component/API/mutation";
+import { ErrorDialog, LoadingDialog } from "../../presentational-components/Dialog";
 
 // REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED
 const useStyles = makeStyles((theme) => ({
@@ -43,15 +46,33 @@ export default function SignUpPage() {
 		password: '',
 		confirmPassword: '',
 	});
+	const [error, setError] = useState(null);
+	const [signUp, { loading }] = useMutation(SIGNUP_MUTATION);
 
 	const handleSignUpChange = (prop) => (event) => setSignUpInfo({ ...signUpInfo, [prop]: event.target.value });
 	const handleSignUpClick = () => {
-		if (signUp(signUpInfo)) history.push('/');
+		signUp({
+			variables: {
+				user: {
+					username: signUpInfo.username,
+					password: signUpInfo.password,
+					name: signUpInfo.name,
+				}
+			},
+			errorPolicy: 'none',
+		}).then(data => history.push("/")
+		).catch(error => {
+			setError(true);
+			console.log(error);
+		});
 	}
 	// END REMOVE
 
 	return (
 		<React.Fragment>
+			{ loading && <LoadingDialog open = { loading } /> }
+			{ error && <ErrorDialog error = 'Please try again!'
+									open = { error } onClose = { setError(false) } /> }
 			<Container maxWidth = "xs">
 				<CssBaseline/>
 				{/* REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED */}
