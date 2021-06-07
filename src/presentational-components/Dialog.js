@@ -49,13 +49,31 @@ export function SuccessDialog({ success, open }) {
 
 	return (
 		<div>
-			<Dialog
-				open = { open }
-			>
+			<Dialog open = { open }>
 				<DialogContent>
 					<DialogContentText>{ success }</DialogContentText>
 				</DialogContent>
 			</Dialog>
 		</div>
 	);
+}
+
+export function InformDialog({ open, information, onContinue, onCancel}) {
+	return (
+		<div>
+			<Dialog open = { open } onClose = { onCancel }>
+				<DialogContent>
+					<DialogContentText>{ information }</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick = { onCancel } color = "primary" autoFocus>
+						Cancel
+					</Button>
+					<Button onClick = { onContinue } color = "primary" autoFocus>
+						Continue
+					</Button>
+				</DialogActions>
+			</Dialog>
+		</div>
+	)
 }

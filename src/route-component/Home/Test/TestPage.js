@@ -20,6 +20,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Text } from "../../../presentational-components/Text";
 import { AuthorizationContext } from "../../../service-component/Context/authorization";
 import { AuthorizationContainer } from "../../../container-components/Authorization/AuthorizationContainer";
+import { InformDialog } from "../../../presentational-components/Dialog";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -38,18 +39,39 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TestPage() {
 	const { id } = useParams();
-	const [tab, setTab] = React.useState('doTest');
+	const [tab, setTab] = useState('doTest');
+	const [nextTab, setNextTab] = useState(null);
+	const [testDisable, setTestDisable] = useState(false);
+	const [informDialogOpen, setInformDialogOpen] = useState(false);
 
-	const handleTabChange = (event, tab) => {
-		setTab(tab);
+	const handleTabChange = (event, nextTab) => {
+		if (tab === 'doTest' && nextTab !== 'doTest') {
+			setInformDialogOpen(true);
+			setNextTab(nextTab);
+		} else {
+			setTab(nextTab);
+		}
 	};
+
+	const handleDialogContinue = () => {
+		setInformDialogOpen(false);
+		setTestDisable(true);
+		setTab(nextTab);
+	}
+	const handleDialogCancel = () => {
+		setInformDialogOpen(false);
+	}
 
 	return (
 		<AuthorizationContainer>
+			<InformDialog open = { informDialogOpen }
+							  information = "Test submission will be disabled if proceed. Do you want to continue?"
+							  onContinue = { handleDialogContinue }
+							  onCancel = { handleDialogCancel } />
 			<Grid container direction = 'row' justify = 'flex-start'>
 				<Grid item xs = {1}>
 					<Tabs value = { tab } orientation = "vertical" onChange = { handleTabChange }>
-						<Tab icon = { <HelpIcon /> } value = 'doTest'/>
+						<Tab icon = { <HelpIcon /> } disabled = { testDisable } value = 'doTest'/>
 						<Tab icon = { <CommentIcon /> } value = 'commentTest'/>
 						<Tab icon = { <AssignmentTurnedInIcon /> } value = 'resultTest'/>
 					</Tabs>
@@ -72,7 +94,7 @@ function DoTest(props) {
 	useEffect(() => {
 		const data = getTestById(props.id);
 		setData(data);
-	}, [])
+	}, []);
 
 	let handleAnswer = () => (answer) => {
 		let elementIdx = answers.findIndex((element => element.id === answer.id));
@@ -86,8 +108,8 @@ function DoTest(props) {
 			newAnswers[elementIdx].answer = answer.answer;
 			setAnswers(newAnswers);
 		}
-
 	}
+
 	let handleSubmit = () => {
 		console.log(answers);
 	}
