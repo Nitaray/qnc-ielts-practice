@@ -24,3 +24,20 @@ export const SIGNUP_MUTATION = gql`
           }
      }
      `;
+
+export const REFRESHJWT_MUTATION = gql`
+     mutation refreshJWT {
+          refreshJWT {
+               token
+               user {
+                    id
+                    username
+                    role {
+                         name
+                    }
+               }
+          }
+     }
+     `;
+
+
