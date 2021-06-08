@@ -9,7 +9,6 @@ export function AuthorizationContainer({ children }) {
 	const [refreshJWT, { loading }] = useMutation(REFRESHJWT_MUTATION);
 
 	useEffect(() => {
-		console.log('refreshJWT called');
 		if (authorization.token != null) {
 			const tokenPayload = authorization.token.split('.')[1];
 			const tokenExpiration = new Date(tokenPayload);
@@ -20,11 +19,12 @@ export function AuthorizationContainer({ children }) {
 					.catch(error => console.log(error));
 			}
 		} else {
+			console.log('refreshJWT called');
 			refreshJWT()
 				.then(data => console.log(data))
-				.catch(error => console.log(error));
+				.catch(error => console.log('Error' + error));
 		}
-	});
+	}, []);
 
 	return (
 		<React.Fragment>

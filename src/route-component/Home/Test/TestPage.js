@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import { Redirect, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getCommentByTestId, getTestById } from "../../../service-component/API/test";
 import { ActionButton } from "../../../presentational-components/Button";
 import { ReadingTest } from "../../../container-components/Test/Test";
@@ -18,7 +18,6 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Text } from "../../../presentational-components/Text";
-import { AuthorizationContext } from "../../../service-component/Context/authorization";
 import { AuthorizationContainer } from "../../../container-components/Authorization/AuthorizationContainer";
 import { InformDialog } from "../../../presentational-components/Dialog";
 
@@ -45,29 +44,29 @@ export default function TestPage() {
 	const [informDialogOpen, setInformDialogOpen] = useState(false);
 
 	const handleTabChange = (event, nextTab) => {
-		if (tab === 'doTest' && nextTab !== 'doTest') {
-			setInformDialogOpen(true);
-			setNextTab(nextTab);
-		} else {
+		// if (tab === 'doTest' && nextTab !== 'doTest') {
+		// 	setInformDialogOpen(true);
+		// 	setNextTab(nextTab);
+		// } else {
 			setTab(nextTab);
-		}
+		// }
 	};
-
-	const handleDialogContinue = () => {
-		setInformDialogOpen(false);
-		setTestDisable(true);
-		setTab(nextTab);
-	}
-	const handleDialogCancel = () => {
-		setInformDialogOpen(false);
-	}
+	//
+	// const handleDialogContinue = () => {
+	// 	setInformDialogOpen(false);
+	// 	setTestDisable(true);
+	// 	setTab(nextTab);
+	// }
+	// const handleDialogCancel = () => {
+	// 	setInformDialogOpen(false);
+	// }
 
 	return (
 		<AuthorizationContainer>
-			<InformDialog open = { informDialogOpen }
-							  information = "Test submission will be disabled if proceed. Do you want to continue?"
-							  onContinue = { handleDialogContinue }
-							  onCancel = { handleDialogCancel } />
+			{/*<InformDialog open = { informDialogOpen }*/}
+			{/*			  information = "If you want to view comment or test result, the system will submit with current answer. Test result will be counted towards rating. Do you want to continue?"*/}
+			{/*			  onContinue = { handleDialogContinue }*/}
+			{/*			  onCancel = { handleDialogCancel } />*/}
 			<Grid container direction = 'row' justify = 'flex-start'>
 				<Grid item xs = {1}>
 					<Tabs value = { tab } orientation = "vertical" onChange = { handleTabChange }>
@@ -94,7 +93,17 @@ function DoTest(props) {
 	useEffect(() => {
 		const data = getTestById(props.id);
 		setData(data);
+		// console.log('FROMJSON: ');
+		// console.log(JSON.parse(localStorage.getItem('answers')));
+		// setAnswers(JSON.parse(localStorage.getItem('answers')));
+		// console.log(answers);
 	}, []);
+
+	// useEffect(() => {
+	// 	console.log('Answers changed: ' + JSON.stringify(answers));
+	// 	localStorage.setItem('answers', JSON.stringify(answers));
+	// 	console.log(localStorage.getItem('answers'));
+	// }, [answers]);
 
 	let handleAnswer = () => (answer) => {
 		let elementIdx = answers.findIndex((element => element.id === answer.id));
@@ -133,6 +142,7 @@ function DoTest(props) {
 		</Container>
 	);
 }
+
 function CommentTest(props) {
 	const classes = useStyles();
 	const [data, setData] = useState(null);
@@ -171,6 +181,7 @@ function CommentTest(props) {
 		</Container>
 	)
 }
+
 function ResultTest(props) {
 	const classes = useStyles();
 	const [answers, setAnswers] = useState([]);
