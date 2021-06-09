@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
@@ -11,7 +11,7 @@ import { PasswordInput, TextInput } from "../../presentational-components/Input"
 import { TextWithLink, TitleText } from "../../presentational-components/Text";
 import { useMutation } from "@apollo/client";
 import { SIGNIN_MUTATION } from "../../service-component/API/mutation";
-import { ErrorDialog, LoadingDialog, SuccessDialog } from "../../presentational-components/Dialog";
+import { ErrorDialog, LoadingDialog } from "../../presentational-components/Dialog";
 import { AuthorizationContext } from "../../service-component/Context/authorization";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,18 +45,19 @@ const useStyles = makeStyles((theme) => ({
 export default function LandingPage() {
     const classes = useStyles();
     const history = useHistory();
-    const [authorization, setAuthorization] = useContext(AuthorizationContext);
     const [signInInfo, setSignInInfo] = useState({
         username: "",
         password: "",
     });
     const [error, setError] = useState(null);
     const [signIn, { loading }] = useMutation(SIGNIN_MUTATION);
+    const [authorization, setAuthorization] = useContext(AuthorizationContext);
 
     const handleSignInChange = (prop) => (event) => {
         event.preventDefault();
         setSignInInfo({ ...signInInfo, [prop]: event.target.value });
     }
+
     const handleSignInClick = async () => {
         signIn({
                 variables: {
@@ -81,7 +82,6 @@ export default function LandingPage() {
         })
         .catch(error => {
             setError(true);
-            console.log(error);
         });
     }
 

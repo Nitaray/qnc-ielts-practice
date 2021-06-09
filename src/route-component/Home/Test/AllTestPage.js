@@ -30,23 +30,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AllTestPage() {
 	const classes = useStyles();
-	const authorization = useAuthorization();
 
 	return (
-		<AuthorizationContainer>
-			<Container className = {classes.container}>
-				<Grid container spacing = {3}>
-					<Grid item xs = {8}>
-						<Paper elevation = {0}>
-							<TestTable />
-						</Paper>
-					</Grid>
-					<Grid item xs = {4}>
-						<Paper className = {classes.paper}>
-						</Paper>
-					</Grid>
+		<Container className = {classes.container}>
+			<Grid container spacing = {3}>
+				<Grid item xs = {8}>
+					<Paper elevation = {0}>
+						<TestTable />
+					</Paper>
 				</Grid>
-			</Container>
-		</AuthorizationContainer>
-	)
+				<Grid item xs = {4}>
+					<Paper className = {classes.paper}>
+					</Paper>
+				</Grid>
+			</Grid>
+		</Container>
+	);
 }

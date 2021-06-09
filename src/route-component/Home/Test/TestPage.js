@@ -62,7 +62,7 @@ export default function TestPage() {
 	// }
 
 	return (
-		<AuthorizationContainer>
+		<React.Fragment>
 			{/*<InformDialog open = { informDialogOpen }*/}
 			{/*			  information = "If you want to view comment or test result, the system will submit with current answer. Test result will be counted towards rating. Do you want to continue?"*/}
 			{/*			  onContinue = { handleDialogContinue }*/}
@@ -81,7 +81,7 @@ export default function TestPage() {
 					{ tab === 'resultTest' && <ResultTest id = { id }/> }
 				</Grid>
 			</Grid>
-		</AuthorizationContainer>
+		</React.Fragment>
 	)
 };
 
