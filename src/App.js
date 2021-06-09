@@ -62,11 +62,9 @@ export default function App() {
                 <BrowserRouter basename = "/qnc-ielts-practice">
                     <Switch>
                         <Route exact path = "/" component = { LandingPage } />
-                        <Route exact path = "/landing" component = { LandingPage } />
                         <Route exact path = "/create-account" component = { SignUpPage } />
                         <Route exact path = "/forgot-password" component = { ForgotPasswordPage } />
-                        <Route exact path = "/tests" component = { HomePage } />
-                        <Route exact path = "/tests/:id" children = { <TestPage /> } />
+                        <Route path = "/tests" component = { HomePage } />
                     </Switch>
                 </BrowserRouter>
             </AuthorizationContext.Provider>

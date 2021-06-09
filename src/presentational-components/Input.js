@@ -3,7 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
-export function TextInput({ label, name, value, onChange }) {
+export function TextInput({ size, label, name, value, onChange }) {
 	let handleChange = (event) => onChange(event);
 
 	return (
@@ -11,6 +11,7 @@ export function TextInput({ label, name, value, onChange }) {
 			required fullWidth autoFocus
 			variant = "outlined"
 			margin = "normal"
+			size = { size }
 			id = { name }
 			label = { label }
 			name = { name }
@@ -21,7 +22,7 @@ export function TextInput({ label, name, value, onChange }) {
 };
 
 export function PasswordInput({ label, name, value, onChange }) {
-	let handleChange = (event) => onChange(event);
+	const handleChange = (event) => onChange(event);
 
 	return (
 		<TextField
@@ -54,4 +55,20 @@ export function SelectInput({ label, name, choices }) {
 			})}
 		</Select>
 	)
+};
+
+export function CommentInput({ onChange }) {
+	const handleChange = (event) => onChange(event);
+
+	return (
+		<TextField
+			multiline fullWidth
+			size = 'small'
+			margin = 'normal'
+			variant = 'outlined'
+			id = 'comment'
+			placeholder = "Type your comment here..."
+			onChange = { (event) => handleChange(event) }
+		/>
+	);
 }

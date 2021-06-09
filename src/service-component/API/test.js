@@ -34,34 +34,6 @@ function createData(id, title, type, created, status) {
 
 **************************** */
 export function getTestById(id) {
-	const TESTBYID_QUERY = `
-	{
-		test(id: ${id}) {
-			id
-			type
-			sections {
-				id
-				number
-				type
-				statementText
-				statementAudio
-				questionList {
-					id
-					number
-					introText
-					questions {
-						id
-						number
-						type
-						statementText
-						answer {
-							text
-						}
-					}
-				}
-			}
-		}
-	}`;
 
 	const data = {
 		test: {

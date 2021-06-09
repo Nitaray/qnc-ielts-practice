@@ -15,8 +15,6 @@ export const SIGNIN_MUTATION = gql`
      }   
      `;
 
-
-
 export const SIGNUP_MUTATION = gql`
      mutation signup($user: UserInput!) {
           signup(user: $user) {
@@ -39,5 +37,22 @@ export const REFRESHJWT_MUTATION = gql`
           }
      }
      `;
+
+export const CREATECOMMENT_MUTATION = gql`
+    mutation createComment($comment: CommentInput!) {
+        createComment(comment: $comment) {
+            id
+        }
+    }
+`;
+
+export const DETELECOMMENT_MUTATION = gql`
+    mutation deleteComment($commentId: Int!) {
+        deleteComment(commentId: $commentId) {
+            id
+        }
+    }
+`;
+
 
 

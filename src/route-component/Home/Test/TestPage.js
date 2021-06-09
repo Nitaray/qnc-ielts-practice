@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import { useParams } from "react-router-dom";
+import { BrowserRouter, Route, Switch, useHistory, useParams } from "react-router-dom";
 import { getCommentByTestId, getTestById } from "../../../service-component/API/test";
 import { ActionButton } from "../../../presentational-components/Button";
 import { ReadingTest } from "../../../container-components/Test/Test";
@@ -18,8 +18,8 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Text } from "../../../presentational-components/Text";
-import { AuthorizationContainer } from "../../../container-components/Authorization/AuthorizationContainer";
-import { InformDialog } from "../../../presentational-components/Dialog";
+import { CommentInput } from "../../../presentational-components/Input";
+import SendIcon from '@material-ui/icons/Send';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
 		paddingLeft: theme.spacing(8),
 		paddingBottom: theme.spacing(4),
 		paddingRight: theme.spacing(8)
+	},
+	commentContainer: {
+		paddingTop: theme.spacing(4),
+		paddingLeft: theme.spacing(20),
+		paddingRight: theme.spacing(20),
 	},
 	cardHeader: {
 		paddingBottom: theme.spacing(1),
@@ -38,72 +43,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TestPage() {
 	const { id } = useParams();
-	const [tab, setTab] = useState('doTest');
-	const [nextTab, setNextTab] = useState(null);
-	const [testDisable, setTestDisable] = useState(false);
-	const [informDialogOpen, setInformDialogOpen] = useState(false);
+	const history = useHistory();
 
-	const handleTabChange = (event, nextTab) => {
-		// if (tab === 'doTest' && nextTab !== 'doTest') {
-		// 	setInformDialogOpen(true);
-		// 	setNextTab(nextTab);
-		// } else {
-			setTab(nextTab);
-		// }
-	};
-	//
-	// const handleDialogContinue = () => {
-	// 	setInformDialogOpen(false);
-	// 	setTestDisable(true);
-	// 	setTab(nextTab);
-	// }
-	// const handleDialogCancel = () => {
-	// 	setInformDialogOpen(false);
-	// }
 
 	return (
 		<React.Fragment>
-			{/*<InformDialog open = { informDialogOpen }*/}
-			{/*			  information = "If you want to view comment or test result, the system will submit with current answer. Test result will be counted towards rating. Do you want to continue?"*/}
-			{/*			  onContinue = { handleDialogContinue }*/}
-			{/*			  onCancel = { handleDialogCancel } />*/}
 			<Grid container direction = 'row' justify = 'flex-start'>
-				<Grid item xs = {1}>
-					<Tabs value = { tab } orientation = "vertical" onChange = { handleTabChange }>
-						<Tab icon = { <HelpIcon /> } disabled = { testDisable } value = 'doTest'/>
-						<Tab icon = { <CommentIcon /> } value = 'commentTest'/>
-						<Tab icon = { <AssignmentTurnedInIcon /> } value = 'resultTest'/>
-					</Tabs>
-				</Grid>
-				<Grid item xs = {11}>
-					{ tab === 'doTest' && <DoTest id = { id }/> }
-					{ tab === 'commentTest' && <CommentTest id = { id }/>}
-					{ tab === 'resultTest' && <ResultTest id = { id }/> }
-				</Grid>
+				<DoTest />
 			</Grid>
 		</React.Fragment>
 	)
 };
 
-function DoTest(props) {
+function DoTest() {
+	const { id } = useParams();
 	const classes = useStyles();
 	const [answers, setAnswers] = useState([]);
 	const [data, setData] = useState(null);
 
 	useEffect(() => {
-		const data = getTestById(props.id);
+		console.log('do test called');
+		const data = getTestById(id);
 		setData(data);
-		// console.log('FROMJSON: ');
-		// console.log(JSON.parse(localStorage.getItem('answers')));
-		// setAnswers(JSON.parse(localStorage.getItem('answers')));
-		// console.log(answers);
 	}, []);
-
-	// useEffect(() => {
-	// 	console.log('Answers changed: ' + JSON.stringify(answers));
-	// 	localStorage.setItem('answers', JSON.stringify(answers));
-	// 	console.log(localStorage.getItem('answers'));
-	// }, [answers]);
 
 	let handleAnswer = () => (answer) => {
 		let elementIdx = answers.findIndex((element => element.id === answer.id));
@@ -133,27 +95,30 @@ function DoTest(props) {
 			}
 
 			<Grid container spacing = {3}>
-				<Grid item xs = {4}></Grid>
+				<Grid item xs = {4} />
 				<Grid item xs = {4}>
 					<ActionButton value = 'Submit' onClick = { () => handleSubmit() }/>
 				</Grid>
-				<Grid item xs = {4}></Grid>
+				<Grid item xs = {4} />
 			</Grid>
 		</Container>
 	);
 }
 
-function CommentTest(props) {
+function CommentTest() {
+	const { id } = useParams();
 	const classes = useStyles();
 	const [data, setData] = useState(null);
+	const [comment, setComment] = useState('');
 
 	useEffect(() => {
-		const data = getCommentByTestId(props.id);
+		console.log('comment test called');
+		const data = getCommentByTestId(id);
 		setData(data);
 	}, []);
 
 	return (
-		<Container className = { classes.container }>
+		<Container className = { classes.commentContainer }>
 			<Grid container spacing = {2}>
 				{ 	data && data.test.comments.map(comment => {
 					return (
@@ -178,17 +143,27 @@ function CommentTest(props) {
 					)
 				})}
 			</Grid>
+			<Grid container spacing = {2}>
+				<Grid item xs = {11}>
+					<CommentInput onChange = { (event) => setComment(event.target.value) } />
+				</Grid>
+				<Grid item xs = {1}>
+					<ActionButton value = { <SendIcon /> }/>
+				</Grid>
+			</Grid>
 		</Container>
 	)
 }
 
-function ResultTest(props) {
+function ResultTest() {
+	const { id } = useParams();
 	const classes = useStyles();
 	const [answers, setAnswers] = useState([]);
 	const [data, setData] = useState(null);
 
 	useEffect(() => {
-		const data = getTestById(props.id);
+		console.log('result test called');
+		const data = getTestById(id);
 		setData(data);
 	}, [])
 
