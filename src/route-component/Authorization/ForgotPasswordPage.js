@@ -11,8 +11,6 @@ import { Text, TextWithLink, TitleText } from "../../presentational-components/T
 import { TextInput } from "../../presentational-components/Input";
 import { ActionButton } from "../../presentational-components/Button";
 
-import { forgotPassword } from "../../service-component/API/authorization";
-
 // REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -40,7 +38,6 @@ export default function ForgotPasswordPage() {
 
 	const handleForgotPasswordChange = (prop) => (event) => setForgotPasswordInfo({ ...forgotPasswordInfo, [prop]: event.target.value });
 	const handleForgotPasswordClick = () => {
-		forgotPassword(forgotPasswordInfo);
 	}
 
 	return (

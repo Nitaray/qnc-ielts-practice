@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getCommentByTestId, getTestById } from "../../../service-component/API/test";
 import { ActionButton } from "../../../presentational-components/Button";
 import { ReadingTest } from "../../../container-components/Test/Test";
@@ -45,15 +45,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TestPage() {
+	const { id } = useParams();
 	const [noticed, setNoticed] = useState(false);
+	const [done, setDone] = useState(false);
+
+	// call testdoneyet mutation to check whether test is done, if done, set done = true
+	// else set done = false
+
+	// handle submission, submit and change done to true.
 
 	return (
 		<React.Fragment>
-			{
-				noticed
-					? <DoTest />
+			{ done
+				? <CommentTest />
+				: noticed
+					? <DoTest onDone = { () => setDone(true) } />
 					: <Notice onClick = { () => setNoticed(true) }/>
 			}
+
 		</React.Fragment>
 	)
 };
@@ -97,7 +106,7 @@ function Notice(props) {
 	)
 }
 
-function DoTest() {
+function DoTest(props) {
 	const { id } = useParams();
 	const classes = useStyles();
 	const [answers, setAnswers] = useState([]);
@@ -107,6 +116,10 @@ function DoTest() {
 		const data = getTestById(id);
 		setData(data);
 	}, []);
+
+	useEffect(() => {
+		console.log(answers);
+	}, [answers]);
 
 	let handleAnswer = () => async (answer) => {
 		let elementIdx = answers.findIndex((element => element.id === answer.id));
@@ -124,6 +137,7 @@ function DoTest() {
 
 	let handleSubmit = () => {
 		console.log(answers);
+		props.onDone();
 	}
 
 	return (

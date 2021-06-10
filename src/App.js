@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import LandingPage from "./route-component/Authorization/LandingPage";
 import SignUpPage from "./route-component/Authorization/SignUpPage";
@@ -8,7 +8,6 @@ import ForgotPasswordPage from "./route-component/Authorization/ForgotPasswordPa
 import HomePage from "./route-component/Home/HomePage";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
-import TestPage from "./route-component/Home/Test/TestPage";
 import { AuthorizationContext } from "./service-component/Context/authorization";
 
 // https://coolors.co/fcba04-ffebeb-590004

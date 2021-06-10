@@ -71,7 +71,6 @@ export function TFAnswer(props) {
 		});
 	}
 
-	// this will update answer at TestPage component every time user change their answer.
 	useEffect(() => {
 		props.onAnswer(answer);
 	}, [answer.answer]);
@@ -110,7 +109,6 @@ export function MCAnswer(props) {
 		});
 	}
 
-	// this will update answer at TestPage component every time user change their answer.
 	useEffect(() => {
 		props.onAnswer(answer);
 	}, [answer.answer]);
@@ -165,7 +163,6 @@ export function FITBAnswer(props) {
 			value = { answer.answer }
 			style = {{ marginBottom: theme.spacing(4), }}
 			onChange = { (event) => handleChange(event) }
-		>
-		</TextField>
+		/>
 	);
 };

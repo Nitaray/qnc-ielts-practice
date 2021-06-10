@@ -8,13 +8,12 @@ import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Grid from "@material-ui/core/Grid";
 
-import { Text, TextWithLink, TitleText } from "../../presentational-components/Text";
+import { TextWithLink, TitleText } from "../../presentational-components/Text";
 import { PasswordInput, TextInput } from "../../presentational-components/Input";
 import { ActionButton } from "../../presentational-components/Button";
 
-import { signUp } from "../../service-component/API/authorization";
 import { useMutation } from "@apollo/client";
-import { SIGNIN_MUTATION, SIGNUP_MUTATION } from "../../service-component/API/mutation";
+import { SIGNUP_MUTATION } from "../../service-component/API/mutation";
 import { ErrorDialog, LoadingDialog } from "../../presentational-components/Dialog";
 
 // REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED

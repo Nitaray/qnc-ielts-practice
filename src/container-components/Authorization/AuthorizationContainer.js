@@ -3,7 +3,6 @@ import { AuthorizationContext } from "../../service-component/Context/authorizat
 import { Redirect } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { REFRESHJWT_MUTATION } from "../../service-component/API/mutation";
-import { LoadingDialog } from "../../presentational-components/Dialog";
 
 export function AuthorizationContainer({ children }) {
 	const [authorization, setAuthorization] = useContext(AuthorizationContext);
