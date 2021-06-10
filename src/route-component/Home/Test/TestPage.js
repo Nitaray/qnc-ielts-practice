@@ -2,24 +2,21 @@ import React, { useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import { BrowserRouter, Route, Switch, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { getCommentByTestId, getTestById } from "../../../service-component/API/test";
 import { ActionButton } from "../../../presentational-components/Button";
 import { ReadingTest } from "../../../container-components/Test/Test";
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
-import HelpIcon from '@material-ui/icons/Help';
-import CommentIcon from '@material-ui/icons/Comment';
-import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import Card from "@material-ui/core/Card";
 import { CardContent } from "@material-ui/core";
 import CardHeader from "@material-ui/core/CardHeader";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { Text } from "../../../presentational-components/Text";
+import { Text, TitleText } from "../../../presentational-components/Text";
 import { CommentInput } from "../../../presentational-components/Input";
 import SendIcon from '@material-ui/icons/Send';
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -38,22 +35,67 @@ const useStyles = makeStyles((theme) => ({
 	},
 	cardContent: {
 		paddingTop: theme.spacing(0),
-	}
+	},
+	noticed: {
+		marginTop: theme.spacing(20),
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+	},
 }));
 
 export default function TestPage() {
-	const { id } = useParams();
-	const history = useHistory();
-
+	const [noticed, setNoticed] = useState(false);
 
 	return (
 		<React.Fragment>
-			<Grid container direction = 'row' justify = 'flex-start'>
-				<DoTest />
-			</Grid>
+			{
+				noticed
+					? <DoTest />
+					: <Notice onClick = { () => setNoticed(true) }/>
+			}
 		</React.Fragment>
 	)
 };
+
+function Notice(props) {
+	const classes = useStyles();
+	const rules = [
+		{
+			id: '1',
+			text: 'Test will be account for 60 minutes. After 60 minutes, current answer will be submitted and result will be counted towards your rating.'
+		},{
+			id: '2',
+			text: 'Please do not reload your browser while you do your test; or else, your answer will be deleted.',
+		},
+	]
+	return (
+		<Container maxWidth = 'xs' className = { classes.noticed }>
+			<TitleText value = "Before you do your test..." fontSize = "18px"/>
+				<Grid container>
+					<Grid item xs = {12} sm = {12}>
+						{
+							rules.map(rule => {
+								return (
+									<Box border = {0} style = {{ marginTop: '18px' }}>
+										<Typography display = 'inline' style = {{ marginLeft: '10px', marginRight: '25px', fontWeight: 'bold' }}>
+											{ rule.id }
+										</Typography>
+										<Typography display = 'inline'>
+											{ rule.text }
+										</Typography>
+									</Box>
+								)
+							})
+						}
+					</Grid>
+					<Grid item xs = {12} sm = {12}>
+						<ActionButton value = "Do test" onClick = { () => props.onClick() }/>
+					</Grid>
+				</Grid>
+		</Container>
+	)
+}
 
 function DoTest() {
 	const { id } = useParams();
@@ -62,22 +104,21 @@ function DoTest() {
 	const [data, setData] = useState(null);
 
 	useEffect(() => {
-		console.log('do test called');
 		const data = getTestById(id);
 		setData(data);
 	}, []);
 
-	let handleAnswer = () => (answer) => {
+	let handleAnswer = () => async (answer) => {
 		let elementIdx = answers.findIndex((element => element.id === answer.id));
 		if (elementIdx === -1) {
-			setAnswers([...answers, {
+			await setAnswers([...answers, {
 				id: answer.id,
 				answer: answer.answer
 			}]);
 		} else {
 			let newAnswers = answers;
 			newAnswers[elementIdx].answer = answer.answer;
-			setAnswers(newAnswers);
+			await setAnswers(newAnswers);
 		}
 	}
 
@@ -86,22 +127,24 @@ function DoTest() {
 	}
 
 	return (
-		<Container className = { classes.container }>
-			{
-				data && (data.test.type === 'reading')
-					? (<ReadingTest sections = { data.test.sections } answers = { answers }
-									onAnswer = { handleAnswer() } />)
-						: <div></div>
-			}
+		<Grid container direction = 'row' justify = 'flex-start'>
+			<Container className = { classes.container }>
+				{
+					data && (data.test.type === 'reading')
+						? (<ReadingTest sections = { data.test.sections } answers = { answers }
+										onAnswer = { handleAnswer() } />)
+							: <div></div>
+				}
 
-			<Grid container spacing = {3}>
-				<Grid item xs = {4} />
-				<Grid item xs = {4}>
-					<ActionButton value = 'Submit' onClick = { () => handleSubmit() }/>
+				<Grid container spacing = {3}>
+					<Grid item xs = {4} />
+					<Grid item xs = {4}>
+						<ActionButton value = 'Submit' onClick = { () => handleSubmit() }/>
+					</Grid>
+					<Grid item xs = {4} />
 				</Grid>
-				<Grid item xs = {4} />
-			</Grid>
-		</Container>
+			</Container>
+		</Grid>
 	);
 }
 
@@ -158,7 +201,6 @@ function CommentTest() {
 function ResultTest() {
 	const { id } = useParams();
 	const classes = useStyles();
-	const [answers, setAnswers] = useState([]);
 	const [data, setData] = useState(null);
 
 	useEffect(() => {
@@ -167,27 +209,11 @@ function ResultTest() {
 		setData(data);
 	}, [])
 
-	let handleAnswer = () => (answer) => {
-		let elementIdx = answers.findIndex((element => element.id == answer.id));
-		if (elementIdx === -1) {
-			setAnswers([...answers, {
-				id: answer.id,
-				answer: answer.answer
-			}]);
-		} else {
-			let newAnswers = answers;
-			newAnswers[elementIdx].answer = answer.answer;
-			setAnswers(newAnswers);
-		}
-
-	}
-
 	return (
 		<Container className = { classes.container }>
 			{
 				data && (data.test.type === 'reading')
-					? (<ReadingTest sections = { data.test.sections } answers = { answers }
-									onAnswer = { handleAnswer() } />)
+					? (<ReadingTest sections = { data.test.sections } />)
 					: <div></div>
 			}
 		</Container>

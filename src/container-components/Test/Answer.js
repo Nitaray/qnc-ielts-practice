@@ -15,12 +15,6 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export function ReadingSectionAnswer(props) {
-	return (
-		<AnswerGroup questionList = { props.section.questionList } answers = { props.answers }
-					 onAnswer = { props.onAnswer }/>
-	)
-}
 export function AnswerGroup(props) {
 	const classes = useStyles();
 
@@ -67,7 +61,7 @@ export function TFAnswer(props) {
 	const theme = useTheme();
 	const [answer, setAnswer] = useState({
 		id: props.id,
-		answer: ' '
+		answer: null,
 	});
 
 	const handleChange = (event) => {
@@ -106,7 +100,7 @@ export function MCAnswer(props) {
 
 	const [answer, setAnswer] = useState({
 		id: props.id,
-		answer: ' '
+		answer: null,
 	});
 
 	const handleChange = (event) => {
@@ -146,7 +140,7 @@ export function FITBAnswer(props) {
 
 	const [answer, setAnswer] = useState({
 		id: props.id,
-		answer: ' ',
+		answer: null,
 	});
 
 	const handleChange = (event) => {

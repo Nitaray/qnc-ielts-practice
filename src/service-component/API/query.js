@@ -1,20 +1,4 @@
-import gql from 'graphql-';
-import { getTestById } from "./test";
-
-export const SIGNIN_MUTATION = gql`
-    mutation Login($username: String!, $password: String!) {
-        login(username: $username, password: $password) {
-            token
-            user {
-                id
-                username
-                role {
-                    name
-                }
-            }
-        }
-    }
-`;
+import gql from 'graphql-tag';
 
 export const ALLTEST_QUERY = gql`
     query allTests {
@@ -26,7 +10,7 @@ export const ALLTEST_QUERY = gql`
     }
 `;
 
-export const TESTBYID_QUERY = gql`
+export const TEST_BYID_QUERY = gql`
     query getTestById($id: Int!) {
         getTestById(id: $id) {
             id
@@ -57,31 +41,22 @@ export const TESTBYID_QUERY = gql`
     }
 `;
 
-export const TESTRESULT_QUERY = gql`
+export const TESTRESULT_BYID_QUERY = gql`
     query getTestResult($userId: Int!, $testId: Int!) {
         getTestResult(userId: $userId, testId: $testId) {
             test {
-                id
                 type
                 sections {
-                    id
                     order
                     type
                     statementText
                     statementAudio
                     questionList {
-                        id
                         order
                         introText
                         questions {
-                            id
                             order
-                            type
                             statementText
-                            answers {
-                                id
-                                text
-                            }
                         }
                     }
                 }
@@ -89,14 +64,23 @@ export const TESTRESULT_QUERY = gql`
 			score
 			answerHistory {
 				question {
-					id
 					order
 				}
 				answer {
-					id
 					text
 				}
 			}
         }
+    }
+`;
+
+export const TESTDONEYET_BYID_QUERY = gql`
+	query getTestResult($userId: Int!, $testId: Int!) {
+    	getTestResult(userId: $userId, testId: $testId) {
+    		test {
+    			id
+    		}
+    		score
+    	}
     }
 `;

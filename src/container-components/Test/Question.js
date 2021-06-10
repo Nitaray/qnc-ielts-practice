@@ -36,14 +36,6 @@ export function ReadingPassage({ section, passage }) {
 	);
 };
 
-export function ReadingSectionQuestion({ section }) {
-	return (
-		<React.Fragment>
-			<ReadingPassage section = { section.number } passage = { section.statementText } />
-			<QuestionGroup questionList = { section.questionList } />
-		</React.Fragment>
-	)
-}
 export function QuestionGroup({ questionList }) {
 	const classes = useStyles();
 

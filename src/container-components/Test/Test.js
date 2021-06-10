@@ -2,8 +2,8 @@ import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import { ReadingSectionQuestion } from "./Question";
-import { ReadingSectionAnswer } from "./Answer";
+import { QuestionGroup, ReadingPassage } from "./Question";
+import { AnswerGroup } from "./Answer";
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -21,15 +21,20 @@ export function ReadingTest(props) {
 	return (
 		(props.sections.map(section => (
 			<Grid container spacing = {3}>
+				<Grid item xs = {12}>
+					<Paper variant = 'outlined' className = { classes.paper }>
+						<ReadingPassage section = { section.number } passage = { section.statementText } />
+					</Paper>
+				</Grid>
 				<Grid item xs = {9}>
 					<Paper variant = 'outlined' className = { classes.paper }>
-						<ReadingSectionQuestion section = { section } />
+						<QuestionGroup questionList = { section.questionList } />
 					</Paper>
 				</Grid>
 				<Grid item xs = {3}>
 					<Paper variant = 'outlined' className = {classes.paper}>
-						<ReadingSectionAnswer section = { section } answers = { props.answers }
-											  onAnswer = { props.onAnswer }/>
+						<AnswerGroup questionList = { section.questionList } answers = { props.answers }
+									 onAnswer = { props.onAnswer }/>
 					</Paper>
 				</Grid>
 			</Grid>
