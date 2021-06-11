@@ -30,21 +30,6 @@ export function ActionButton({ value, onClick }) {
 	);
 };
 
-/* HOW TO USE?
-******************************
-<DropdownButton options = {[
-	{
-		value: "Home",
-		to: "/home",
-	},
-	{
-		value: "Recover password",
-		to: "/forgot-password",
-	}
-]} />
-******************************
-*/
-
 export function DropdownButton({ options, icon }) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const history = useHistory();

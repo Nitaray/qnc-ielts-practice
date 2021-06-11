@@ -6,27 +6,27 @@ return LIST OF TEST;
 **************************** */
 export function allTest() {
 	return [
-		createData('1','History of Homo Sapiens', 'Reading', '17/08/2021', 'todo'),
-		createData('2','Evolution of hours', 'Listening', '17/08/2021', 'done'),
-		createData('3','How to build a house?', 'Reading', '17/08/2021', 'done'),
-		createData('4','How to raise child?', 'Listening', '17/08/2021', 'todo'),
-		createData('5','History of Homo Sapiens', 'Reading', '17/08/2021', 'done'),
-		createData('6','Evolution of hours', 'Reading', '17/08/2021', 'done'),
-		createData('7','How to build a house?', 'Reading', '17/08/2021', 'done'),
-		createData('8','How to raise child?', 'Listening', '17/08/2021', 'todo'),
-		createData('9','History of Homo Sapiens', 'Reading', '17/08/2021', 'done'),
-		createData('10','Evolution of hours', 'Listening', '17/08/2021', 'done'),
-		createData('11','How to build a house?', 'Listening', '17/08/2021', 'done'),
-		createData('12','How to raise child?', 'Reading', '17/08/2021', 'todo'),
-		createData('13','History of Homo Sapiens', 'Listening', '17/08/2021', 'done'),
-		createData('14','Evolution of hours', 'Reading', '17/08/2021', 'todo'),
-		createData('15','How to build a house?', 'Listening', '17/08/2021', 'done'),
-		createData('16','How to raise child?', 'Reading', '17/08/2021', 'todo'),
+		createData(1,'History of Homo Sapiens', 'Reading', 'todo'),
+		createData(2,'Evolution of hours', 'Listening', 'done'),
+		createData(3,'How to build a house?', 'Reading', 'done'),
+		createData(4,'How to raise child?', 'Listening',  'todo'),
+		createData(5,'History of Homo Sapiens', 'Reading',  'done'),
+		createData(6,'Evolution of hours', 'Reading',  'done'),
+		createData(7,'How to build a house?', 'Reading',  'done'),
+		createData(8,'History of Homo Sapiens', 'Reading', 'done'),
+		createData(9,'History of Homo Sapiens', 'Reading', 'done'),
+		createData(10,'Evolution of hours', 'Listening', 'done'),
+		createData(11,'How to build a house?', 'Listening','done'),
+		createData(12,'How to raise child?', 'Reading', 'todo'),
+		createData(13,'History of Homo Sapiens', 'Listening','done'),
+		createData(14,'Evolution of hours', 'Reading', 'todo'),
+		createData(15,'How to build a house?', 'Listening',  'done'),
+		createData(16,'How to raise child?', 'Reading', 'todo'),
 	];
 }
 
-function createData(id, title, type, created, status) {
-	return { id, title, type, created, status };
+function createData(id, title, type, status) {
+	return { id, title, type, status };
 }
 
 /*	****** QUERY TEST :id

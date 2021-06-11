@@ -1,11 +1,9 @@
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import TestTable from "../../../container-components/Test/TestTable";
 import Container from "@material-ui/core/Container";
-import React, { useEffect } from "react";
+import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { AuthorizationContainer } from "../../../container-components/Authorization/AuthorizationContainer";
-import { useAuthorization } from "../../../service-component/Context/authorization";
+import TestTable from "../../../container-components/Test/TestTable";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -34,12 +32,12 @@ export default function AllTestPage() {
 	return (
 		<Container className = {classes.container}>
 			<Grid container spacing = {3}>
-				<Grid item xs = {8}>
+				<Grid item xs = {12} md = {8}>
 					<Paper elevation = {0}>
 						<TestTable />
 					</Paper>
 				</Grid>
-				<Grid item xs = {4}>
+				<Grid item xs = {0} md = {4}>
 					<Paper className = {classes.paper}>
 					</Paper>
 				</Grid>
