@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
 		overflowX: 'auto',
 	},
 	appBar: {
+		marginBottom: theme.spacing(0),
 	}
 }));
 

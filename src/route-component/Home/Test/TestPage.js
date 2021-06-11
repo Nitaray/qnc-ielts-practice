@@ -5,21 +5,14 @@ import Grid from "@material-ui/core/Grid";
 import { useParams } from "react-router-dom";
 import { getCommentByTestId, getTestById } from "../../../service-component/API/test";
 import { ActionButton } from "../../../presentational-components/Button";
-import { ReadingTest } from "../../../container-components/Test/Test";
-import Card from "@material-ui/core/Card";
-import { CardContent } from "@material-ui/core";
-import CardHeader from "@material-ui/core/CardHeader";
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import IconButton from "@material-ui/core/IconButton";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { Text, TitleText } from "../../../presentational-components/Text";
-import { CommentInput } from "../../../presentational-components/Input";
-import SendIcon from '@material-ui/icons/Send';
+import { ReadingTest, TestTimer } from "../../../container-components/Test/Test";
+import { TitleText } from "../../../presentational-components/Text";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import { Comment } from "../../../presentational-components/Comment";
 
 const useStyles = makeStyles((theme) => ({
-	container: {
+	testContainer: {
 		paddingTop: theme.spacing(4),
 		paddingLeft: theme.spacing(8),
 		paddingBottom: theme.spacing(4),
@@ -27,8 +20,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	commentContainer: {
 		paddingTop: theme.spacing(4),
-		paddingLeft: theme.spacing(20),
-		paddingRight: theme.spacing(20),
+		paddingBottom: theme.spacing(8),
 	},
 	cardHeader: {
 		paddingBottom: theme.spacing(1),
@@ -62,7 +54,6 @@ export default function TestPage() {
 					? <DoTest onDone = { () => setDone(true) } />
 					: <Notice onClick = { () => setNoticed(true) }/>
 			}
-
 		</React.Fragment>
 	)
 };
@@ -76,7 +67,10 @@ function Notice(props) {
 		},{
 			id: '2',
 			text: 'Please do not reload your browser while you do your test; or else, your answer will be deleted.',
-		},
+		},{
+			id: '3',
+			text: 'You will be given additional 5 minutes to review your result after 60 minutes ended. Please submit your result in time.',
+		}
 	]
 	return (
 		<Container maxWidth = 'xs' className = { classes.noticed }>
@@ -141,24 +135,26 @@ function DoTest(props) {
 	}
 
 	return (
-		<Grid container direction = 'row' justify = 'flex-start'>
-			<Container className = { classes.container }>
-				{
-					data && (data.test.type === 'reading')
-						? (<ReadingTest sections = { data.test.sections } answers = { answers }
-										onAnswer = { handleAnswer() } />)
+		<React.Fragment>
+			<TestTimer minutes = { 2 } reviewMinutes = { 1 } onTimeOut = { handleSubmit }/>
+			<Grid container direction = 'row' justify = 'flex-start'>
+				<Container className = { classes.testContainer }>
+					{
+						data && (data.test.type === 'reading')
+							? (<ReadingTest sections = { data.test.sections } answers = { answers }
+											onAnswer = { handleAnswer() } />)
 							: <div></div>
-				}
-
-				<Grid container spacing = {3}>
-					<Grid item xs = {4} />
-					<Grid item xs = {4}>
-						<ActionButton value = 'Submit' onClick = { () => handleSubmit() }/>
+					}
+					<Grid container spacing = {3}>
+						<Grid item xs = {4} />
+						<Grid item xs = {4}>
+							<ActionButton value = 'Submit' onClick = { () => handleSubmit() }/>
+						</Grid>
+						<Grid item xs = {4} />
 					</Grid>
-					<Grid item xs = {4} />
-				</Grid>
-			</Container>
-		</Grid>
+				</Container>
+			</Grid>
+		</React.Fragment>
 	);
 }
 
@@ -176,36 +172,9 @@ function CommentTest() {
 
 	return (
 		<Container className = { classes.commentContainer }>
-			<Grid container spacing = {2}>
-				{ 	data && data.test.comments.map(comment => {
-					return (
-						<Grid item xs = {12}>
-							<Card variant = 'outlined'>
-								<CardHeader
-									avatar = { <AccountCircleIcon /> }
-									action = {
-										<IconButton>
-											<MoreVertIcon />
-										</IconButton>
-									}
-									title = { comment.user }
-									subheader ={ comment.created }
-									className = { classes.cardHeader }
-								/>
-								<CardContent className = { classes.cardContent }>
-									<Text value = { comment.content } />
-								</CardContent>
-							</Card>
-						</Grid>
-					)
-				})}
-			</Grid>
-			<Grid container spacing = {2}>
-				<Grid item xs = {11}>
-					<CommentInput onChange = { (event) => setComment(event.target.value) } />
-				</Grid>
-				<Grid item xs = {1}>
-					<ActionButton value = { <SendIcon /> }/>
+			<Grid container direction = 'row' justify = 'space-evenly' spacing = {2}>
+				<Grid item xs = {12} md = {8} lg = {8}>
+					{ data && <Comment comments = { data.test.comments } /> }
 				</Grid>
 			</Grid>
 		</Container>

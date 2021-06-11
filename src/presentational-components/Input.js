@@ -56,19 +56,3 @@ export function SelectInput({ label, name, choices }) {
 		</Select>
 	)
 };
-
-export function CommentInput({ onChange }) {
-	const handleChange = (event) => onChange(event);
-
-	return (
-		<TextField
-			multiline fullWidth
-			size = 'small'
-			margin = 'normal'
-			variant = 'outlined'
-			id = 'comment'
-			placeholder = "Type your comment here..."
-			onChange = { (event) => handleChange(event) }
-		/>
-	);
-}
