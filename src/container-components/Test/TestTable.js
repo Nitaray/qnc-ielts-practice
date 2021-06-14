@@ -134,19 +134,28 @@ function TableToolbar() {
 };
 
 export default function TestTable(props) {
-	const { tests, doneTests } = props;
+	const { allTests, doneTests } = props;
 	const classes = useStyles();
+	const [tests, setTests] = useState([]);
 	const [order, setOrder] = useState('asc');
 	const [orderBy, setOrderBy] = useState('id');
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
 
-	const emptyRows = rowsPerPage - Math.min(rowsPerPage, tests.length - page * rowsPerPage);
+	const emptyRows = rowsPerPage - Math.min(rowsPerPage, allTests.length - page * rowsPerPage);
 	const rowHeight = 45;
 
 	useEffect(() => {
-		console.log(tests);
-		console.log(doneTests);
+		let tmp = [];
+		allTests.map(allTest => {
+			tmp.push({
+				id: allTest.id,
+				title: allTest.title,
+				type: allTest.type,
+				status: doneTests.findIndex((element => element.id === allTest.id)) !== -1,
+			});
+		});
+		setTests(tmp);
 	}, []);
 
 	const handleRequestSort = (event, property) => {
@@ -188,7 +197,7 @@ export default function TestTable(props) {
 												{ (row.type.toLowerCase() === 'listening') ? <ListeningChip /> : <ReadingChip /> }
 											</TableCell>
 											<TableCell align = "left">
-												{/*{ (row.status.toLowerCase() === 'done') && <CheckIcon fontSize = 'small' /> }*/}
+												{ (row.status) && <CheckIcon fontSize = 'small' /> }
 											</TableCell>
 										</TableRow>
 									);

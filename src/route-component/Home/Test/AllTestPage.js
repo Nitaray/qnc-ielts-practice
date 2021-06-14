@@ -1,9 +1,14 @@
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import TestTable from "../../../container-components/Test/TestTable";
+import { allTest } from "../../../service-component/API/test";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { ALLTEST_QUERY, DONETEST_BYUSERID_QUERY } from "../../../service-component/API/query";
+import { LoadingDialog } from "../../../presentational-components/Dialog";
+import { AuthorizationContext } from "../../../service-component/Context/authorization";
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -28,20 +33,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AllTestPage() {
 	const classes = useStyles();
+	const [authorization] = useContext(AuthorizationContext);
+	const allTests = useQuery(ALLTEST_QUERY);
+	const doneTests = useQuery(DONETEST_BYUSERID_QUERY, { variables: { id: authorization.user.id } });
 
 	return (
-		<Container className = {classes.container}>
-			<Grid container spacing = {3}>
-				<Grid item xs = {12} md = {8}>
-					<Paper elevation = {0}>
-						<TestTable />
-					</Paper>
+		<React.Fragment>
+			{ (allTests.loading || doneTests.loading) && <LoadingDialog open = { allTests.loading || doneTests.loading } /> }
+			<Container className = {classes.container}>
+				<Grid container spacing = {3}>
+					<Grid item xs = {12} md = {8}>
+						<Paper elevation = {0}>
+							{
+								allTests.data && doneTests.data &&
+								<TestTable allTests = { allTests.data.allTests } doneTests = { doneTests.data.getUserById.doneTests } />
+							}
+						</Paper>
+					</Grid>
+					<Grid item xs = {0} md = {4}>
+						<Paper className = {classes.paper}>
+						</Paper>
+					</Grid>
 				</Grid>
-				<Grid item xs = {0} md = {4}>
-					<Paper className = {classes.paper}>
-					</Paper>
-				</Grid>
-			</Grid>
-		</Container>
+			</Container>
+		</React.Fragment>
 	);
 }
