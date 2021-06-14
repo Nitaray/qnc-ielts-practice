@@ -9,6 +9,8 @@ import HomePage from "./route-component/Home/HomePage";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import { AuthorizationContext } from "./service-component/Context/authorization";
+import { setContext } from "@apollo/client/link/context";
+import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
 
 // https://coolors.co/fcba04-ffebeb-590004
 const theme = createMuiTheme({
@@ -42,6 +44,26 @@ const theme = createMuiTheme({
     },
 });
 
+const httpLink = createHttpLink({
+    uri: process.env.API_URL || 'https://qnc-ielts-practice.herokuapp.com/graphql',
+    credentials: 'include'
+});
+
+let token;
+const authLink = setContext((_, { headers }) => {
+    return {
+        headers: {
+            ...headers,
+            authorization: token ? `Bearer ${token}` : ''
+        }
+    };
+});
+
+const client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache()
+});
+
 export default function App() {
     const [authorizationData, setAuthorizationData] = useState({
         status: false,
@@ -55,18 +77,22 @@ export default function App() {
         }
     });
 
+    token = authorizationData.token;
+
     return (
         <ThemeProvider theme = {theme}>
-            <AuthorizationContext.Provider value = {[authorizationData, setAuthorizationData]}>
-                <BrowserRouter basename = "/qnc-ielts-practice">
-                    <Switch>
-                        <Route exact path = "/" component = { LandingPage } />
-                        <Route exact path = "/create-account" component = { SignUpPage } />
-                        <Route exact path = "/forgot-password" component = { ForgotPasswordPage } />
-                        <Route path = "/tests" component = { HomePage } />
-                    </Switch>
-                </BrowserRouter>
-            </AuthorizationContext.Provider>
+            <ApolloProvider client = { client }>
+                <AuthorizationContext.Provider value = {[authorizationData, setAuthorizationData]}>
+                    <BrowserRouter basename = "/qnc-ielts-practice">
+                        <Switch>
+                            <Route exact path = "/" component = { LandingPage } />
+                            <Route exact path = "/create-account" component = { SignUpPage } />
+                            <Route exact path = "/forgot-password" component = { ForgotPasswordPage } />
+                            <Route path = "/tests" component = { HomePage } />
+                        </Switch>
+                    </BrowserRouter>
+                </AuthorizationContext.Provider>
+            </ApolloProvider>
         </ThemeProvider>
     );
 };

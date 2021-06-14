@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -36,13 +36,11 @@ function descendingComparator(a, b, orderBy) {
 	}
 	return 0;
 }
-
 function getComparator(order, orderBy) {
 	return order === 'desc'
 		? (a, b) => descendingComparator(a, b, orderBy)
 		: (a, b) => -descendingComparator(a, b, orderBy);
 }
-
 function stableSort(array, comparator) {
 	const stabilizedThis = array.map((el, index) => [el, index]);
 	stabilizedThis.sort((a, b) => {
@@ -92,7 +90,6 @@ const headCells = [
 	{ id: 'type', numeric: false, label: 'Type' },
 	{ id: 'status', numeric: false, label: 'Status' },
 ];
-const tests = allTest();
 
 function SortTableHead(props) {
 	const { order, orderBy, onRequestSort } = props;
@@ -117,7 +114,6 @@ function SortTableHead(props) {
 		</TableHead>
 	);
 }
-
 function TableToolbar() {
 	const classes = useStyles();
 
@@ -137,12 +133,21 @@ function TableToolbar() {
 	);
 };
 
-export default function TestTable() {
+export default function TestTable(props) {
+	const { tests, doneTests } = props;
 	const classes = useStyles();
 	const [order, setOrder] = useState('asc');
 	const [orderBy, setOrderBy] = useState('id');
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
+
+	const emptyRows = rowsPerPage - Math.min(rowsPerPage, tests.length - page * rowsPerPage);
+	const rowHeight = 45;
+
+	useEffect(() => {
+		console.log(tests);
+		console.log(doneTests);
+	}, []);
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === 'asc';
@@ -154,10 +159,6 @@ export default function TestTable() {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
 	};
-
-	const emptyRows = rowsPerPage - Math.min(rowsPerPage, tests.length - page * rowsPerPage);
-
-	const rowHeight = 45;
 
 	return (
 		<div className = { classes.root }>
@@ -187,7 +188,7 @@ export default function TestTable() {
 												{ (row.type.toLowerCase() === 'listening') ? <ListeningChip /> : <ReadingChip /> }
 											</TableCell>
 											<TableCell align = "left">
-												{ (row.status.toLowerCase() === 'done') && <CheckIcon fontSize = 'small' /> }
+												{/*{ (row.status.toLowerCase() === 'done') && <CheckIcon fontSize = 'small' /> }*/}
 											</TableCell>
 										</TableRow>
 									);
