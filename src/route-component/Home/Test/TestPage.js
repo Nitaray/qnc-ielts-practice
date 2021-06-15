@@ -3,7 +3,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { useParams } from "react-router-dom";
-import { getCommentByTestId, getTestById } from "../../../service-component/API/test";
+import { getCommentByTestId } from "../../../service-component/API/test";
 import { ActionButton } from "../../../presentational-components/Button";
 import { ReadingTest, TestTimer } from "../../../container-components/Test/Test";
 import { TitleText } from "../../../presentational-components/Text";
@@ -190,12 +190,6 @@ function ResultTest() {
 	const { id } = useParams();
 	const classes = useStyles();
 	const [data, setData] = useState(null);
-
-	useEffect(() => {
-		console.log('result test called');
-		const data = getTestById(id);
-		setData(data);
-	}, [])
 
 	return (
 		<Container className = { classes.container }>
