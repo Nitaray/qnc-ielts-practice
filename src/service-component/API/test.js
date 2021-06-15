@@ -1,15 +1,4 @@
 export function getCommentByTestId(id) {
-	const COMMENTBYTESTID_QUERY = `
-	{
-		test(id: ${id}) {
-			comments {
-				id
-				user
-				content
-				created
-			}
-		}
-	}`
 
 	const data = {
 		test: {
