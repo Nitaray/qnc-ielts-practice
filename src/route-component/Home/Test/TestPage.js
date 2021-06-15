@@ -115,15 +115,17 @@ function DoTest(props) {
 	const { loading, data, error } = useQuery(TEST_BYID_QUERY, { variables: { id: parseInt(id, 10) } });
 
 	let handleAnswer = () => async (answer) => {
-		let elementIdx = answers.findIndex((element => element.id === answer.id));
+		let elementIdx = answers.findIndex((element => element.questionId === answer.questionId));
 		if (elementIdx === -1) {
 			await setAnswers([...answers, {
-				id: answer.id,
-				answer: answer.answer
+				questionId: answer.questionId,
+				answerId: answer.answerId,
+				answerString: answer.answerString,
 			}]);
 		} else {
 			let newAnswers = answers;
-			newAnswers[elementIdx].answer = answer.answer;
+			newAnswers[elementIdx].answerId = answer.answerId;
+			newAnswers[elementIdx].answerString = answer.answerString;
 			await setAnswers(newAnswers);
 		}
 	}
@@ -136,7 +138,7 @@ function DoTest(props) {
 	return (
 		<React.Fragment>
 			{ loading && <LoadingDialog open = { loading } /> }
-			{/*{ !loading && <TestTimer minutes = { 2 } reviewMinutes = { 1 } onTimeOut = { handleSubmit }/> }*/}
+			{ !loading && <TestTimer minutes = { 5 } reviewMinutes = { 1 } onTimeOut = { handleSubmit }/> }
 			{ data &&
 			<Grid container direction = 'row' justify = 'flex-start'>
 				<Container className = { classes.testContainer }>

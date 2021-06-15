@@ -44,15 +44,12 @@ export function Answer(props) {
 			{ props.questions.map(question => {
 				return (
 					(question.type === 'TF')
-						? <TFAnswer id = { question.id } order = { question.order } answers = { question.answers }
-									userAnswers = { props.answers } onAnswer = { props.onAnswer }/>
+						? <TFAnswer id = { question.id } order = { question.order } answers = { question.answers } onAnswer = { props.onAnswer }/>
 						: (question.type === 'FITB')
 							? <FITBAnswer id = { question.id } order = { question.order } onAnswer = { props.onAnswer }/>
-							: <MCAnswer id = { question.id } order = { question.order } answers = { question.answers }
-										userAnswers = { question.answer } onAnswer = { props.onAnswer } />
+							: <MCAnswer id = { question.id } order = { question.order } answers = { question.answers } onAnswer = { props.onAnswer } />
 				)
-			})
-			}
+			}) }
 		</Box>
 	)
 }
@@ -60,20 +57,22 @@ export function Answer(props) {
 export function TFAnswer(props) {
 	const theme = useTheme();
 	const [answer, setAnswer] = useState({
-		id: props.id,
-		answer: null,
+		questionId: props.id,
+		answerId: '',
+		answerString: '',
 	});
 
 	const handleChange = (event) => {
 		setAnswer({
-			id: props.id,
-			answer: event.target.value,
+			questionId: props.id,
+			answerId: event.target.value,
+			answerString: null,
 		});
 	}
 
 	useEffect(() => {
 		props.onAnswer(answer);
-	}, [answer.answer]);
+	}, [answer.answerId]);
 
 	return (
 		<TextField
@@ -82,12 +81,12 @@ export function TFAnswer(props) {
 			variant = 'outlined'
 			id = { props.order }
 			label = { `Question ${props.order}`}
-			value = { answer.answer }
+			value = { answer.answerId }
 			style = {{ marginBottom: theme.spacing(4), }}
 			onChange = { (event) => handleChange(event) }
 		>
 			{ props.answers.map((option) => (
-				<MenuItem key = { option.id } value = { option.text }>
+				<MenuItem key = { option.id } value = { option.id }>
 					{ option.text }
 				</MenuItem>
 			)) }
@@ -97,20 +96,22 @@ export function TFAnswer(props) {
 export function MCAnswer(props) {
 	const theme = useTheme();
 	const [answer, setAnswer] = useState({
-		id: props.id,
-		answer: null,
+		questionId: props.id,
+		answerId: '',
+		answerString: '',
 	});
 
 	const handleChange = (event) => {
 		setAnswer({
-			id: props.id,
-			answer: event.target.value,
+			questionId: props.id,
+			answerId: event.target.value,
+			answerString: '',
 		});
 	}
 
 	useEffect(() => {
 		props.onAnswer(answer);
-	}, [answer.answer]);
+	}, [answer.answerId]);
 
 	return (
 		<TextField
@@ -119,12 +120,12 @@ export function MCAnswer(props) {
 			variant = 'outlined'
 			id = { props.order }
 			label = { `Question ${props.order}`}
-			value = { answer.answer }
+			value = { answer.answerId }
 			style = {{ marginBottom: theme.spacing(4), }}
 			onChange = { (event) => handleChange(event) }
 		>
 			{ props.answers.map((option) => (
-				<MenuItem key = { option.id } value = { option.text }>
+				<MenuItem key = { option.id } value = { option.id }>
 					{ option.text.substring(0, 1) }
 				</MenuItem>
 			)) }
@@ -133,23 +134,24 @@ export function MCAnswer(props) {
 };
 export function FITBAnswer(props) {
 	const theme = useTheme();
-
 	const [answer, setAnswer] = useState({
-		id: props.id,
-		answer: null,
+		questionId: props.id,
+		answerId: '',
+		answerString: '',
 	});
 
 	const handleChange = (event) => {
 		setAnswer({
-			id: props.id,
-			answer: event.target.value,
+			questionId: props.id,
+			answerId: '',
+			answerString: event.target.value,
 		});
 	}
 
 	// this will update answer at TestPage component every time user change their answer.
 	useEffect(() => {
 		props.onAnswer(answer);
-	}, [answer.answer]);
+	}, [answer.answerString]);
 
 	return (
 		<TextField
@@ -158,7 +160,7 @@ export function FITBAnswer(props) {
 			variant = 'outlined'
 			id = { props.order }
 			label = { `Question ${props.order}`}
-			value = { answer.answer }
+			value = { answer.answerString }
 			style = {{ marginBottom: theme.spacing(4), }}
 			onChange = { (event) => handleChange(event) }
 		/>
