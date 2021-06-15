@@ -31,7 +31,13 @@ export function ReadingPassage({ section, passage }) {
 			<div className = { classes.title }>
 				<TitleText value = {`Section ${section}`} fontSize = { '18px' } />
 			</div>
-			<Text value = { passage }/>
+			<div>
+				{
+					passage.split('\n').map((text) => {
+						console.log(text);
+						return <Text value = { text } />;
+				})}
+			</div>
 		</Box>
 	);
 };
@@ -127,7 +133,7 @@ export function FITBQuestion({ order, statementText }) {
 				{ order }
 			</Typography>
 			<Typography display = 'inline'>
-				{ statementText }
+				{ statementText.replace('_', '_'.repeat(20)) }
 			</Typography>
 		</Box>
 	);
