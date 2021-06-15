@@ -37,6 +37,9 @@ export default function AllTestPage() {
 	const allTests = useQuery(ALLTEST_QUERY);
 	const doneTests = useQuery(DONETEST_BYUSERID_QUERY, { variables: { id: authorization.user.id } });
 
+	if (allTests.error) console.log(allTests.error);
+	if (doneTests.error) console.log(doneTests.error);
+
 	return (
 		<React.Fragment>
 			{ (allTests.loading || doneTests.loading) && <LoadingDialog open = { allTests.loading || doneTests.loading } /> }

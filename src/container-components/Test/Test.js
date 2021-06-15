@@ -49,17 +49,17 @@ export function ReadingTest(props) {
 			<Grid container spacing = {3}>
 				<Grid item xs = {12}>
 					<Paper variant = 'outlined' className = { classes.paper }>
-						<ReadingPassage section = { section.number } passage = { section.statementText } />
+						<ReadingPassage section = { section.order } passage = { section.statementText } />
 					</Paper>
 				</Grid>
 				<Grid item xs = {9}>
 					<Paper variant = 'outlined' className = { classes.paper }>
-						<QuestionGroup questionList = { section.questionList } />
+						<QuestionGroup questionGroups = { section.questionGroups } />
 					</Paper>
 				</Grid>
 				<Grid item xs = {3}>
 					<Paper variant = 'outlined' className = {classes.paper}>
-						<AnswerGroup questionList = { section.questionList } answers = { props.answers }
+						<AnswerGroup questionGroups = { section.questionGroups } answers = { props.answers }
 									 onAnswer = { props.onAnswer }/>
 					</Paper>
 				</Grid>

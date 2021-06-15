@@ -36,20 +36,20 @@ export function ReadingPassage({ section, passage }) {
 	);
 };
 
-export function QuestionGroup({ questionList }) {
+export function QuestionGroup({ questionGroups }) {
 	const classes = useStyles();
 
 	return (
 		<React.Fragment>
 			{
-				(questionList.map(question => {
+				(questionGroups.map(questionGroup => {
 					return (
 						<Box border = {0} className = { classes.questionGroup }>
 							<div className = { classes.title }>
-								<TitleText value = {`Group ${question.number}`} fontSize = { '16px' } />
+								<TitleText value = {`Group ${questionGroup.order}`} fontSize = { '16px' } />
 							</div>
-							<Text value = { question.introText }/>
-							<Question questions = { question.questions } />
+							<Text value = { questionGroup.introText }/>
+							<Question questions = { questionGroup.questions } />
 						</Box>
 					)
 				}))
@@ -62,24 +62,24 @@ export function Question({ questions }) {
 		<React.Fragment>
 			{ questions.map((question) => {
 				return (
-					(question.type === 'TFNG')
-						? <TFQuestion number = { question.number } statementText = { question.statementText } />
+					(question.type === 'TF')
+						? <TFQuestion order = { question.order } statementText = { question.statementText } answers = { question.answers } />
 						: (question.type === 'FITB')
-							? <FITBQuestion number = { question.number } statementText = { question.statementText } />
-							: <MCQuestion number = { question.number } statementText = { question.statementText } possibleAnswer = { question.answer} />
+							? <FITBQuestion order = { question.order } statementText = { question.statementText } />
+							: <MCQuestion order = { question.order } statementText = { question.statementText } answers = { question.answers } />
 				)
 			}) }
 		</React.Fragment>
 	)
 }
 
-export function TFQuestion({ number, statementText }) {
+export function TFQuestion({ order, statementText }) {
 	const classes = useStyles();
 
 	return (
 		<Box border = {0} className = { classes.question }>
 			<Typography display = 'inline' style = {{ marginRight: '25px', fontWeight: 'bold'}}>
-				{ number }
+				{ order }
 			</Typography>
 			<Typography display = 'inline'>
 				{ statementText }
@@ -87,27 +87,27 @@ export function TFQuestion({ number, statementText }) {
 		</Box>
 	);
 };
-export function MCQuestion({ number, statementText, possibleAnswer }) {
+export function MCQuestion({ order, statementText, answers }) {
 	const classes = useStyles();
 
 	return (
 		<Box border = {0} className = { classes.question }>
 			<Typography display = 'inline' style = {{ marginRight: '25px', fontWeight: 'bold'}}>
-				{ number }
+				{ order }
 			</Typography>
 			<Typography display = 'inline'>
 				{ statementText }
 			</Typography>
 			<Box border = {0} style = {{ marginLeft: '25px'}}>
 				{
-					possibleAnswer.map(answer => {
+					answers.map(answer => {
 						return (
 							<Box border = {0}>
 								<Typography display = 'inline' style = {{ marginLeft: '10px', marginRight: '25px', fontWeight: 'bold' }}>
-									{ answer.substring(0, 1) }
+									{ answer.text.substring(0, 1) }
 								</Typography>
 								<Typography display = 'inline'>
-									{ answer.substring(3) }
+									{ answer.text.substring(3) }
 								</Typography>
 							</Box>
 						)
@@ -118,13 +118,13 @@ export function MCQuestion({ number, statementText, possibleAnswer }) {
 		</Box>
 	)
 };
-export function FITBQuestion({ number, statementText }) {
+export function FITBQuestion({ order, statementText }) {
 	const classes = useStyles();
 
 	return (
 		<Box border = {0} className = { classes.question }>
 			<Typography display = 'inline' style = {{ marginRight: '25px', fontWeight: 'bold'}}>
-				{ number }
+				{ order }
 			</Typography>
 			<Typography display = 'inline'>
 				{ statementText }

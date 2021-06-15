@@ -21,13 +21,13 @@ export function AnswerGroup(props) {
 	return (
 		<React.Fragment>
 			{
-				(props.questionList.map(question => {
+				(props.questionGroups.map(questionGroup => {
 					return (
 						<Box border = {0}>
 							<div className = { classes.title }>
-								<TitleText value = {`Group ${question.number}`} fontSize = { '16px' } />
+								<TitleText value = {`Group ${questionGroup.order}`} fontSize = { '16px' } />
 							</div>
-							<Answer questions = { question.questions } answers = { props.answers }
+							<Answer questions = { questionGroup.questions } answers = { props.answers }
 									onAnswer = { props.onAnswer }/>
 						</Box>
 					)
@@ -43,13 +43,13 @@ export function Answer(props) {
 		<Box border = {0} className = { classes.answer }>
 			{ props.questions.map(question => {
 				return (
-					(question.type === 'TFNG')
-						? <TFAnswer id = { question.id } number = { question.number } possibleAnswer = { question.answer }
-									answers = { props.answers } onAnswer = { props.onAnswer }/>
+					(question.type === 'TF')
+						? <TFAnswer id = { question.id } order = { question.order } answers = { question.answers }
+									userAnswers = { props.answers } onAnswer = { props.onAnswer }/>
 						: (question.type === 'FITB')
-							? <FITBAnswer id = { question.id } number = { question.number } onAnswer = { props.onAnswer }/>
-							: <MCAnswer id = { question.id } number = { question.number } possibleAnswer = { question.answer }
-										onAnswer = { props.onAnswer } />
+							? <FITBAnswer id = { question.id } order = { question.order } onAnswer = { props.onAnswer }/>
+							: <MCAnswer id = { question.id } order = { question.order } answers = { question.answers }
+										userAnswers = { question.answer } onAnswer = { props.onAnswer } />
 				)
 			})
 			}
@@ -80,15 +80,15 @@ export function TFAnswer(props) {
 			select fullWidth
 			size = 'small'
 			variant = 'outlined'
-			id = { props.number }
-			label = { `Question ${props.number}`}
+			id = { props.order }
+			label = { `Question ${props.order}`}
 			value = { answer.answer }
 			style = {{ marginBottom: theme.spacing(4), }}
 			onChange = { (event) => handleChange(event) }
 		>
-			{ props.possibleAnswer.map((option) => (
-				<MenuItem key = { option } value = { option }>
-					{ option }
+			{ props.answers.map((option) => (
+				<MenuItem key = { option.id } value = { option.text }>
+					{ option.text }
 				</MenuItem>
 			)) }
 		</TextField>
@@ -96,7 +96,6 @@ export function TFAnswer(props) {
 }
 export function MCAnswer(props) {
 	const theme = useTheme();
-
 	const [answer, setAnswer] = useState({
 		id: props.id,
 		answer: null,
@@ -113,21 +112,20 @@ export function MCAnswer(props) {
 		props.onAnswer(answer);
 	}, [answer.answer]);
 
-
 	return (
 		<TextField
 			select fullWidth
 			size = 'small'
 			variant = 'outlined'
-			id = { props.number }
-			label = { `Question ${props.number}`}
+			id = { props.order }
+			label = { `Question ${props.order}`}
 			value = { answer.answer }
 			style = {{ marginBottom: theme.spacing(4), }}
 			onChange = { (event) => handleChange(event) }
 		>
-			{ props.possibleAnswer.map((option) => (
-				<MenuItem key = { option } value = { option }>
-					{ option.substring(0, 1) }
+			{ props.answers.map((option) => (
+				<MenuItem key = { option.id } value = { option.text }>
+					{ option.text.substring(0, 1) }
 				</MenuItem>
 			)) }
 		</TextField>
@@ -158,8 +156,8 @@ export function FITBAnswer(props) {
 			fullWidth
 			size = 'small'
 			variant = 'outlined'
-			id = { props.number }
-			label = { `Question ${props.number}`}
+			id = { props.order }
+			label = { `Question ${props.order}`}
 			value = { answer.answer }
 			style = {{ marginBottom: theme.spacing(4), }}
 			onChange = { (event) => handleChange(event) }

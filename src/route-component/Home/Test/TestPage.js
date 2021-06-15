@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -10,6 +10,10 @@ import { TitleText } from "../../../presentational-components/Text";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { Comment } from "../../../presentational-components/Comment";
+import { AuthorizationContext } from "../../../service-component/Context/authorization";
+import { useQuery } from "@apollo/client";
+import { TEST_BYID_QUERY } from "../../../service-component/API/query";
+import { LoadingDialog } from "../../../presentational-components/Dialog";
 
 const useStyles = makeStyles((theme) => ({
 	testContainer: {
@@ -38,11 +42,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TestPage() {
 	const { id } = useParams();
+	const [authorization] = useContext(AuthorizationContext);
 	const [noticed, setNoticed] = useState(false);
 	const [done, setDone] = useState(false);
 
 	// call testdoneyet mutation to check whether test is done, if done, set done = true
 	// else set done = false
+	useEffect(() => {
+		console.log(id);
+	}, []);
 
 	// handle submission, submit and change done to true.
 
@@ -104,16 +112,7 @@ function DoTest(props) {
 	const { id } = useParams();
 	const classes = useStyles();
 	const [answers, setAnswers] = useState([]);
-	const [data, setData] = useState(null);
-
-	useEffect(() => {
-		const data = getTestById(id);
-		setData(data);
-	}, []);
-
-	useEffect(() => {
-		console.log(answers);
-	}, [answers]);
+	const { loading, data, error } = useQuery(TEST_BYID_QUERY, { variables: { id: parseInt(id, 10) } });
 
 	let handleAnswer = () => async (answer) => {
 		let elementIdx = answers.findIndex((element => element.id === answer.id));
@@ -134,14 +133,19 @@ function DoTest(props) {
 		props.onDone();
 	}
 
+	console.log(id)
+	if (data) console.log(data);
+	if (error) console.log(error);
+
 	return (
 		<React.Fragment>
-			<TestTimer minutes = { 2 } reviewMinutes = { 1 } onTimeOut = { handleSubmit }/>
+			{ loading && <LoadingDialog open = { loading } /> }
+			{/*{ !loading && <TestTimer minutes = { 2 } reviewMinutes = { 1 } onTimeOut = { handleSubmit }/> }*/}
 			<Grid container direction = 'row' justify = 'flex-start'>
 				<Container className = { classes.testContainer }>
 					{
-						data && (data.test.type === 'reading')
-							? (<ReadingTest sections = { data.test.sections } answers = { answers }
+						data && (data.getTestById.type.toLowerCase() === 'reading')
+							? (<ReadingTest sections = { data.getTestById.sections } answers = { answers }
 											onAnswer = { handleAnswer() } />)
 							: <div></div>
 					}
