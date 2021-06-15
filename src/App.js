@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
 import LandingPage from "./route-component/Authorization/LandingPage";
 import SignUpPage from "./route-component/Authorization/SignUpPage";
 import ForgotPasswordPage from "./route-component/Authorization/ForgotPasswordPage";
-
 import HomePage from "./route-component/Home/HomePage";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import { AuthorizationContext } from "./service-component/Context/authorization";
 import { setContext } from "@apollo/client/link/context";
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloLink, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
 
 // https://coolors.co/fcba04-ffebeb-590004
 const theme = createMuiTheme({
@@ -44,6 +43,15 @@ const theme = createMuiTheme({
     },
 });
 
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+        console.log('graphQLErrors', graphQLErrors);
+    }
+    if (networkError) {
+        console.log('networkError', networkError);
+    }
+});
+
 const httpLink = createHttpLink({
     uri: process.env.API_URL || 'https://qnc-ielts-practice.herokuapp.com/graphql',
     credentials: 'include'
@@ -60,7 +68,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-    link: authLink.concat(httpLink),
+    link: authLink.concat(ApolloLink.from([errorLink, httpLink])),
     cache: new InMemoryCache()
 });
 
