@@ -133,18 +133,15 @@ function DoTest(props) {
 		props.onDone();
 	}
 
-	console.log(id)
-	if (data) console.log(data);
-	if (error) console.log(error);
-
 	return (
 		<React.Fragment>
 			{ loading && <LoadingDialog open = { loading } /> }
 			{/*{ !loading && <TestTimer minutes = { 2 } reviewMinutes = { 1 } onTimeOut = { handleSubmit }/> }*/}
+			{ data &&
 			<Grid container direction = 'row' justify = 'flex-start'>
 				<Container className = { classes.testContainer }>
 					{
-						data && (data.getTestById.type.toLowerCase() === 'reading')
+						(data.getTestById.type.toLowerCase() === 'reading')
 							? (<ReadingTest sections = { data.getTestById.sections } answers = { answers }
 											onAnswer = { handleAnswer() } />)
 							: <div></div>
@@ -158,6 +155,8 @@ function DoTest(props) {
 					</Grid>
 				</Container>
 			</Grid>
+			}
+
 		</React.Fragment>
 	);
 }

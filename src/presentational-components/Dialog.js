@@ -39,7 +39,7 @@ export function LoadingDialog({ open }) {
 				}
 			}}>
 			<DialogContent>
-				<CircularProgress size = { 60 }/>
+				<CircularProgress size = { 50 }/>
 			</DialogContent>
 		</Dialog>
 	)
