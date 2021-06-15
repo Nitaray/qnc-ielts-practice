@@ -3,8 +3,9 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import NavigationBar from "../../presentational-components/NavigationBar";
 import AllTestPage from "./Test/AllTestPage";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import TestPage from "./Test/TestPage";
+import ViewTestPage from "./Test/ViewTestPage";
 import { AuthorizationContainer } from "../../container-components/Authorization/AuthorizationContainer";
+import AddTestPage from "./Test/AddTestPage";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -29,7 +30,8 @@ export default function HomePage() {
 					<BrowserRouter basename = "/qnc-ielts-practice/tests">
 						<Switch>
 							<Route exact path = "/" component = { AllTestPage } />
-							<Route path = "/:id" children = { <TestPage /> } />
+							<Route exact path = "/view/:id" children = { <ViewTestPage /> } />
+							<Route exact path = "/add" component = { AddTestPage } />
 						</Switch>
 					</BrowserRouter>
 				</div>

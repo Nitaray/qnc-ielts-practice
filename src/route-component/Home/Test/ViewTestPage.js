@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function TestPage() {
+export default function ViewTestPage() {
 	const { id } = useParams();
 	const [authorization] = useContext(AuthorizationContext);
 	const [noticed, setNoticed] = useState(false);

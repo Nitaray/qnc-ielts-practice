@@ -148,7 +148,7 @@ export function FITBAnswer(props) {
 		});
 	}
 
-	// this will update answer at TestPage component every time user change their answer.
+	// this will update answer at ViewTestPage component every time user change their answer.
 	useEffect(() => {
 		props.onAnswer(answer);
 	}, [answer.answerString]);

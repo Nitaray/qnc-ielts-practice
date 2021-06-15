@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
+import React, { useContext, useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,21 +9,16 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { allTest } from "../../service-component/API/test";
 import { TextWithLink, TitleText } from "../../presentational-components/Text";
-import { DoneIcon } from "../../presentational-components/Icon";
 import { ListeningChip, ReadingChip } from "../../presentational-components/Chip";
 import CheckIcon from '@material-ui/icons/Check';
 import Chip from "@material-ui/core/Chip";
+import { AuthorizationContext } from "../../service-component/Context/authorization";
+import { useHistory } from "react-router-dom";
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -114,8 +107,15 @@ function SortTableHead(props) {
 		</TableHead>
 	);
 }
+
 function TableToolbar() {
 	const classes = useStyles();
+	const history = useHistory();
+	const [authorization] = useContext(AuthorizationContext);
+
+	const handleAddTest = () => {
+		history.push('/add');
+	}
 
 	return (
 		<Toolbar className = { classes.toolbar }>
@@ -123,11 +123,14 @@ function TableToolbar() {
 				<Chip size = 'small'/>
 			</div>
 			<div>
-				<Tooltip title="Filter list">
-					<IconButton aria-label="filter list">
-						<FilterListIcon />
-					</IconButton>
-				</Tooltip>
+				{
+					authorization.user.role.name.toLowerCase() === 'admin' &&
+					<Tooltip title = "Filter list">
+						<IconButton onClick = { handleAddTest }>
+							<FilterListIcon />
+						</IconButton>
+					</Tooltip>
+				}
 			</div>
 		</Toolbar>
 	);
@@ -191,7 +194,7 @@ export default function TestTable(props) {
 												{ row.id }
 											</TableCell>
 											<TableCell align = "left">
-												<TextWithLink value = { row.title } to = {`/${row.id}`}/>
+												<TextWithLink value = { row.title } to = {`/view/${row.id}`}/>
 											</TableCell>
 											<TableCell align = "left">
 												{ (row.type.toLowerCase() === 'listening') ? <ListeningChip /> : <ReadingChip /> }

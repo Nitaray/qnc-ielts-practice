@@ -35,7 +35,7 @@ export default function AllTestPage() {
 	const classes = useStyles();
 	const [authorization] = useContext(AuthorizationContext);
 	const allTests = useQuery(ALLTEST_QUERY);
-	const doneTests = useQuery(DONETEST_BYUSERID_QUERY, { variables: { id: authorization.user.id } });
+	const doneTests = useQuery(DONETEST_BYUSERID_QUERY, { variables: { id: parseInt(authorization.user.id, 10) } });
 
 	if (allTests.error) console.log(allTests.error);
 	if (doneTests.error) console.log(doneTests.error);
