@@ -84,15 +84,30 @@ export const TEST_BYID_QUERY = gql`
          }
      }
  `;
+ */
 
- export const TESTDONEYET_BYID_QUERY = gql`
- 	query getTestResult($userId: Int!, $testId: Int!) {
+export const TESTDONEYET_BYID_QUERY = gql`
+	query getTestResult($userId: Int!, $testId: Int!) {
      	getTestResult(userId: $userId, testId: $testId) {
      		test {
      			id
      		}
      		score
      	}
-     }
- `;
-*/
+	}
+`;
+
+export const TESTCOMMENT_BYID_QUERY = gql`
+	query getTestById($id: Int!) {
+		getTestById(id: $id) {
+			comments {
+				id
+				user {
+					id
+				}
+				content
+				created
+			}
+		}
+	}
+`;
