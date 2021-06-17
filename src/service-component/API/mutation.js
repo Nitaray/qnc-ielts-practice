@@ -54,5 +54,44 @@ export const DETELECOMMENT_MUTATION = gql`
     }
 `;
 
+export const ADDTEST_MUTATION = gql`
+    mutation addTest($test: TestInput!) {
+        addTest(test: $test) {
+            id
+            title
+            type
+        }
+    }
+    `;
 
+export const ADDTESTSECTION_MUTATION = gql`
+    mutation addTestSection($section: TestSectionInput!) {
+        addTestSection(section: $section) {
+            id
+        }
+    }
+`;
 
+export const ADDQUESTIONGROUP_MUTATION = gql`
+    mutation addQuestionGroup($group: QuestionGroupInput!) {
+        addQuestionGroup(group: $group) {
+            id
+        }
+    }
+`;
+
+export const ADDQUESTION_MUTATION = gql`
+    mutation addQuestion($question: QuestionInput!) {
+        addQuestion(question: $question) {
+            id
+        }
+    }
+`;
+
+export const ADDANSWER_MUTATION = gql`
+    mutation addAnswer($answer: AnswerInput!) {
+        addAnswer(answer: $answer) {
+            id
+        }
+    }
+`;
