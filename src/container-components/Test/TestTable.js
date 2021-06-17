@@ -19,6 +19,8 @@ import CheckIcon from '@material-ui/icons/Check';
 import Chip from "@material-ui/core/Chip";
 import { AuthorizationContext } from "../../service-component/Context/authorization";
 import { useHistory } from "react-router-dom";
+import AddIcon from '@material-ui/icons/Add';
+
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -125,9 +127,9 @@ function TableToolbar() {
 			<div>
 				{
 					authorization.user.role.name.toLowerCase() === 'admin' &&
-					<Tooltip title = "Filter list">
+					<Tooltip title = "Add test">
 						<IconButton onClick = { handleAddTest }>
-							<FilterListIcon />
+							<AddIcon />
 						</IconButton>
 					</Tooltip>
 				}

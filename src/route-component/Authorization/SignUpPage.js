@@ -59,8 +59,9 @@ export default function SignUpPage() {
 				}
 			},
 			errorPolicy: 'none',
-		}).then(data => history.push("/")
-		).catch(error => {
+		})
+			.then(data => history.push("/"))
+			.catch(error => {
 			setError(true);
 			console.log(error);
 		});
