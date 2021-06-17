@@ -25,12 +25,11 @@ export function Text({ value, align }) {
 	)
 }
 
-export function TextWithLink({ value, align, to }) {
+export function TextWithLink({ value, to }) {
 	return (
 		<Link component = { RouteLink } to = { to } underline = 'none'>
 			<Typography
-				variant = "body2"
-				align = { align }>
+				variant = "body2">
 				{ value }
 			</Typography>
 		</Link>
