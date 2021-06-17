@@ -132,6 +132,7 @@ function DoTest(props) {
 
 	let handleSubmit = () => {
 		console.log(answers);
+		console.log(data);
 		props.onDone();
 	}
 
