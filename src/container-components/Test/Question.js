@@ -34,8 +34,12 @@ export function ReadingPassage({ section, passage }) {
 			<div>
 				{
 					passage.split('\n').map((text) => {
-						console.log(text);
-						return <Text value = { text } />;
+						return (
+							<React.Fragment>
+								<Text value = { text.substring(0, text.length - 2) } />
+								<br />
+							</React.Fragment>
+						)
 				})}
 			</div>
 		</Box>
