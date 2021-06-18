@@ -8,7 +8,12 @@ import { Redirect, useParams } from "react-router-dom";
 import React, { useContext, useState } from "react";
 import { AuthorizationContext } from "../../../service-component/Context/authorization";
 import { useMutation, useQuery } from "@apollo/client";
-import { TEST_BYID_QUERY, TESTDONEYET_BYID_QUERY } from "../../../service-component/API/query";
+import {
+	ALLTEST_QUERY,
+	DONETEST_BYUSERID_QUERY,
+	TEST_BYID_QUERY,
+	TESTDONEYET_BYID_QUERY
+} from "../../../service-component/API/query";
 import { STARTTEST_MUTATION, SUBMITTEST_MUTATION } from "../../../service-component/API/mutation";
 import { LoadingDialog } from "../../../presentational-components/Dialog";
 import { ReadingTest, TestTimer } from "../../../container-components/Test/Test";
@@ -136,7 +141,18 @@ function DoTest(props) {
 	const [authorization] = useContext(AuthorizationContext);
 	const [answers, setAnswers] = useState([]);
 	const test = useQuery(TEST_BYID_QUERY, { variables: { id: parseInt(id, 10) } });
-	const [submitTest, { loading }] = useMutation(SUBMITTEST_MUTATION);
+	const [submitTest, { loading }] = useMutation(SUBMITTEST_MUTATION, {
+		refetchQueries: [
+			{
+				query: DONETEST_BYUSERID_QUERY,
+				variables: {
+					id: parseInt(authorization.user.id, 10)
+				}
+			}, {
+				query: ALLTEST_QUERY,
+			}
+		]
+	});
 
 	let handleAnswer = () => async (answer) => {
 		let elementIdx = answers.findIndex((element => element.questionId === answer.questionId));
