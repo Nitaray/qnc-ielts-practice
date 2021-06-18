@@ -52,7 +52,9 @@ export function Comment(props) {
 				}
 			}
 		})
-			.then(data => console.log(data))
+			.then(data => {
+				setComment('');
+			})
 			.catch(error => setError('Hey please, don\'t spam. We don\'t have the money to buy more storage for our database.'))
 	}
 	const handleDeleteComment = (id) => {

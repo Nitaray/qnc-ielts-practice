@@ -19,23 +19,13 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function NavigationBar() {
+export default function NavigationBar(props) {
 	const classes = useStyles();
-	const options = [
-		{
-			value: "Home",
-			to: "/home",
-		},
-		{
-			value: "Recover password",
-			to: "/forgot-password",
-		},
-	];
 	return (
 		<AppBar elevation = {2} className = { classes.appBar }>
 			<Toolbar component = "nav" variant = "dense" className = { classes.toolBar }>
 				<TitleText value = "IELTS Training" component = "h1"/>
-				<DropdownButton options = { options }
+				<DropdownButton options = { props.options }
 								icon = { <AccountCircleIcon /> } />
 			</Toolbar>
 		</AppBar>

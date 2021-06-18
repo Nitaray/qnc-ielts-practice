@@ -103,7 +103,7 @@ function ResultTest(props) {
 											<Text value = { answer.question.trueAnswer[0] ? answer.question.trueAnswer[0].text : '' } />
 										</TableCell>
 										<TableCell align = 'left'>
-											<Text value = { answer.answer.text } />
+											<Text value = { answer.answer ? answer.answer.text : '' } />
 										</TableCell>
 										<TableCell align = 'left'>
 											{

@@ -2,11 +2,15 @@ import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import NavigationBar from "../../presentational-components/NavigationBar";
 import AllTestPage from "./Test/AllTestPage";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 import ViewTestPage from "./Test/ViewTestPage";
 import { AuthorizationContainer } from "../../container-components/Authorization/AuthorizationContainer";
 import AddTestPage from "./Test/AddTestPage";
 import DoTestPage from "./Test/DoTestPage";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import { SIGNOUT_MUTATION } from "../../service-component/API/mutation";
+import { useMutation } from "@apollo/client";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -21,11 +25,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function HomePage() {
 	const classes = useStyles();
+	const history = useHistory();
+	const [signOut] = useMutation(SIGNOUT_MUTATION);
+	const navigationBarFunction = [
+		<MenuItem onClick = { () => handleSignOut() }>Sign Out</MenuItem>,
+	];
+
+	const handleSignOut = () => {
+		signOut().then().catch();
+		history.push('/');
+	}
 
 	return (
 		<AuthorizationContainer>
 			<div className = { classes.root }>
-				<NavigationBar />
+				<NavigationBar options = { navigationBarFunction }/>
 				<div className = {classes.content}>
 					<div className = {classes.appBarSpacer}/>
 					<BrowserRouter basename = "/qnc-ielts-practice/tests">
