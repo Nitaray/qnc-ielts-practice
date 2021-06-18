@@ -27,6 +27,7 @@ import { ErrorDialog, LoadingDialog } from "../../../presentational-components/D
 import { ListeningChip, ReadingChip } from "../../../presentational-components/Chip";
 import Paper from "@material-ui/core/Paper";
 import * as theme from "@material-ui/system";
+import { ALLTEST_QUERY, DONETEST_BYUSERID_QUERY } from "../../../service-component/API/query";
 
 const useStyles = makeStyles((theme) => ({
 	form: {
@@ -108,11 +109,23 @@ export default function AddTestPage() {
 
 function CreateTest(props) {
 	const classes = useStyles();
+	const [authorization] = useContext(AuthorizationContext);
 	const [testInput, setTestInput] = useState({
 		title: '',
 		type: '',
 	});
-	const [createTest, { loading }] = useMutation(ADDTEST_MUTATION);
+	const [createTest, { loading }] = useMutation(ADDTEST_MUTATION, {
+		refetchQueries: [
+			{
+				query: DONETEST_BYUSERID_QUERY,
+				variables: {
+					id: parseInt(authorization.user.id, 10)
+				}
+			}, {
+				query: ALLTEST_QUERY,
+			}
+		]
+	});
 	const [error, setError] = useState(null);
 
 	const handleCreateTest = () => {
