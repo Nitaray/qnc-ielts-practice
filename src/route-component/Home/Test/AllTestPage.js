@@ -24,11 +24,6 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'column',
 		height: 'auto'
 	},
-	tableHead: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-		fontWeight: 'bold',
-	},
 }));
 
 export default function AllTestPage() {
@@ -47,10 +42,8 @@ export default function AllTestPage() {
 				<Grid container spacing = {3}>
 					<Grid item xs = {12} md = {8}>
 						<Paper elevation = {0}>
-							{
-								allTests.data && doneTests.data &&
-								<TestTable allTests = { allTests.data.allTests } doneTests = { doneTests.data.getUserById.doneTests } />
-							}
+							{ allTests.data && doneTests.data &&
+							 <TestTable allTests = { allTests.data.allTests } doneTests = { doneTests.data.getUserById.doneTests } /> }
 						</Paper>
 					</Grid>
 					<Grid item xs = {0} md = {4}>
