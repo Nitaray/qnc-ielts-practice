@@ -34,6 +34,9 @@ export default function AllTestPage() {
 	if (allTests.error) {
 		console.log(allTests.error);
 	}
+	if (doneTests.data) {
+		console.log(doneTests.data);
+	}
 	if (doneTests.error) {
 		console.log(authorization);
 		console.log(doneTests.error);

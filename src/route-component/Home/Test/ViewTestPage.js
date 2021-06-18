@@ -48,6 +48,7 @@ export default function ViewTestPage() {
 
 	// if query test result caused error, redirect to do test.
 	if (testDoneYet.error) return <Redirect to = {`/do/${id}`} />
+	if (testDoneYet.data) console.log(testDoneYet.data);
 	return (
 		<React.Fragment>
 			{ (testDoneYet.loading || testComment.loading)
@@ -93,7 +94,6 @@ function ResultTest(props) {
 					<TableBody>
 						{
 							props.answerHistory.map(answer => {
-								console.log(answer);
 								return (
 									<TableRow>
 										<TableCell align = 'left'>
@@ -128,7 +128,6 @@ function CommentTest(props) {
 	const [comments, setComments] = useState([]);
 
 	useEffect(() => {
-		console.log(props.comments);
 		setComments(props.comments);
 	});
 

@@ -112,7 +112,7 @@ export default function LandingPage() {
 
                             <ActionButton value = "Sign In"
                                           onClick = { () => handleSignInClick() } />
-                            <Grid container>
+                            <Grid container direction = 'row' justify = 'flex-end'>
                                 <Grid item xs>
                                     <TextWithLink
                                         value = "Forgot password!"
