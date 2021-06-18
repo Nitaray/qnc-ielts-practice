@@ -48,10 +48,9 @@ export default function ViewTestPage() {
 
 	// if query test result caused error, redirect to do test.
 	if (testDoneYet.error) return <Redirect to = {`/do/${id}`} />
-	if (testDoneYet.data) console.log(testDoneYet.data);
 	return (
 		<React.Fragment>
-			{ (testDoneYet.loading || testComment.loading)
+			{ (testDoneYet.loading || testComment.loading )
 				?
 				<LoadingDialog open = { (testDoneYet.loading || testComment.loading) } />
 				:
