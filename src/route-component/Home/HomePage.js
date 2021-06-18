@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ViewTestPage from "./Test/ViewTestPage";
 import { AuthorizationContainer } from "../../container-components/Authorization/AuthorizationContainer";
 import AddTestPage from "./Test/AddTestPage";
+import DoTestPage from "./Test/DoTestPage";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -31,6 +32,7 @@ export default function HomePage() {
 						<Switch>
 							<Route exact path = "/" component = { AllTestPage } />
 							<Route exact path = "/view/:id" children = { <ViewTestPage /> } />
+							<Route exact path = "/do/:id" children = { <DoTestPage /> } />
 							<Route exact path = "/add" component = { AddTestPage } />
 						</Switch>
 					</BrowserRouter>

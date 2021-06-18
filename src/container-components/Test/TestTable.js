@@ -196,7 +196,7 @@ export default function TestTable(props) {
 												{ row.id }
 											</TableCell>
 											<TableCell align = "left">
-												<TextWithLink value = { row.title } to = {`/view/${row.id}`}/>
+												<TextWithLink value = { row.title } to = { row.status ? `/view/${row.id}` : `/do/${row.id}`}/>
 											</TableCell>
 											<TableCell align = "left">
 												{ (row.type.toLowerCase() === 'listening') ? <ListeningChip /> : <ReadingChip /> }
