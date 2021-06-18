@@ -1,13 +1,11 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import Paper from "@material-ui/core/Paper";
 
 export function ActionButton({ value, onClick }) {
-	let handleClick = () => onClick();
+	const handleClick = () => onClick();
 
 	return (
 		<Button
@@ -21,7 +19,7 @@ export function ActionButton({ value, onClick }) {
 }
 
 export function IconActionButton({ disabled, icon, onClick }) {
-	let handleClick = () => onClick();
+	const handleClick = () => onClick();
 
 	return (
 		<IconButton disabled = { disabled } color = "primary" onClick = { () => handleClick() }>
@@ -32,14 +30,11 @@ export function IconActionButton({ disabled, icon, onClick }) {
 
 export function DropdownButton({ options, icon }) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
-	const history = useHistory();
-
 	const handleClick = (event) => setAnchorEl(event.currentTarget);
 	const handleClose = () => setAnchorEl(null);
-	const handleMenuItemClick = (to) => history.push(to);
 
 	return (
-		<div component = { Paper }>
+		<Paper variant = 'outlined'>
 			<IconButton color = "inherit"
 						aria-haspopup = "true"
 						onClick = { handleClick }>
@@ -60,13 +55,9 @@ export function DropdownButton({ options, icon }) {
 				}}
 				anchorEl = { anchorEl }
 				open = { Boolean(anchorEl) }
-				onClose = { handleClose }
-			>
-
-				{ options.map((option) => (
-					<MenuItem onClick = { () => handleMenuItemClick(option.to) }>{ option.value }</MenuItem>
-				)) }
+				onClose = { handleClose }>
+				{ options.map((option) => { return (option) }) }
 			</Menu>
-		</div>
+		</Paper>
 	);
 }
