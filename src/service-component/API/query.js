@@ -91,8 +91,21 @@ export const TESTDONEYET_BYID_QUERY = gql`
      	getTestResult(userId: $userId, testId: $testId) {
      		test {
      			id
+				title
+				type
      		}
      		score
+			answerHistory {
+				question {
+                    statementText
+					trueAnswer {
+						text
+					}
+				}
+				answer {
+					text
+				}
+			}
      	}
 	}
 `;
