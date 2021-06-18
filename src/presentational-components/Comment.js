@@ -17,6 +17,7 @@ import { useMutation } from "@apollo/client";
 import { CREATECOMMENT_MUTATION, DETELECOMMENT_MUTATION } from "../service-component/API/mutation";
 import DeleteIcon from '@material-ui/icons/Delete';
 import timeSince from "../service-component/Others/timeSince";
+import { TESTCOMMENT_BYID_QUERY } from "../service-component/API/query";
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100%",
@@ -38,8 +39,22 @@ export function Comment(props) {
 	const classes = useStyles();
 	const [authorization] = useContext(AuthorizationContext);
 	const [comment, setComment] = useState('');
-	const [createComment, { loading }] = useMutation(CREATECOMMENT_MUTATION);
-	const [deleteComment] = useMutation(DETELECOMMENT_MUTATION);
+	const [createComment, { loading }] = useMutation(CREATECOMMENT_MUTATION, {
+		refetchQueries: [{
+			query: TESTCOMMENT_BYID_QUERY,
+			variables: {
+				id: parseInt(props.testId, 10),
+			}
+		}]
+	});
+	const [deleteComment] = useMutation(DETELECOMMENT_MUTATION, {
+		refetchQueries: [{
+			query: TESTCOMMENT_BYID_QUERY,
+			variables: {
+				id: parseInt(props.testId, 10),
+			}
+		}]
+	});
 	const [error, setError] = useState(null);
 
 	const handleCreateComment = () => {
