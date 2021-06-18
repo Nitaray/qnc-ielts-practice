@@ -58,7 +58,7 @@ export function ReadingTest(props) {
 					</Paper>
 				</Grid>
 				<Grid item xs = {3}>
-					<Paper variant = 'outlined' className = {classes.paper}>
+					<Paper variant = 'outlined' className = { classes.paper }>
 						<AnswerGroup questionGroups = { section.questionGroups } answers = { props.answers }
 									 onAnswer = { props.onAnswer }/>
 					</Paper>

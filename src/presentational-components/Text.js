@@ -13,7 +13,7 @@ export function TitleText({ value, fontSize }) {
 			{ value }
 		</Typography>
 	);
-};
+}
 
 export function Text({ value, align }) {
 	return (
@@ -34,4 +34,4 @@ export function TextWithLink({ value, to }) {
 			</Typography>
 		</Link>
 	);
-};
+}
