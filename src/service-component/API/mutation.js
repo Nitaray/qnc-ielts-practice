@@ -23,6 +23,12 @@ export const SIGNUP_MUTATION = gql`
      }
      `;
 
+export const SIGNOUT_MUTATION = gql`
+	mutation logout {
+		logout
+	}
+`;
+
 export const REFRESHJWT_MUTATION = gql`
      mutation refreshJWT {
           refreshJWT {
