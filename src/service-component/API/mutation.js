@@ -142,3 +142,11 @@ export const STARTTEST_MUTATION = gql`
 		}
 	}
 `;
+
+export const DELETETEST_MUTATION = gql`
+	mutation deleteTest($testId: Int!) {
+		deleteTest(testId: $testId) {
+			id
+		}
+	}
+`;
