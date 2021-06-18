@@ -95,3 +95,44 @@ export const ADDANSWER_MUTATION = gql`
         }
     }
 `;
+
+export const SUBMITTEST_MUTATION = gql`
+	mutation submitTest($testSubmission: TestSubmission!) {
+		submitTest(testSubmission: $testSubmission) {
+			test {
+				id
+				title
+				type
+				comments {
+					id
+					user {
+						id
+						username
+					}
+					content
+					created
+				}
+			}
+			score
+			answerHistory {
+				question {
+					type
+					statementText
+				}
+				answer {
+					text
+				}
+			}
+		}
+	}
+`;
+
+export const STARTTEST_MUTATION = gql`
+	mutation startTest($testId: Int!, $userId: Int!) {
+		startTest(testId: $testId, userId: $userId) {
+			id
+			title
+			type
+		}
+	}
+`;
