@@ -41,128 +41,84 @@ export function Answer(props) {
 
 	return (
 		<Box border = {0} className = { classes.answer }>
-			{ props.questions.map(question => {
-				return (
-					(question.type === 'TF')
-						? <TFAnswer id = { question.id } order = { question.order } answers = { question.answers } onAnswer = { props.onAnswer }/>
-						: (question.type === 'FITB')
-							? <FITBAnswer id = { question.id } order = { question.order } onAnswer = { props.onAnswer }/>
-							: <MCAnswer id = { question.id } order = { question.order } answers = { question.answers } onAnswer = { props.onAnswer } />
-				)
-			}) }
+			{ props.questions.map(question => (
+				<TypeAnswer type = { question.type } id = { question.id } order = { question.order }
+							answers = { question.answers } onAnswer = { props.onAnswer } />
+			)) }
 		</Box>
 	)
 }
 
-export function TFAnswer(props) {
+export function TypeAnswer(props) {
 	const theme = useTheme();
 	const [answer, setAnswer] = useState({
-		questionId: props.id,
-		answerId: '',
+		questionId: parseInt(props.id, 10),
 		answerString: '',
 	});
 
 	const handleChange = (event) => {
 		setAnswer({
-			questionId: props.id,
-			answerId: event.target.value,
-			answerString: null,
-		});
-	}
-
-	useEffect(() => {
-		props.onAnswer(answer);
-	}, [answer.answerId]);
-
-	return (
-		<TextField
-			select fullWidth
-			size = 'small'
-			variant = 'outlined'
-			id = { props.order }
-			label = { `Question ${props.order}`}
-			value = { answer.answerId }
-			style = {{ marginBottom: theme.spacing(4), }}
-			onChange = { (event) => handleChange(event) }
-		>
-			{ props.answers.map((option) => (
-				<MenuItem key = { option.id } value = { option.id }>
-					{ option.text }
-				</MenuItem>
-			)) }
-		</TextField>
-	)
-}
-export function MCAnswer(props) {
-	const theme = useTheme();
-	const [answer, setAnswer] = useState({
-		questionId: props.id,
-		answerId: '',
-		answerString: '',
-	});
-
-	const handleChange = (event) => {
-		setAnswer({
-			questionId: props.id,
-			answerId: event.target.value,
-			answerString: '',
-		});
-	}
-
-	useEffect(() => {
-		props.onAnswer(answer);
-	}, [answer.answerId]);
-
-	return (
-		<TextField
-			select fullWidth
-			size = 'small'
-			variant = 'outlined'
-			id = { props.order }
-			label = { `Question ${props.order}`}
-			value = { answer.answerId }
-			style = {{ marginBottom: theme.spacing(4), }}
-			onChange = { (event) => handleChange(event) }
-		>
-			{ props.answers.map((option) => (
-				<MenuItem key = { option.id } value = { option.id }>
-					{ option.text.substring(0, 1) }
-				</MenuItem>
-			)) }
-		</TextField>
-	)
-};
-export function FITBAnswer(props) {
-	const theme = useTheme();
-	const [answer, setAnswer] = useState({
-		questionId: props.id,
-		answerId: '',
-		answerString: '',
-	});
-
-	const handleChange = (event) => {
-		setAnswer({
-			questionId: props.id,
-			answerId: '',
+			questionId: parseInt(props.id, 10),
 			answerString: event.target.value,
 		});
 	}
 
-	// this will update answer at ViewTestPage component every time user change their answer.
 	useEffect(() => {
 		props.onAnswer(answer);
 	}, [answer.answerString]);
 
 	return (
-		<TextField
-			fullWidth
-			size = 'small'
-			variant = 'outlined'
-			id = { props.order }
-			label = { `Question ${props.order}`}
-			value = { answer.answerString }
-			style = {{ marginBottom: theme.spacing(4), }}
-			onChange = { (event) => handleChange(event) }
-		/>
-	);
-};
+		<React.Fragment>
+			{
+				props.type.toUpperCase() === 'TF'
+					?
+					<TextField
+						select fullWidth
+						size = 'small'
+						variant = 'outlined'
+						id = { props.order }
+						label = { `Question ${props.order}`}
+						value = { answer.answerString }
+						style = {{ marginBottom: theme.spacing(4), }}
+						onChange = { (event) => handleChange(event) }
+					>
+						{ props.answers.map((option) => (
+							<MenuItem key = { option.id } value = { option.text }>
+								{ option.text }
+							</MenuItem>
+						)) }
+					</TextField>
+					: props.type.toUpperCase() === 'FITB'
+					?
+					<TextField
+						fullWidth
+						size = 'small'
+						variant = 'outlined'
+						id = { props.order }
+						label = { `Question ${props.order}`}
+						value = { answer.answerString }
+						style = {{ marginBottom: theme.spacing(4), }}
+						onChange = { (event) => handleChange(event) }
+					/>
+					:
+					<TextField
+						select fullWidth
+						size = 'small'
+						variant = 'outlined'
+						id = { props.order }
+						label = { `Question ${props.order}`}
+						value = { answer.answerString }
+						style = {{ marginBottom: theme.spacing(4), }}
+						onChange = { (event) => handleChange(event) }
+					>
+						{ props.answers.map((option) => (
+							<MenuItem key = { option.id } value = { option.text }>
+								{ option.text.substring(0, 1) }
+							</MenuItem>
+						)) }
+					</TextField>
+
+			}
+		</React.Fragment>
+	)
+}
