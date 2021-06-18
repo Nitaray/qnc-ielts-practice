@@ -4,7 +4,6 @@ import Container from "@material-ui/core/Container";
 import React, { useContext, useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import TestTable from "../../../container-components/Test/TestTable";
-import { allTest } from "../../../service-component/API/test";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { ALLTEST_QUERY, DONETEST_BYUSERID_QUERY } from "../../../service-component/API/query";
 import { LoadingDialog } from "../../../presentational-components/Dialog";
@@ -32,8 +31,13 @@ export default function AllTestPage() {
 	const allTests = useQuery(ALLTEST_QUERY);
 	const doneTests = useQuery(DONETEST_BYUSERID_QUERY, { variables: { id: parseInt(authorization.user.id, 10) } });
 
-	if (allTests.error) console.log(allTests.error);
-	if (doneTests.error) console.log(doneTests.error);
+	if (allTests.error) {
+		console.log(allTests.error);
+	}
+	if (doneTests.error) {
+		console.log(authorization);
+		console.log(doneTests.error);
+	}
 
 	return (
 		<React.Fragment>
