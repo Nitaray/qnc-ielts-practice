@@ -1,26 +1,33 @@
 import React, { useContext, useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { Redirect, useParams } from "react-router-dom";
-import { getCommentByTestId } from "../../../service-component/API/test";
-import { ReadingTest,  } from "../../../container-components/Test/Test";
 import { Comment } from "../../../presentational-components/Comment";
 import { AuthorizationContext } from "../../../service-component/Context/authorization";
 import { useQuery } from "@apollo/client";
 import { TESTCOMMENT_BYID_QUERY, TESTDONEYET_BYID_QUERY } from "../../../service-component/API/query";
 import { LoadingDialog } from "../../../presentational-components/Dialog";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import { Text, TitleText } from "../../../presentational-components/Text";
+import { ListeningChip, ReadingChip } from "../../../presentational-components/Chip";
+import CheckIcon from "@material-ui/icons/Check";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import Paper from "@material-ui/core/Paper";
+import ClearIcon from '@material-ui/icons/Clear';
+import Toolbar from "@material-ui/core/Toolbar";
 
 const useStyles = makeStyles((theme) => ({
-	testContainer: {
-		paddingTop: theme.spacing(4),
-		paddingLeft: theme.spacing(8),
-		paddingBottom: theme.spacing(4),
-		paddingRight: theme.spacing(8)
+	root: {
+		margin: theme.spacing(2, 24, 2, 24),
+		padding: theme.spacing(2, 8, 2, 8),
 	},
-	commentContainer: {
-		paddingTop: theme.spacing(4),
-		paddingBottom: theme.spacing(8),
+	toolbar: {
+		justifyContent: 'space-between',
+		overflowX: 'auto',
 	},
 }));
 
@@ -48,13 +55,72 @@ export default function ViewTestPage() {
 				<LoadingDialog open = { (testDoneYet.loading || testComment.loading) } />
 				:
 				<React.Fragment>
-					<ResultTest />
-					<CommentTest comments = { testComment.data.getTestById.comments } />
+					<ResultTest { ...testDoneYet.data.getTestResult } />
+					<CommentTest { ...testComment.data.getTestById } />
 				</React.Fragment>
 			}
 		</React.Fragment>
 	)
 };
+
+function ResultTest(props) {
+	const classes = useStyles();
+
+	return (
+		<Paper variant = 'outlined' className = { classes.root }>
+			<Toolbar className = { classes.toolbar }>
+				<div>
+					<TitleText value = { props.test.title } />
+				</div>
+				<div>
+					<TitleText value = { `Your score: ${props.score}` } />
+				</div>
+				<div>
+					{ props.test.type.toLowerCase() === 'reading' ? <ReadingChip /> : <ListeningChip /> }
+				</div>
+			</Toolbar>
+			<TableContainer>
+				<Table size = 'small'>
+					<TableHead>
+						<TableRow>
+							{ ["Question", "Correct Answer", "Your Answer", "Matched"].map((title) =>
+									<TableCell align = 'left'>
+										<TitleText value={ title }/>
+									</TableCell>
+								)}
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{
+							props.answerHistory.map(answer => {
+								console.log(answer);
+								return (
+									<TableRow>
+										<TableCell align = 'left'>
+											<Text value = { answer.question.statementText } />
+										</TableCell>
+										<TableCell align = 'left'>
+											<Text value = { answer.question.trueAnswer[0] ? answer.question.trueAnswer[0].text : '' } />
+										</TableCell>
+										<TableCell align = 'left'>
+											<Text value = { answer.answer.text } />
+										</TableCell>
+										<TableCell align = 'left'>
+											{
+												(answer.answer.text === (answer.question.trueAnswer[0] ? answer.question.trueAnswer[0].text : ''))
+												? <CheckIcon /> : <ClearIcon />
+											}
+										</TableCell>
+									</TableRow>
+								)
+							})
+						}
+					</TableBody>
+				</Table>
+			</TableContainer>
+		</Paper>
+	);
+}
 
 function CommentTest(props) {
 	const { id } = useParams();
@@ -67,29 +133,15 @@ function CommentTest(props) {
 	});
 
 	return (
-		<Container className = { classes.commentContainer }>
+		<Paper variant = 'outlined' className = { classes.root }>
 			<Grid container direction = 'row' justify = 'space-evenly' spacing = {2}>
-				<Grid item xs = {12} md = {8} lg = {8}>
+				<Grid item xs = {12}>
 					<Comment testId = { id } comments = { comments } />
 				</Grid>
 			</Grid>
-		</Container>
+		</Paper>
 	)
 }
 
-function ResultTest() {
-	const { id } = useParams();
-	const classes = useStyles();
-	const [data, setData] = useState(null);
 
-	return (
-		<Container className = { classes.testContainer }>
-			{
-				data && (data.test.type === 'reading')
-					? (<ReadingTest sections = { data.test.sections } />)
-					: <div></div>
-			}
-		</Container>
-	);
-}
 
