@@ -11,14 +11,24 @@ export function ActionButton({ value, onClick }) {
 
 	return (
 		<Button
-			fullWidth
+			fullWidth disableElevation
 			variant = "contained"
 			color = "primary"
 			onClick = { () => handleClick() }>
 			{ value }
 		</Button>
 	);
-};
+}
+
+export function IconActionButton({ disabled, icon, onClick }) {
+	let handleClick = () => onClick();
+
+	return (
+		<IconButton disabled = { disabled } color = "primary" onClick = { () => handleClick() }>
+			{ icon }
+		</IconButton>
+	);
+}
 
 export function DropdownButton({ options, icon }) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
