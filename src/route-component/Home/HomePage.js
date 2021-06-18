@@ -28,6 +28,7 @@ export default function HomePage() {
 	const history = useHistory();
 	const [signOut] = useMutation(SIGNOUT_MUTATION);
 	const navigationBarFunction = [
+		<MenuItem onClick = { () => history.push('/tests') }>Home</MenuItem>,
 		<MenuItem onClick = { () => handleSignOut() }>Sign Out</MenuItem>,
 	];
 
