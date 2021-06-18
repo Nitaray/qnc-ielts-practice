@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -10,7 +10,7 @@ import { ActionButton } from "../../presentational-components/Button";
 import { PasswordInput, TextInput } from "../../presentational-components/Input";
 import { TextWithLink, TitleText } from "../../presentational-components/Text";
 import { useMutation } from "@apollo/client";
-import { SIGNIN_MUTATION } from "../../service-component/API/mutation";
+import { REFRESHJWT_MUTATION, SIGNIN_MUTATION } from "../../service-component/API/mutation";
 import { ErrorDialog, LoadingDialog } from "../../presentational-components/Dialog";
 import { AuthorizationContext } from "../../service-component/Context/authorization";
 
@@ -52,12 +52,33 @@ export default function LandingPage() {
     const [error, setError] = useState(null);
     const [signIn, { loading }] = useMutation(SIGNIN_MUTATION);
     const [authorization, setAuthorization] = useContext(AuthorizationContext);
+    const [refreshJWT, { loading: refreshLoading }] = useMutation(REFRESHJWT_MUTATION);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const data = await refreshJWT();
+                await setAuthorization({
+                    status: true,
+                    token: data.data.refreshJWT.token,
+                    user: {
+                        id: data.data.refreshJWT.user.id,
+                        username: data.data.refreshJWT.user.username,
+                        role: {
+                            name: data.data.refreshJWT.user.role.name,
+                        }
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        })()
+    }, []);
 
     const handleSignInChange = (prop) => (event) => {
         event.preventDefault();
         setSignInInfo({ ...signInInfo, [prop]: event.target.value });
     }
-
     const handleSignInClick = async () => {
         signIn({
                 variables: {
@@ -85,52 +106,49 @@ export default function LandingPage() {
         });
     }
 
+    if (authorization.token) return <Redirect to = '/tests' />;
     return (
         <React.Fragment>
             { loading && <LoadingDialog open = { loading } /> }
             { error && <ErrorDialog error = 'Invalid username/password. Please try again!'
                                     open = { error } onClose = { setError(false) } /> }
-            <Grid container component = "main" className = { classes.root }>
-                <CssBaseline />
+            { !refreshLoading &&
+            <Grid container component="main" className={ classes.root }>
+                <CssBaseline/>
                 <Grid item xs = {false} sm = {4} md = {8}>
-                    {/* PAGE INTRODUCTION */}
                 </Grid>
-                {/* REMOVE IF BACKEND FOR AUTHENTICATION IS FINISHED */}
-                {/* REPLACE WITH <SignIn /> COMPONENT*/}
                 <Grid item xs = {12} sm = {8} md = {4} component = {Paper}>
                     <div className = { classes.paper }>
-                        <Avatar className = { classes.avatar }>
+                        <Avatar className={ classes.avatar }>
                             <LockOutlinedIcon/>
                         </Avatar>
-                        <TitleText value = "Sign In" fontSize = "18px" />
+                        <TitleText value = "Sign In" fontSize = "18px"/>
                         <form className = { classes.form }>
                             <TextInput label = "Username" name = "username" value = { signInInfo['username'] }
-                                       onChange = { handleSignInChange('username') } />
+                                       onChange = { handleSignInChange('username') }/>
 
                             <PasswordInput label = "Password" name = "password" value = { signInInfo['password'] }
-                                           onChange = { handleSignInChange('password') } />
+                                           onChange = { handleSignInChange('password') }/>
 
                             <ActionButton value = "Sign In"
-                                          onClick = { () => handleSignInClick() } />
+                                          onClick = { () => handleSignInClick() }/>
                             <Grid container direction = 'row' justify = 'flex-end'>
                                 <Grid item xs>
                                     <TextWithLink
                                         value = "Forgot password!"
-                                        align = "left"
-                                        to = "/forgot-password" />
+                                        to = "/forgot-password"/>
                                 </Grid>
                                 <Grid item xs>
                                     <TextWithLink
                                         value = "Don't have account?"
-                                        align = "right"
-                                        to = "/create-account" />
+                                        to = "/create-account"/>
                                 </Grid>
                             </Grid>
                         </form>
                     </div>
                 </Grid>
-                {/* END REMOVE */}
             </Grid>
+            }
         </React.Fragment>
     );
 };

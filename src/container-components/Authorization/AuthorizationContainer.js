@@ -7,7 +7,7 @@ import { REFRESHJWT_MUTATION } from "../../service-component/API/mutation";
 export function AuthorizationContainer({ children }) {
 	const [authorization, setAuthorization] = useContext(AuthorizationContext);
 	const [unauthorized, setUnauthorized] = useState(false);
-	const [refreshJWT, { loading }] = useMutation(REFRESHJWT_MUTATION);
+	const [refreshJWT] = useMutation(REFRESHJWT_MUTATION);
 
 	const handleRefreshJWT = async () => {
 		console.log('refreshJWT');
