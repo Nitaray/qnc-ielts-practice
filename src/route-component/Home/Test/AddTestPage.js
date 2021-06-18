@@ -4,7 +4,7 @@ import { AuthorizationContext } from "../../../service-component/Context/authori
 import { Redirect } from "react-router-dom";
 import { TextWithLink, TitleText } from "../../../presentational-components/Text";
 import Grid from "@material-ui/core/Grid";
-import { ActionButton } from "../../../presentational-components/Button";
+import { ActionButton, IconActionButton } from "../../../presentational-components/Button";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -25,6 +25,8 @@ import {
 } from "../../../service-component/API/mutation";
 import { ErrorDialog, LoadingDialog } from "../../../presentational-components/Dialog";
 import { ListeningChip, ReadingChip } from "../../../presentational-components/Chip";
+import Paper from "@material-ui/core/Paper";
+import * as theme from "@material-ui/system";
 
 const useStyles = makeStyles((theme) => ({
 	form: {
@@ -37,14 +39,15 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'column',
 		alignItems: 'center',
 	},
+	mainContainer: {
+		margin: theme.spacing(2, 0, 8),
+	},
 	testContainer: {
-		paddingTop: theme.spacing(4),
-		paddingLeft: theme.spacing(8),
-		paddingBottom: theme.spacing(4),
-		paddingRight: theme.spacing(8)
+		padding: theme.spacing(4, 8, 4, 8),
 	},
 	testSectionContainer: {
-		paddingLeft: theme.spacing(2),
+		marginTop: theme.spacing(2),
+		padding: theme.spacing(4),
 	},
 	questionGroupContainer: {
 		paddingLeft: theme.spacing(2),
@@ -55,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
 	answerContainer: {
 		paddingLeft: theme.spacing(4),
 	},
+	paddingContainer: {
+		paddingLeft: theme.spacing(2),
+	}
 }));
 
 export default function AddTestPage() {
@@ -83,7 +89,7 @@ export default function AddTestPage() {
 						<TextWithLink value = 'Go back to homepage' to = '/' />
 					</Container>
 					:
-					<React.Fragment>
+					<Box border = {0} className = { classes.mainContainer }>
 						<Grid container direction = 'row' justify = 'center' alignItems = 'center'>
 							<Grid item xs = {12} sm = {12}>
 								<AddTest { ...testInfo }/>
@@ -92,7 +98,7 @@ export default function AddTestPage() {
 								<ActionButton value = 'Finish' onClick = { () => setFinished(true) } />
 							</Grid>
 						</Grid>
-					</React.Fragment>
+					</Box>
 					:
 					<CreateTest onClick = { (id, title, type) => handleCreateTest(id, title, type) } />
 			}
@@ -185,7 +191,10 @@ function AddTest(props) {
 	const generateTestSection = () => {
 		let testSection = [];
 		for (let i = 0; i < numTestSection; i++) {
-			testSection.push(<AddTestSection { ...props }/>);
+			testSection.push(
+				<Grid item xs = {12} sm = {12}>
+					<AddTestSection { ...props }/>
+				</Grid>);
 		}
 		return testSection;
 	}
@@ -206,9 +215,7 @@ function AddTest(props) {
 				<Grid item xs = {6} sm = {2}>
 					<ActionButton value = { <AddIcon /> } onClick = { handleAddTestSection } />
 				</Grid>
-				<Grid item xs = {12} sm = {12}>
-					{ generateTestSection() }
-				</Grid>
+				{ generateTestSection() }
 			</Grid>
 		</Box>
 	)
@@ -261,7 +268,10 @@ function AddTestSection(props) {
 	const generateQuestionGroup = () => {
 		let questionGroup = [];
 		for (let i = 0; i < numQuestionGroup; i++) {
-			questionGroup.push(<AddQuestionGroup { ...testSectionInfo }/>);
+			questionGroup.push(
+				<Grid item xs = {12} sm = {12}>
+					<AddQuestionGroup { ...testSectionInfo }/>
+				</Grid>);
 		}
 		return questionGroup;
 	}
@@ -271,9 +281,9 @@ function AddTestSection(props) {
 			{ loading && <LoadingDialog open = { loading } /> }
 			{ error && <ErrorDialog error = { error }
 									open = { error } onClose = { () => setError(null) } /> }
-			<Box border = {0} className = { classes.testSectionContainer }>
-				<Grid container direction = 'row' justify = 'space-evenly' spacing = {2}>
-					<Grid item xs = {12} sm = {10}>
+			<Paper variant = 'outlined' className = { classes.testSectionContainer }>
+				<Grid container direction = 'row' justify = 'flex-end' alignItems = 'center' spacing = {2}>
+					<Grid item xs = {12} sm = {12}>
 						<TextField
 							fullWidth multiline
 							disabled = { testSectionInfo }
@@ -282,19 +292,19 @@ function AddTestSection(props) {
 							label = 'Section statement text'
 							value = { testSectionInput.text }
 							onChange = { (event) => setTestSectionInput({...testSectionInput, text: event.target.value }) }
+							InputProps = {{
+								endAdornment:
+									<InputAdornment position = "end">
+										{ testSectionInfo
+											? <IconActionButton icon = { <AddIcon /> } onClick = { handleAddQuestionGroup } />
+											: <IconActionButton icon = { <SaveIcon /> } onClick = { handleSaveTestSection } /> }
+									</InputAdornment>,
+							}}
 						/>
 					</Grid>
-					<Grid item xs = {12} sm = {2}>
-						{ testSectionInfo
-							? <ActionButton value = { <AddIcon /> } onClick = { handleAddQuestionGroup } />
-							: <ActionButton value = { <SaveIcon /> } onClick = { handleSaveTestSection } /> }
-					</Grid>
-					{ testSectionInfo &&
-					<Grid item xs = {12} sm = {12}>
-						{ generateQuestionGroup() }
-					</Grid> }
+					{ testSectionInfo && generateQuestionGroup() }
 				</Grid>
-			</Box>
+			</Paper>
 		</React.Fragment>
 	)
 }
@@ -341,7 +351,10 @@ function AddQuestionGroup(props) {
 	const generateQuestion = () => {
 		let question = [];
 		for (let i = 0; i < numQuestion; i++) {
-				question.push(<AddQuestion { ...questionGroupInfo }/>);
+			question.push(
+				<Grid item xs = {12} sm = {12}>
+					<AddQuestion { ...questionGroupInfo }/>
+				</Grid>);
 		}
 		return question;
 	}
@@ -352,8 +365,8 @@ function AddQuestionGroup(props) {
 			{ error && <ErrorDialog error = { error }
 									open = { error } onClose = { () => setError(null) } /> }
 			<Box border = {0} className = { classes.questionGroupContainer }>
-				<Grid container direction = 'row' justify = 'space-evenly' spacing = {2}>
-					<Grid item xs = {12} sm = {10}>
+				<Grid container direction = 'row' justify = 'flex-end' spacing = {2}>
+					<Grid item xs = {12} sm = {12}>
 						<TextField
 							fullWidth multiline
 							disabled = { questionGroupInfo }
@@ -362,17 +375,17 @@ function AddQuestionGroup(props) {
 							label = 'Introduction text'
 							value = { questionGroupInput.introText }
 							onChange = { (event) => setQuestionGroupInput({...questionGroupInput, introText: event.target.value }) }
+							InputProps = {{
+								endAdornment:
+									<InputAdornment position = "end">
+										{ questionGroupInfo
+											? <IconActionButton icon = { <AddIcon /> } onClick = { handleAddQuestion } />
+											: <IconActionButton icon = { <SaveIcon /> } onClick = { handleSaveQuestionGroup } /> }
+									</InputAdornment>,
+							}}
 						/>
 					</Grid>
-					<Grid item xs = {12} sm = {2}>
-						{ questionGroupInfo
-							? <ActionButton value = { <AddIcon /> } onClick = { handleAddQuestion } />
-							: <ActionButton value = { <SaveIcon /> } onClick = { handleSaveQuestionGroup } /> }
-					</Grid>
-					{ questionGroupInfo &&
-					<Grid item xs = {12} sm = {12}>
-						{ generateQuestion() }
-					</Grid> }
+					{ questionGroupInfo && generateQuestion() }
 				</Grid>
 			</Box>
 		</React.Fragment>
@@ -422,7 +435,10 @@ function AddQuestion(props) {
 	const generateAnswer = () => {
 		let answer = [];
 		for (let i = 0; i < numAnswer; i++) {
-			answer.push(<AddAnswer { ...questionInfo }/>);
+			answer.push(
+				<Grid item xs = {12} sm = {12}>
+					<AddAnswer { ...questionInfo }/>
+				</Grid>);
 		}
 		return answer;
 	}
@@ -434,17 +450,6 @@ function AddQuestion(props) {
 									open = { error } onClose = { () => setError(null) } /> }
 			<Box border = {0} className = { classes.questionContainer }>
 				<Grid container direction = 'row' justify = 'space-evenly' spacing = {2}>
-					<Grid item xs = {12} sm = {10}>
-						<TextField
-							fullWidth multiline
-							disabled = { questionInfo }
-							size = 'small'
-							variant = 'outlined'
-							label = 'Question statement'
-							value = { questionInput.statementText }
-							onChange = { (event) => setQuestionInput({...questionInput, statementText: event.target.value }) }
-						/>
-					</Grid>
 					<Grid item xs = {6} sm = {1}>
 						<TextField
 							select fullWidth
@@ -462,15 +467,26 @@ function AddQuestion(props) {
 							)) }
 						</TextField>
 					</Grid>
-					<Grid item xs = {6} sm = {1}>
-						{ questionInfo
-							? <ActionButton value = { <AddIcon /> } onClick = { handleAddAnswer } />
-							: <ActionButton value = { <SaveIcon /> } onClick = { handleSaveQuestion } /> }
+					<Grid item xs = {12} sm = {11}>
+						<TextField
+							fullWidth multiline
+							disabled = { questionInfo }
+							size = 'small'
+							variant = 'outlined'
+							label = 'Question statement'
+							value = { questionInput.statementText }
+							onChange = { (event) => setQuestionInput({...questionInput, statementText: event.target.value }) }
+							InputProps = {{
+								endAdornment:
+									<InputAdornment position = "end">
+										{ questionInfo
+											? <IconActionButton icon = { <AddIcon /> } onClick = { handleAddAnswer } />
+											: <IconActionButton icon = { <SaveIcon /> } onClick = { handleSaveQuestion } /> }
+									</InputAdornment>,
+							}}
+						/>
 					</Grid>
-					{ questionInfo &&
-					<Grid item xs = {12} sm = {12}>
-						{ generateAnswer() }
-					</Grid> }
+					{ questionInfo && generateAnswer() }
 				</Grid>
 			</Box>
 		</React.Fragment>
@@ -522,9 +538,9 @@ function AddAnswer(props) {
 									open = { error } onClose = { () => setError(null) } /> }
 			<Box border = {0} className = { classes.answerContainer }>
 				<Grid container direction = 'row' justify = 'space-evenly' spacing = {2}>
-					<Grid item xs = {12} sm = {11}>
+					<Grid item xs = {12}>
 						<TextField
-							fullWidth multiline
+							fullWidth
 							disabled = { answerInfo }
 							size = 'small'
 							variant = 'outlined'
@@ -532,20 +548,18 @@ function AddAnswer(props) {
 							value = { answerInput.text }
 							onChange = { (event) => setAnswerInput({...answerInput, text: event.target.value }) }
 							InputProps = {{
+								startAdornment:
+									<InputAdornment position = 'start'>
+										<IconActionButton disabled = { answerInfo }
+														  icon = { answerInput.isCorrect ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon /> }
+														  onClick = { () => setAnswerInput({...answerInput, isCorrect: !answerInput.isCorrect }) } />
+									</InputAdornment>,
 								endAdornment:
-									<InputAdornment position = "end">
-										<IconButton
-											disabled = { answerInfo }
-											onClick = { () => setAnswerInput({...answerInput, isCorrect: !answerInput.isCorrect }) }>
-											{ answerInput.isCorrect ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon /> }
-										</IconButton>
-										Correct answer
+									<InputAdornment position = 'end'>
+										{ answerInfo == null && <IconActionButton icon = { <SaveIcon /> } onClick = { handleSaveAnswer } /> }
 									</InputAdornment>,
 							}}
 						/>
-					</Grid>
-					<Grid item xs = {12} sm = {1}>
-						{ answerInfo == null && <ActionButton value = { <SaveIcon /> } onClick = { handleSaveAnswer } /> }
 					</Grid>
 				</Grid>
 			</Box>
