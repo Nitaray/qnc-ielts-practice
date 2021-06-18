@@ -104,6 +104,7 @@ export const TESTCOMMENT_BYID_QUERY = gql`
 				id
 				user {
 					id
+					username
 				}
 				content
 				created

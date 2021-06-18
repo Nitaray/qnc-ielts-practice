@@ -8,7 +8,7 @@ import { ReadingTest,  } from "../../../container-components/Test/Test";
 import { Comment } from "../../../presentational-components/Comment";
 import { AuthorizationContext } from "../../../service-component/Context/authorization";
 import { useQuery } from "@apollo/client";
-import { TESTDONEYET_BYID_QUERY } from "../../../service-component/API/query";
+import { TESTCOMMENT_BYID_QUERY, TESTDONEYET_BYID_QUERY } from "../../../service-component/API/query";
 import { LoadingDialog } from "../../../presentational-components/Dialog";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,47 +27,50 @@ const useStyles = makeStyles((theme) => ({
 export default function ViewTestPage() {
 	const { id } = useParams();
 	const [authorization] = useContext(AuthorizationContext);
-	const { loading, error } = useQuery(TESTDONEYET_BYID_QUERY, {
+	const testDoneYet = useQuery(TESTDONEYET_BYID_QUERY, {
 		variables: {
 			userId: parseInt(authorization.user.id, 10),
 			testId: parseInt(id, 10),
 		}
 	});
+	const testComment = useQuery(TESTCOMMENT_BYID_QUERY, {
+		variables: {
+			id: parseInt(id, 10),
+		}
+	});
 
 	// if query test result caused error, redirect to do test.
-	if (error) return <Redirect to = {`/do/${id}`} />
+	if (testDoneYet.error) return <Redirect to = {`/do/${id}`} />
 	return (
 		<React.Fragment>
-			{ loading
+			{ (testDoneYet.loading || testComment.loading)
 				?
-				<LoadingDialog open = { loading } />
+				<LoadingDialog open = { (testDoneYet.loading || testComment.loading) } />
 				:
 				<React.Fragment>
 					<ResultTest />
-					<CommentTest />
+					<CommentTest comments = { testComment.data.getTestById.comments } />
 				</React.Fragment>
 			}
 		</React.Fragment>
 	)
 };
 
-function CommentTest() {
+function CommentTest(props) {
 	const { id } = useParams();
 	const classes = useStyles();
-	const [data, setData] = useState(null);
-	const [comment, setComment] = useState('');
+	const [comments, setComments] = useState([]);
 
 	useEffect(() => {
-		console.log('comment test called');
-		const data = getCommentByTestId(id);
-		setData(data);
-	}, []);
+		console.log(props.comments);
+		setComments(props.comments);
+	});
 
 	return (
 		<Container className = { classes.commentContainer }>
 			<Grid container direction = 'row' justify = 'space-evenly' spacing = {2}>
 				<Grid item xs = {12} md = {8} lg = {8}>
-					{ data && <Comment comments = { data.test.comments } /> }
+					<Comment testId = { id } comments = { comments } />
 				</Grid>
 			</Grid>
 		</Container>
