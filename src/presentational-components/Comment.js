@@ -12,10 +12,11 @@ import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import SendIcon from '@material-ui/icons/Send';
 import { AuthorizationContext } from "../service-component/Context/authorization";
-import { LoadingDialog } from "./Dialog";
+import { ErrorDialog, LoadingDialog } from "./Dialog";
 import { useMutation } from "@apollo/client";
 import { CREATECOMMENT_MUTATION, DETELECOMMENT_MUTATION } from "../service-component/API/mutation";
 import DeleteIcon from '@material-ui/icons/Delete';
+import timeSince from "../service-component/Others/timeSince";
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: "100%",
@@ -39,6 +40,7 @@ export function Comment(props) {
 	const [comment, setComment] = useState('');
 	const [createComment, { loading }] = useMutation(CREATECOMMENT_MUTATION);
 	const [deleteComment] = useMutation(DETELECOMMENT_MUTATION);
+	const [error, setError] = useState(null);
 
 	const handleCreateComment = () => {
 		createComment({
@@ -51,7 +53,7 @@ export function Comment(props) {
 			}
 		})
 			.then(data => console.log(data))
-			.catch(error => console.log(error))
+			.catch(error => setError('Hey please, don\'t spam. We don\'t have the money to buy more storage for our database.'))
 	}
 	const handleDeleteComment = (id) => {
 		deleteComment({
@@ -66,6 +68,8 @@ export function Comment(props) {
 	return (
 		<React.Fragment>
 			{ loading && <LoadingDialog open = { loading } /> }
+			{ error && <ErrorDialog error = { error }
+									open = { error } onClose = { () => setError(null) } /> }
 			<List className = { classes.root }>
 				{
 					props.comments && props.comments.map((comment) => {
@@ -94,13 +98,15 @@ export function Comment(props) {
 													variant = 'body2'
 													color = 'textSecondary'
 													style = {{ fontSize: '12px'}}>
-													{ comment.created }
+													{ timeSince(+comment.created) }
 												</Typography>
 											</React.Fragment>
 										}
 										style = {{ maxWidth: "90%" }}
 									/>
-									{	(authorization.user.role.name.toLowerCase() === 'admin' || authorization.user.id === comment.user.id) &&
+									{	(authorization.user.role.name.toLowerCase() === 'admin'
+										|| authorization.user.role.name.toLowerCase() === 'moderator'
+										|| authorization.user.id === comment.user.id) &&
 									<ListItemSecondaryAction className = { classes.listItemSecondaryAction }>
 										<IconButton onClick = { () => handleDeleteComment(comment.id) }>
 											<DeleteIcon />
