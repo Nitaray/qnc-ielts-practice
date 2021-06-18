@@ -34,7 +34,7 @@ export function DropdownButton({ options, icon }) {
 	const handleClose = () => setAnchorEl(null);
 
 	return (
-		<Paper variant = 'outlined'>
+		<Paper elevation = {0}>
 			<IconButton color = "inherit"
 						aria-haspopup = "true"
 						onClick = { handleClick }>
