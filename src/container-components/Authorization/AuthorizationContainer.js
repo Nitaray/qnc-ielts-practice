@@ -46,5 +46,5 @@ export function AuthorizationContainer({ children }) {
 	}, []);
 
 	if (unauthorized) return <Redirect to = '/' />
-	else return children;
+	return children;
 }

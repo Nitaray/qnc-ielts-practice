@@ -10,6 +10,8 @@ import { AuthorizationContext } from "./service-component/Context/authorization"
 import { setContext } from "@apollo/client/link/context";
 import { ApolloClient, ApolloLink, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
+import { createBrowserHistory } from 'history';
+
 
 // https://coolors.co/fcba04-ffebeb-590004
 const theme = createMuiTheme({
@@ -69,7 +71,13 @@ const authLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
     link: authLink.concat(ApolloLink.from([errorLink, httpLink])),
-    cache: new InMemoryCache()
+    cache: new InMemoryCache({
+        typePolicies: {
+            Test: {
+                merge: false
+            }
+        }
+    })
 });
 
 export default function App() {
@@ -85,7 +93,7 @@ export default function App() {
         }
     });
 
-    token = authorizationData.token;
+    token = authorizationData.token ? authorizationData.token : null;
 
     return (
         <ThemeProvider theme = {theme}>
