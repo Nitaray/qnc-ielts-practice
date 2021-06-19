@@ -77,10 +77,8 @@ export default function DoTestPage() {
 	}
 
 	// if test is done by this user, redirect to view test.
-	if (data) return <Redirect to = {`/view/${id}`} />
-	// if user is well informed by Noticed component, start test timer on backend.
-	if (done) return <Redirect to = {`/view/${id}`} />
-
+	if (data) return <Redirect to = {`/tests/view/${id}`} />
+	if (done) return <Redirect to = {`/tests/view/${id}`} />
 	return (
 		<React.Fragment>
 			{ loading

@@ -47,7 +47,7 @@ export default function ViewTestPage() {
 	});
 
 	// if query test result caused error, redirect to do test.
-	if (testDoneYet.error) return <Redirect to = {`/do/${id}`} />
+	if (testDoneYet.error) return <Redirect to = {`/tests/do/${id}`} />
 	return (
 		<React.Fragment>
 			{ (testDoneYet.loading || testComment.loading )

@@ -211,7 +211,7 @@ export default function TestTable(props) {
 			<div className = { classes.root }>
 				<Paper variant = 'outlined' className = { classes.paper }>
 					<TableToolbar onDelete = { () => setDeleteMode(!deleteMode) }
-								  onAdd = { () => history.push('/add') } />
+								  onAdd = { () => history.push('/tests/add') } />
 					<TableContainer>
 						<Table size = 'small' className = { classes.table }>
 							<SortTableHead
@@ -231,7 +231,7 @@ export default function TestTable(props) {
 													{ row.id }
 												</TableCell>
 												<TableCell align = "left">
-													<TextWithLink value = { row.title } to = { row.status ? `/view/${row.id}` : `/do/${row.id}`}/>
+													<TextWithLink value = { row.title } to = { row.status ? `/tests/view/${row.id}` : `/tests/do/${row.id}`}/>
 												</TableCell>
 												<TableCell align = "left">
 													{ (row.type.toLowerCase() === 'listening') ? <ListeningChip /> : <ReadingChip /> }
